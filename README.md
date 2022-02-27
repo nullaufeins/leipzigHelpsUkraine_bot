@@ -1,1 +1,0 @@
-# leipzigHelpsUkraine_bot
