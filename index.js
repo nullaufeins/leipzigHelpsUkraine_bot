@@ -144,8 +144,7 @@ const translationsResponse = (chatId, bot, language) => {
  * Inline keyboard handler
  */
 bot.on("callback_query", (msg) => {
-  // chatId 
-  // Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+  // chatId: unique identifier for the target chat or username of the target channel (in the format @channelusername)
   const chatId = msg.message.chat.id;
   const lang = msg.from.language_code;
 
