@@ -1,0 +1,26 @@
+{
+  "name": "telegram_bot",
+  "version": "0.0.0",
+  "description": "A Telegram bot.",
+  "author": "me",
+  "license": "MIT",
+  "keywords": [
+    "telegram",
+    "bot",
+    "sandbox"
+  ],
+  "main": "index.js",
+  "scripts": {
+    "test": "node main.js"
+  },
+  "engines": {
+    "node": "12.16.1",
+    "npm": "^8.4.1"
+  },
+  "dependencies": {
+    "fs-extra": "^10.0.1",
+    "js-yaml": "^4.1.0",
+    "dotenv": "^10.0.0",
+    "node-telegram-bot-api": "^0.56.0"
+  }
+}

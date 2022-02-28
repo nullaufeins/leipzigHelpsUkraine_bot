@@ -1,0 +1,97 @@
+info:
+  description: Internal configuration of app.
+options:
+  debug:        false # Only set to true when developing.
+  timeout:       5000 # time in ms before bot response is deleted.
+  timeout-menu: 10000 # time in ms before menus are deleted.
+# ------------------------------------------------------------------------------------------------
+# SUPPORTED LANGUAGES
+# ------------------------------------------------------------------------------------------------
+languages:
+  - de
+  - en
+  - uk
+# ------------------------------------------------------------------------------------------------
+# TRANSLATIONS
+# ------------------------------------------------------------------------------------------------
+texts:
+  ## basic:
+  welcome:
+    de: Hey! Wir versuchen, Hilfsangebote und - Anfragen zu koordinieren
+    en: Hey! We are trying to coordinate offers of help and requests. Please choose a topic.
+    uk: Привіт! ми намагаємося координувати пропозиції підтримки та запити. Будь ласка, оберіть тему.
+  forward-to-channel:
+    de: Hier entlang bitte!
+    en: This way please!
+    uk: Будь-ласка, звертайся до цього телеграм каналу
+  ## channels
+  transport:
+    de: Transport
+    en: Transport
+    uk: Транспорт
+  transport-desc:
+    de: Biete/Suche Transportmöglichkeiten
+    en: offer/search for transport
+    uk: Пропоную/шукаю опції пересування чи логістики
+  donations:
+    de: Spenden
+    en: Donations
+    uk: Пожертвування
+  donations-desc:
+    de: Finde Sammelstellen und Spendeninfos
+    en: get help with donations
+    uk: Знайти місця для збору пожертв, чи інформацію про пожертви
+  legal:
+    de: Rechtsfragen
+    en: Legal Requests
+    uk: Правові питання
+  legal-desc:
+    de: Hilfe zu Rechtsfragen
+    en: get help with legal questions
+    uk: Допомога з правових питань
+  housing:
+    de: Unterkünfte
+    en: Housing
+    uk: Проживання
+  housing-desc:
+    de: Biete/Suche Unterkünfte
+    en: offer/search for housing
+    uk: Пропоную/шукаю житло
+  translations:
+    de: Übersetzungen
+    en: Translations
+    uk: Переклади
+  translations-desc:
+    de: Finde ÜbersetzerInnen
+    en: get help from translators
+    uk: Знайти перекладачів
+# ------------------------------------------------------------------------------------------------
+# COMMANDS
+# Note: keyword-attribute *must* correspond to a key in the translations list.
+# ------------------------------------------------------------------------------------------------
+commands:
+  - command:   '/transport'
+    keyword:   transport
+    group:     '@transport_leipzig_ukraine'
+    # location as button
+    row_index: 0
+  - command:   '/housing'
+    keyword:   housing
+    group:     '@accomodation_leipzig_ukraine'
+    # location as button
+    row_index: 0
+  - command:   '/donations'
+    keyword:   donations
+    group:     '@donations_leipzig_ukraine'
+    # location as button
+    row_index: 1
+  - command:   '/legal'
+    keyword:   legal
+    group:     '@legal_leipzig_ukraine'
+    # location as button
+    row_index: 1
+  - command:   '/translations'
+    keyword:   translations
+    group:     '@interpreter_leipzig_ukraine'
+    # location as button
+    row_index: 2
