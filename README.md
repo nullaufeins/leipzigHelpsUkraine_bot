@@ -32,10 +32,15 @@ For a fresh start, call `make clean` to delete all artefacts.
 
 The internal logic of the app has been refactored, in order to cleanly separate:
 
-- code;
-- configurations.
+- source code;
+- programme configurations;
+- application data.
 
-Most feature changes can be performed by simply editing [`./src/settings/config.yaml`](src/settings/config.yaml).
+Most feature changes can be performed by simply editing
+  [`./src/settings/config.yaml`](src/settings/config.yaml)
+  and
+  [`./assets/language.yaml`](assets/language.yaml)
+for the config and data respectively.
 
 ## Notes ##
 
