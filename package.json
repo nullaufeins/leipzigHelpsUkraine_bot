@@ -11,7 +11,9 @@
   ],
   "main": "index.js",
   "scripts": {
-    "test": "node main.js"
+    "test": "node src/main.js",
+    "start": "node src/main.js",
+    "build": "node src/main.js"
   },
   "engines": {
     "node": "12.16.1",

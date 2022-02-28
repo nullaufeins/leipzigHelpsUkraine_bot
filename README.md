@@ -10,11 +10,8 @@ token={your API Token}
 call
 
 ```bash
-cp .env src/
-pushd src
 npm upgrade
-node main.js
-popd
+node src/main.js
 ```
 
 or simply:

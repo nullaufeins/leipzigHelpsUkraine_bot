@@ -8,10 +8,13 @@
 !/Makefile
 !/README.md
 !/LICENSE
+!/Procfile
+!/package*.json
 
 ################################################################
 # PROJECT FILES
 ################################################################
+
 
 !/src
 !/src/classes/
@@ -21,7 +24,6 @@
 !/src/setup/*.yaml
 !/src/**/*.js
 !/src/**/*.yaml
-!/src/package*.json
 
 !/tests
 
