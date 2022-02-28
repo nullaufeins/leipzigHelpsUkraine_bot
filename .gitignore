@@ -15,9 +15,10 @@
 
 !/src
 !/src/classes/
+!/src/core/
 !/src/parts/
-!/src/settings/
-!/src/settings/*.yaml
+!/src/setup/
+!/src/setup/*.yaml
 !/src/**/*.js
 !/src/**/*.yaml
 !/src/package*.json
