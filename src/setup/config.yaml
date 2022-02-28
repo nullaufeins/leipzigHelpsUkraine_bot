@@ -33,15 +33,15 @@ commands:
     keyword:   housing
     group:     '@accomodation_leipzig_ukraine'
   ## 2nd row:
-  - command:   '/donations'
-    keyword:   donations
-    group:     '@donations_leipzig_ukraine'
+  - command:   '/translations'
+    keyword:   translations
+    group:     '@interpreter_leipzig_ukraine'
     new_row:   true
   - command:   '/legal'
     keyword:   legal
     group:     '@legal_leipzig_ukraine'
-  ## 3rd row:
-  - command:   '/translations'
-    keyword:   translations
-    group:     '@interpreter_leipzig_ukraine'
+  ## 1st row:
+  - command:   '/donations'
+    keyword:   donations
+    group:     '@donations_leipzig_ukraine'
     new_row:   true
