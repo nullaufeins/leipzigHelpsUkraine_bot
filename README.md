@@ -30,7 +30,7 @@ For a fresh start, call `make clean` to delete all artefacts.
 
 ## Contributions ##
 
-The internal logic of the app has been refactored, in order to cleanly separate.
+The internal logic of the app has been refactored, in order to cleanly separate:
 
 - code;
 - configurations.
