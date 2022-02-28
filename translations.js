@@ -1,5 +1,5 @@
 const de = {
-  transport: "Transport",
+  transport: "Logistik",
   transportDesc: "Biete/Suche Transportmöglichkeiten",
   donations: "Spenden",
   donationsDesc: "Finde Sammelstellen und Spendeninfos",
@@ -10,21 +10,23 @@ const de = {
   translations: "Übersetzungen",
   translationsDesc: "Finde ÜbersetzerInnen",
   visitThisChannel: "Hier entlang bitte!:",
-  welcomeMsg: "Hey! Wir versuchen, Hilfsangebote und - Anfragen zu koordinieren",
+  welcomeMsg:
+    "Hey! Wir versuchen, Hilfsangebote und - Anfragen zu koordinieren",
 };
 const en = {
-  transport: "Transport",
+  transport: "Logistics",
   transportDesc: "offer/search for transport",
   donations: "Donations",
   donationsDesc: "get help with donations",
   legal: "Legal Requests",
   legalDesc: "get help with legal questions",
-  housing: "Housing",
+  housing: "Accomodation",
   housingDesc: "offer/search for housing",
   translations: "Translations",
   translationsDesc: "get help from translators",
   visitThisChannel: "This way please!",
-  welcomeMsg: "Hey! We are trying to coordinate offers of help and requests. Please shoose a topic."
+  welcomeMsg:
+    "Hey! We are trying to coordinate offers of help and requests. Please choose a topic.",
 };
 const uk = {
   transport: "транспорт",
@@ -37,23 +39,26 @@ const uk = {
   housingDesc: "пропоную/шукаю житло",
   translations: "переклади",
   translationsDesc: "знайти перекладачів",
-  visitThisChannel: "будь-ласка, звертайся до цього телеграм каналу:",
-  welcomeMsg: "привіт! ми намагаємося координувати пропозиції підтримки та запити. Будь ласка, оберіть тему."
+  visitThisChannel: "ось сюди, будь ласка!",
+  welcomeMsg:
+    "привіт! ми намагаємося координувати пропозиції підтримки та запити. Будь ласка, оберіть тему.",
 };
 
 // available translations
 const translations = {
   de,
   en,
-  uk
+  uk,
 };
 
 const getTranslation = (string, language) => {
   if (translations[language]) {
     if (translations[language][string]) {
-      return translations[language][string];  
+      return translations[language][string];
     } else {
-      console.log(`Translation not found for string: ${string} in language ${language}`);
+      console.log(
+        `Translation not found for string: ${string} in language ${language}`
+      );
     }
   }
   // default to english
