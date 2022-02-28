@@ -29,11 +29,11 @@ redirect-message:
   uk: Будь-ласка, звертайся до цього телеграм каналу!
 ## channels
 transport:
-  de: Transport
-  en: Transport
-  pl: Transport
-  ru: Транспорт
-  uk: Транспорт
+  de: Transport | 🚉 ✈️ 🚘
+  en: Transport | 🚉 ✈️ 🚘
+  pl: Transport | 🚉 ✈️ 🚘
+  ru: Транспорт | 🚉 ✈️ 🚘
+  uk: Транспорт | 🚉 ✈️ 🚘
 transport-desc:
   de: Biete/Suche Transportmöglichkeiten
   en: Offer/need transport
@@ -41,11 +41,11 @@ transport-desc:
   ru: Предложить/поискать варианты транспорта
   uk: Пропоную/шукаю опції пересування чи логістики
 donations:
-  de: Spenden
-  en: Donations
-  pl: Podarować
-  ru: Пожертвовать
-  uk: Пожертвування
+  de: Spenden | 📦 🪙
+  en: Donations | 📦 🪙
+  pl: Podarować | 📦 🪙
+  ru: Пожертвовать | 📦 🪙
+  uk: Пожертвування | 📦 🪙
 donations-desc:
   de: Finde Sammelstellen und Spendeninfos
   en: Infos about financial and material donations
@@ -65,11 +65,11 @@ legal-desc:
   ru: Юридическая помощь
   uk: Допомога з правових питань
 housing:
-  de: Unterkünfte
-  en: Housing
-  pl: Zakwaterowanie
-  ru: Условия проживания
-  uk: Проживання
+  de: Unterkünfte | 🏘
+  en: Housing | 🏘
+  pl: Zakwaterowanie | 🏘
+  ru: Условия проживания | 🏘
+  uk: Проживання | 🏘
 housing-desc:
   de: Biete/suche Unterkünfte
   en: Offer/searching for accomodation
