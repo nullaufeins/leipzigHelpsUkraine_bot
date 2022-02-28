@@ -39,12 +39,12 @@ const listener_on_callback_query = async (bot, msg, {debug, timeout}) => {
 };
 
 // handles inline user query:
-const listener_on_message = async (bot, msg, {timeout, timeout_menu}) => {
+const listener_on_message = async (bot, msg, {debug, timeout, timeout_menu}) => {
     if (msg.from.is_bot) return; // <- blocks bots.
     const username = msg.from.username;
     const chatId = msg.chat.id;
     const lang = msg.from.language_code;
-    const command = msg.text;
+    const command = msg.text || '';
 
     if ('new_chat_members' in msg) {
         const responseText = sprintf(TRANSLATIONS.value(lang, 'welcome-message'), username);
@@ -53,8 +53,17 @@ const listener_on_message = async (bot, msg, {timeout, timeout_menu}) => {
         // Trigger response, then delete response after delay:
         const reply = bot.sendMessage(chatId, responseText, options);
         delay_remove_reply(bot, timeout_menu, reply);
+        return;
+    }
+
+    // force ignore, if not command.
+    if (!command.startsWith('/')) {
+        return;
+    }
+
+    const commands = get_command_by_command(command);
     // Response to `/hello` - command only available in debug mode:
-    } else if (debug && (command == '/hello')) {
+    if (debug && (command == '/hello')) {
         const responseText = sprintf(TRANSLATIONS.value(lang, 'welcome-message'), username);
         const options = {};
 
@@ -83,7 +92,6 @@ const listener_on_message = async (bot, msg, {timeout, timeout_menu}) => {
     } else if (commands.length > 0) {
         const message = TRANSLATIONS.value(lang, 'redirect-message');
         const options = {};
-        const commands = get_command_by_command(command);
         const { group } = commands[0] || '';
         const responseText = `${message}: ${group}`;
 
