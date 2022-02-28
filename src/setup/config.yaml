@@ -1,7 +1,7 @@
 info:
   description: Internal configuration of app.
 options:
-  debug:         false # Only set to true when developing.
+  debug:        false # Only set to true when developing.
   timeout:       5000 # time in ms before bot response is deleted.
   timeout-menu: 10000 # time in ms before menus are deleted.
 # ------------------------------------------------------------------------------------------------
