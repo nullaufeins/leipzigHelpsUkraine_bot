@@ -7,25 +7,25 @@ welcome-message:
   de: 'Hey, @%s! Wir versuchen, Hilfsangebote und Anfragen zu koordinieren.'
   en: 'Hiya, @%s! We are trying to coordinate offers of help and requests.'
   pl: 'Cześć, @%s! Staramy się koordynować propozycje i prośby o wsparcie.'
-  ru: 'Привіт, @%s! Мы стараемся координировать предложения поддержки и запросы.'
+  ru: 'Привіт, @%s! Мы стараемся координировать предложения и запросы о помощи.'
   uk: 'Привіт, @%s! Ми намагаємося координувати пропозиції підтримки та запити.'
 start-message:
   de: '🌻 Wir versuchen, Hilfsangebote und Anfragen zu koordinieren. Bitte eine Option wählen.'
   en: '🌻 We are trying to coordinate offers of help and requests. Please choose a topic.'
   pl: '🌻 Staramy się koordynować propozycje i prośby o wsparcie. Wybierz temat.'
-  ru: '🌻 Мы стараемся координировать предложения поддержки и запросы. Пожалуйста, выберите тему.'
+  ru: '🌻 Мы стараемся координировать предложения и запросы о помощи. Выберите соответствующую тему.'
   uk: '🌻 Ми намагаємося координувати пропозиції підтримки та запити. Будь ласка, оберіть тему.'
 help-message:
   de: Diese App soll Hilfsangebote und Anfragen koordiniern.
   en: This app is to coordinate volunteer help. Please choose a topic.
   pl: Staramy się koordynować propozycje i prośby o wsparcie. Wybierz temat.
-  ru: Мы стараемся координировать предложения поддержки и запросы. Пожалуйста, выберите тему.
+  ru: Это приложение для согласованной работы волонтёров. Выберите соответствующую тему.
   uk: Ми намагаємося координувати пропозиції підтримки та запити. Будь ласка, оберіть тему.
 redirect-message:
   de: Hier entlang bitte!
   en: This way please!
-  pl: Proszę w tym kierunku!
-  ru: Это направление, пожалуйста!
+  pl: Proszę odnieść się do telegramu tego kanału!
+  ru: Пожалуйста, обращайся к этому телеграмму канала!
   uk: Будь-ласка, звертайся до цього телеграм каналу!
 ## channels
 transport:
@@ -68,13 +68,13 @@ housing:
   de: Unterkünfte | 🏘
   en: Housing | 🏘
   pl: Zakwaterowanie | 🏘
-  ru: Условия проживания | 🏘
+  ru: Жильё | 🏘
   uk: Проживання | 🏘
 housing-desc:
   de: Biete/suche Unterkünfte
   en: Offer/searching for accomodation
   pl: Zaoferuj/wyszukaj nocleg
-  ru: Предложить/поискать жилье
+  ru: Предложить/поискать жилья
   uk: Пропоную/шукаю житло
 translations:
   de: Übersetzungen
@@ -86,5 +86,5 @@ translations-desc:
   de: Finde ÜbersetzerInnen
   en: Get help from translators
   pl: Znajdź tłumaczy
-  ru: Найти переводчиков
+  ru: Помощь переводчика
   uk: Знайти перекладачів

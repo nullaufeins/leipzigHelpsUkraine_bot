@@ -26,7 +26,7 @@
 !/tests
 
 !/assets
-!/assets/**
+!/assets/language.yaml
 
 !/dist
 !/dist/VERSION
