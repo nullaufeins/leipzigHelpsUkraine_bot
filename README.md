@@ -3,8 +3,8 @@
 Set up `.env` as
 
 ```.env
-user=<API Username>
-token=<API Token>
+user={your API Username} # <- not necessary atm, but may be useful later.
+token={your API Token}
 ```
 
 call
