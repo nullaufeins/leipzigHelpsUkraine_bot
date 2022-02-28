@@ -1,24 +1,25 @@
-process.env.NTBA_FIX_319 = 1;
 /****************************************************************
  * IMPORTS
  ****************************************************************/
 
-const DOTENV = require('dotenv')
-DOTENV.config();
-const { OPTIONS } = require.main.require('./setup/config.js');
-const { MyApp } = require('./parts/app.js');
+//
 
 /****************************************************************
- * METHODS
+ * DEFINITIONS
  ****************************************************************/
 
-async function main () {
-    const app = new MyApp(OPTIONS);
-    await app.setup();
+const yaml_key_to_js_key = (key) => (key.replace(/-/g, '_'));
+
+const yaml_to_js_dictionary = (data) => {
+    let entries = Object.entries(data);
+    entries = entries.map(([key, value]) => ({[yaml_key_to_js_key(key)]: value}));
+    return Object.assign({}, ...entries);
 }
 
 /****************************************************************
- * EXECUTION
+ * EXPORTS
  ****************************************************************/
 
-main();
+module.exports = {
+    yaml_to_js_dictionary,
+};

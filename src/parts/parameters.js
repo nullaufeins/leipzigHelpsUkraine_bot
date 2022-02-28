@@ -2,7 +2,7 @@
  * IMPORTS
  ****************************************************************/
 
-const { CONFIG } = require.main.require('./settings/config.js');
+const { CONFIG } = require.main.require('./setup/config.js');
 const { TranslatedTexts } = require.main.require('./classes/language.js');
 
 /****************************************************************
@@ -13,13 +13,9 @@ const COMMANDS = CONFIG['commands'] || {};
 const SUPPORTED_LANGUAGES = CONFIG['languages'] || [];
 const TRANSLATIONS = new TranslatedTexts(data=CONFIG['texts'] || {}, default_lang='en');
 
-function get_command_by_keyword(text) {
-    return COMMANDS.filter((option) => (option.keyword == text));
-};
-
-function get_command_by_command(cmd) {
-    return COMMANDS.filter((option) => (option.command == cmd));
-};
+const get_command_by_condition = (condition) => COMMANDS.filter(condition);
+const get_command_by_keyword = (text) => get_command_by_condition(({keyword}) => (keyword === text));
+const get_command_by_command = (text) => get_command_by_condition(({command}) => (command === text));
 
 /****************************************************************
  * EXPORTS
