@@ -46,6 +46,7 @@ const listener_on_message = async (bot, msg, {debug, timeout, timeout_menu}) => 
     const lang = msg.from.language_code;
     const command = msg.text || '';
 
+    // special treatment if new chat member:
     if ('new_chat_members' in msg) {
         const responseText = sprintf(TRANSLATIONS.value(lang, 'welcome-message'), username);
         const options = get_main_menu(lang);
@@ -56,7 +57,7 @@ const listener_on_message = async (bot, msg, {debug, timeout, timeout_menu}) => 
         return;
     }
 
-    // force ignore, if not command.
+    // force ignore, if input not obviously recognisable as a command:
     if (!command.startsWith('/')) {
         return;
     }

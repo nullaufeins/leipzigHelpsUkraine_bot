@@ -13,12 +13,17 @@ const { MyApp } = require('./parts/app.js');
  ****************************************************************/
 
 async function main () {
+    console.log(`Running \x1b[1m${process.env.app}\x1b[1m.`);
+    console.log(`Setup app...`);
     const app = new MyApp(OPTIONS);
-    await app.setup();
+    app.setup();
+    console.log(`Listening to user input...`);
 }
 
 /****************************************************************
  * EXECUTION
  ****************************************************************/
 
-main();
+if (require.main === module) {
+    main();
+}
