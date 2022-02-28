@@ -1,32 +1,32 @@
 # ------------------------------------------------------------------------------------------------
 # TRANSLATIONS
-# TODO: pl + ru translations - currently using en/ua.
+# TODO: correct pl + ru translations - currently using a Google translation.
 # ------------------------------------------------------------------------------------------------
 ## basic:
 welcome-message:
   de: 'Hey, @%s! Wir versuchen, Hilfsangebote und Anfragen zu koordinieren.'
   en: 'Hiya, @%s! We are trying to coordinate offers of help and requests.'
-  pl: 'Hiya, @%s! We are trying to coordinate offers of help and requests.'
-  ru: 'Привіт, @%s! Ми намагаємося координувати пропозиції підтримки та запити.'
+  pl: 'Cześć, @%s! Staramy się koordynować propozycje i prośby o wsparcie.'
+  ru: 'Привіт, @%s! Мы стараемся координировать предложения поддержки и запросы.'
   uk: 'Привіт, @%s! Ми намагаємося координувати пропозиції підтримки та запити.'
 start-message:
   de: '🌻 Wir versuchen, Hilfsangebote und Anfragen zu koordinieren. Bitte eine Option wählen.'
   en: '🌻 We are trying to coordinate offers of help and requests. Please choose a topic.'
-  pl: '🌻 We are trying to coordinate offers of help and requests. Please choose a topic.'
-  ru: '🌻 Ми намагаємося координувати пропозиції підтримки та запити. Будь ласка, оберіть тему.'
+  pl: '🌻 Staramy się koordynować propozycje i prośby o wsparcie. Wybierz temat.'
+  ru: '🌻 Мы стараемся координировать предложения поддержки и запросы. Пожалуйста, выберите тему.'
   uk: '🌻 Ми намагаємося координувати пропозиції підтримки та запити. Будь ласка, оберіть тему.'
 help-message:
   de: Diese App soll Hilfsangebote und Anfragen koordiniern.
   en: This app is to coordinate volunteer help. Please choose a topic.
-  pl: This app is to coordinate volunteer help. Please choose a topic.
-  ru: Ми намагаємося координувати пропозиції підтримки та запити. Будь ласка, оберіть тему.
+  pl: Staramy się koordynować propozycje i prośby o wsparcie. Wybierz temat.
+  ru: Мы стараемся координировать предложения поддержки и запросы. Пожалуйста, выберите тему.
   uk: Ми намагаємося координувати пропозиції підтримки та запити. Будь ласка, оберіть тему.
 redirect-message:
   de: Hier entlang bitte!
   en: This way please!
-  pl: This way please!
-  ru: Будь-ласка, звертайся до цього телеграм каналу
-  uk: Будь-ласка, звертайся до цього телеграм каналу
+  pl: Proszę w tym kierunku!
+  ru: Это направление, пожалуйста!
+  uk: Будь-ласка, звертайся до цього телеграм каналу!
 ## channels
 transport:
   de: Transport
@@ -36,55 +36,55 @@ transport:
   uk: Транспорт
 transport-desc:
   de: Biete/Suche Transportmöglichkeiten
-  en: Offer/search for transport
-  pl: Offer/search for transport
-  ru: Пропоную/шукаю опції пересування чи логістики
+  en: Offer/need transport
+  pl: Oferuj/wyszukuj opcje transportu
+  ru: Предложить/поискать варианты транспорта
   uk: Пропоную/шукаю опції пересування чи логістики
 donations:
   de: Spenden
   en: Donations
-  pl: Donations
-  ru: Пожертвування
+  pl: Podarować
+  ru: Пожертвовать
   uk: Пожертвування
 donations-desc:
   de: Finde Sammelstellen und Spendeninfos
-  en: get help with donations
-  pl: get help with donations
-  ru: Знайти місця для збору пожертв, чи інформацію про пожертви
+  en: Infos about financial and material donations
+  pl: Znajdź punkty zbiórki i informacje o darowiznach
+  ru: Найти пункты сбора и информацию о пожертвованиях
   uk: Знайти місця для збору пожертв, чи інформацію про пожертви
 legal:
   de: Rechtsfragen
   en: Legal Requests
-  pl: Legal Requests
-  ru: Правові питання
+  pl: Zagadnienia prawne
+  ru: Юридические проблемы
   uk: Правові питання
 legal-desc:
   de: Hilfe zu Rechtsfragen
-  en: get help with legal questions
-  pl: get help with legal questions
-  ru: Допомога з правових питань
+  en: Get help with legal questions
+  pl: Pomoc prawna
+  ru: Юридическая помощь
   uk: Допомога з правових питань
 housing:
   de: Unterkünfte
   en: Housing
-  pl: Housing
-  ru: Проживання
+  pl: Zakwaterowanie
+  ru: Условия проживания
   uk: Проживання
 housing-desc:
-  de: Biete/Suche Unterkünfte
-  en: offer/search for housing
-  pl: offer/search for housing
-  ru: Пропоную/шукаю житло
+  de: Biete/suche Unterkünfte
+  en: Offer/searching for accomodation
+  pl: Zaoferuj/wyszukaj nocleg
+  ru: Предложить/поискать жилье
   uk: Пропоную/шукаю житло
 translations:
   de: Übersetzungen
   en: Translations
-  pl: Translations
-  ru: Переклади
+  pl: Tłumaczenia
+  ru: Переводы
   uk: Переклади
 translations-desc:
   de: Finde ÜbersetzerInnen
-  en: get help from translators
-  pl: get help from translators
-  ru: Знайти перекладачів
+  en: Get help from translators
+  pl: Znajdź tłumaczy
+  ru: Найти переводчиков
   uk: Знайти перекладачів
