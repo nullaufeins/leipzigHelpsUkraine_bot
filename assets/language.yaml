@@ -1,6 +1,6 @@
 # ------------------------------------------------------------------------------------------------
 # TRANSLATIONS
-# TODO: correct pl + ru translations - currently using a Google translation.
+# TODO: correct pl translation - currently Google translation.
 # ------------------------------------------------------------------------------------------------
 ## basic:
 welcome-message: &ref_welcome_message
