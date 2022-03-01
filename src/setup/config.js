@@ -2,8 +2,8 @@
  * IMPORTS
  ****************************************************************/
 
-yaml = require('js-yaml');
-fs = require('fs-extra');
+const yaml = require('js-yaml');
+const fs = require('fs-extra');
 const { yaml_to_js_dictionary } = require.main.require('./src/core/utils.js');
 const { TranslatedTexts } = require.main.require('./src/classes/language.js');
 
@@ -17,7 +17,7 @@ const CONFIG = yaml.load(fs.readFileSync('src/setup/config.yaml', 'utf8'));
 const OPTIONS = yaml_to_js_dictionary(CONFIG['options'] || {} || {debug: false, timeout: 10*1000, timeout_menu: 60*1000});
 const COMMANDS = CONFIG['commands'] || {};
 const SUPPORTED_LANGUAGES = CONFIG['languages'] || [];
-const TRANSLATIONS = new TranslatedTexts(data = LANGUAGE || {}, default_lang = CONFIG['default-language'] || 'en');
+const TRANSLATIONS = new TranslatedTexts(LANGUAGE || {}, CONFIG['default-language'] || 'en');
 
 /****************************************************************
  * METHODS
