@@ -34,29 +34,31 @@ default-language: en
 #   * new_row:   true => button should be placed on new row
 #
 # Note: each keyword-attribute *must* correspond to a key from assets/translations.yml
+# Note: rights can be any subset of
+#  [creator, administrator, member]
 # ------------------------------------------------------------------------------------------------
 commands:
   ## special commandos
   - command:   '/hello'
     keyword:   'hello-world-message'
-    rights:    [admin, creator]
+    rights:    [administrator, creator]
     menu:      false
     side-menu: false
   - command:   '/start'
     keyword:   'start-message'
-    rights:    [admin, creator]
+    rights:    [administrator, creator]
     menu:      false
     side-menu: false
   - command:   '/help'
     keyword:   'help-message'
-    rights:    [admin, creator]
+    rights:    [administrator, creator]
     menu:      false
     side-menu: false
   ## menu commands
   ## 1st row
   - command:   '/transport'
     keyword:   transport
-    rights:    [admin, creator]
+    rights:    [administrator, creator]
     menu:      true
     side-menu: true
     redirect:  true
@@ -64,14 +66,14 @@ commands:
     new_row:   true
   - command:   '/housing'
     keyword:   housing
-    rights:    [admin, creator]
+    rights:    [administrator, creator]
     menu:      true
     side-menu: true
     redirect:  true
     url:       '@accomodation_leipzig_ukraine'
   ## 2nd row
   - command:   '/translations'
-    rights:    [admin, creator]
+    rights:    [administrator, creator]
     keyword:   translations
     menu:      true
     side-menu: true
@@ -79,7 +81,7 @@ commands:
     url:       '@interpreter_leipzig_ukraine'
     new_row:   true
   - command:   '/legal'
-    rights:    [admin, creator]
+    rights:    [administrator, creator]
     keyword:   legal
     menu:      true
     side-menu: true
@@ -87,7 +89,7 @@ commands:
     url:       '@legal_leipzig_ukraine'
   ## 3rd row
   - command:   '/donations'
-    rights:    [admin, creator]
+    rights:    [administrator, creator]
     keyword:   donations
     menu:      true
     side-menu: true
