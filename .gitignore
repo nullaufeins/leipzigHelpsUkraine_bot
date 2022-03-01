@@ -19,7 +19,7 @@
 !/src
 !/src/classes/
 !/src/core/
-!/src/parts/
+!/src/application/
 !/src/setup/
 !/src/setup/*.yaml
 !/src/**/*.js

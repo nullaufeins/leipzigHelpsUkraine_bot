@@ -6,7 +6,7 @@ process.env.NTBA_FIX_319 = 1;
 const DOTENV = require('dotenv')
 DOTENV.config();
 const { OPTIONS } = require.main.require('./setup/config.js');
-const { MyApp } = require.main.require('./parts/app.js');
+const { MyApp } = require.main.require('./application/app.js');
 
 /****************************************************************
  * METHODS

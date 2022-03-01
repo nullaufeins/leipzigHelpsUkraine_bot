@@ -2,13 +2,7 @@
  * IMPORTS
  ****************************************************************/
 
-const sprintf = require('sprintf-js').sprintf;
-const {
-    COMMANDS,
-    get_command_by_keyword,
-    get_command_by_command,
-    TRANSLATIONS
-} = require.main.require('./parts/parameters.js');
+//
 
 /****************************************************************
  * METHODS

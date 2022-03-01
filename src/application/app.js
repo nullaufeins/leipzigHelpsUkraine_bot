@@ -6,12 +6,12 @@ const TelegramBot = require('node-telegram-bot-api');
 const {
     COMMANDS,
     SUPPORTED_LANGUAGES,
-    TRANSLATIONS
-} = require.main.require('./parts/parameters.js');
+    get_translation
+} = require.main.require('./setup/config.js');
 const {
     listener_on_callback_query,
     listener_on_message,
-} = require.main.require('./parts/listeners.js');
+} = require.main.require('./application/listeners.js');
 
 /****************************************************************
  * METHODS
@@ -31,7 +31,7 @@ class MyApp {
         // siehe https://github.com/yagop/node-telegram-bot-api/blob/master/doc/api.md#TelegramBot+setMyCommands
         for (const lang of SUPPORTED_LANGUAGES) {
             let commands = COMMANDS.map(({command, keyword}) => {
-                const description = TRANSLATIONS.value(lang, keyword + '-desc');
+                const description = get_translation(lang, keyword + '-desc');
                 return { command, description };
             });
             if (debug) commands.push({ 'command': `/hello`, 'description': 'Hello world' });

@@ -4,8 +4,8 @@
 
 const {
     COMMANDS,
-    TRANSLATIONS
-} = require.main.require('./parts/parameters.js');
+    get_translation
+} = require.main.require('./setup/config.js');
 
 /****************************************************************
  * METHODS
@@ -25,7 +25,7 @@ const get_main_menu = (lang) => {
             rows.push([]);
         }
         const callback_data = keyword;
-        const text = TRANSLATIONS.value(lang, keyword);
+        const text = get_translation(lang, keyword);
         rows[row_index].push({text, callback_data});
         count += 1;
     }
