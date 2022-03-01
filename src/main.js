@@ -13,7 +13,6 @@ const { MyApp } = require.main.require('./application/app.js');
  ****************************************************************/
 
 async function main () {
-    console.log(`Running \x1b[1m${process.env.app}\x1b[1m.`);
     console.log(`Setup app...`);
     const app = new MyApp(OPTIONS);
     app.setup();

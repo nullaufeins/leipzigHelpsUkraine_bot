@@ -3,7 +3,7 @@
 # TODO: correct pl + ru translations - currently using a Google translation.
 # ------------------------------------------------------------------------------------------------
 ## basic:
-welcome-message:
+welcome-message: &ref_welcome_message
   de: 'Hey, @%s! Wir versuchen, Hilfsangebote und Anfragen zu koordinieren.'
   en: 'Hiya, @%s! We are trying to coordinate offers of help and requests.'
   pl: 'Cześć, @%s! Staramy się koordynować propozycje i prośby o wsparcie.'
@@ -27,6 +27,8 @@ redirect-message:
   pl: Proszę odnieść się do telegramu tego kanału!
   ru: Пожалуйста, обращайся к этому телеграмму канала!
   uk: Будь-ласка, звертайся до цього телеграм каналу!
+hello-world: # only for testing
+  <<: *ref_welcome_message
 ## channels
 transport:
   de: Transport | 🚉 ✈️ 🚘

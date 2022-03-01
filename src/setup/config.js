@@ -14,11 +14,10 @@ const { TranslatedTexts } = require.main.require('./classes/language.js');
 const LANGUAGE = yaml.load(fs.readFileSync('assets/language.yaml', 'utf8'));
 const CONFIG = yaml.load(fs.readFileSync('src/setup/config.yaml', 'utf8'));
 
-const default_lang = CONFIG['default-language'];
 const OPTIONS = yaml_to_js_dictionary(CONFIG['options'] || {} || {debug: false, timeout: 10*1000, timeout_menu: 60*1000});
 const COMMANDS = CONFIG['commands'] || {};
 const SUPPORTED_LANGUAGES = CONFIG['languages'] || [];
-const TRANSLATIONS = new TranslatedTexts(data=LANGUAGE || {}, default_lang=default_lang);
+const TRANSLATIONS = new TranslatedTexts(data = LANGUAGE || {}, default_lang = CONFIG['default-language'] || 'en');
 
 /****************************************************************
  * METHODS

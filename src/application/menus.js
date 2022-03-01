@@ -33,6 +33,15 @@ const get_main_menu = (lang) => {
         reply_markup: {
             // remove_keyboard: true,
             inline_keyboard: rows,
+            // parse_mode: 'markdown', // <- does not work
+        },
+    };
+};
+
+const get_message_options_basic = () => {
+    return {
+        reply_markup: {
+            // parse_mode: 'markdown', // <- does not work
         },
     };
 };
@@ -43,4 +52,5 @@ const get_main_menu = (lang) => {
 
 module.exports = {
     get_main_menu,
+    get_message_options_basic
 };
