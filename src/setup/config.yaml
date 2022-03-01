@@ -2,12 +2,13 @@ info:
   description: Internal configuration of app.
 options:
   debug: false # <- only set to true when developing.
+  show-side-menu: false
   ################
   # Times in ms before bot response (inline resp. menu) are deleted.
-  # Use value -1, if no deletion should occur.
+  # Use negative (-) values, if no deletion should occur.
   ################
-  timeout:       5000
-  timeout-menu: 10000
+  timeout:       -5000
+  timeout-menu: -10000
 # ------------------------------------------------------------------------------------------------
 # SUPPORTED LANGUAGES
 # Note: use ISO-639-1 alpha-2 format; e.g. uk (not ua) for Ukrainian.
@@ -21,32 +22,75 @@ languages:
 default-language: en
 # ------------------------------------------------------------------------------------------------
 # COMMANDS
-# Structure:
-#   command:
-#   keyword: (must be a key from the assets/translations.yml file)
-#   group:
-#   new_row: optional - if true, indicates that button should be placed on new row.
+# NOTE structure is as follows:
+#
+#   command:     '/...'
+#   keyword:     keyword for call_back_data AND on screen message.
+#   rights:      [ list of user stati who can use this command ]
+#   menu:        true/false - should appear in big menu?
+#   side-menu:
+#   * redirect:  if should be used as redirect command.
+#   * url:       redirect url
+#   * new_row:   true => button should be placed on new row
+#
 # Note: each keyword-attribute *must* correspond to a key from assets/translations.yml
 # ------------------------------------------------------------------------------------------------
 commands:
-  ## 1st row:
+  ## special commandos
+  - command:   '/hello'
+    keyword:   'hello-world-message'
+    rights:    [admin, creator]
+    menu:      false
+    side-menu: false
+  - command:   '/start'
+    keyword:   'start-message'
+    rights:    [admin, creator]
+    menu:      false
+    side-menu: false
+  - command:   '/help'
+    keyword:   'help-message'
+    rights:    [admin, creator]
+    menu:      false
+    side-menu: false
+  ## menu commands
+  ## 1st row
   - command:   '/transport'
     keyword:   transport
-    group:     '@transport_leipzig_ukraine'
+    rights:    [admin, creator]
+    menu:      true
+    side-menu: true
+    redirect:  true
+    url:       '@transport_leipzig_ukraine'
     new_row:   true
   - command:   '/housing'
     keyword:   housing
-    group:     '@accomodation_leipzig_ukraine'
-  ## 2nd row:
+    rights:    [admin, creator]
+    menu:      true
+    side-menu: true
+    redirect:  true
+    url:       '@accomodation_leipzig_ukraine'
+  ## 2nd row
   - command:   '/translations'
+    rights:    [admin, creator]
     keyword:   translations
-    group:     '@interpreter_leipzig_ukraine'
+    menu:      true
+    side-menu: true
+    redirect:  true
+    url:       '@interpreter_leipzig_ukraine'
     new_row:   true
   - command:   '/legal'
+    rights:    [admin, creator]
     keyword:   legal
-    group:     '@legal_leipzig_ukraine'
-  ## 1st row:
+    menu:      true
+    side-menu: true
+    redirect:  true
+    url:       '@legal_leipzig_ukraine'
+  ## 3rd row
   - command:   '/donations'
+    rights:    [admin, creator]
     keyword:   donations
-    group:     '@donations_leipzig_ukraine'
+    menu:      true
+    side-menu: true
+    redirect:  true
+    url:       '@donations_leipzig_ukraine'
     new_row:   true
