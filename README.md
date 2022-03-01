@@ -1,5 +1,31 @@
 # Telegram Bot - Weiterleitung für Freiwillige #
 
+## Usage ##
+
+Admins have access to the following commands:
+
+- Special commands:
+  - `/pin`     - displays and pins main menu in group
+                 (in the language of admin);
+  - `/pin-all` - displays and pins main menu in group
+                 (in all languages);
+  - `/start`   - displays main menu;
+  - `/help`    - displays main menu;
+- Redirect commands:
+  - Quick link to sub groups:
+    ```
+    /transport
+    /housing
+    /translations
+    /legal
+    /donations
+    ```
+  - `/homepage` - opens browser link to webpage;
+  - `/feedback` - quick link to sub group for technical feedback for bot.
+
+
+## Setup ##
+
 Set up `.env` as
 
 ```.env
