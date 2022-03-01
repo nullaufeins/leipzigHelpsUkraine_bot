@@ -14,11 +14,11 @@ options:
 # Note: use ISO-639-1 alpha-2 format; e.g. uk (not ua) for Ukrainian.
 # ------------------------------------------------------------------------------------------------
 languages:
-  - de
   - en
+  - de
+  - uk
   - pl
   - ru
-  - uk
 default-language: en
 # ------------------------------------------------------------------------------------------------
 # COMMANDS
@@ -46,12 +46,16 @@ commands:
     rights:    [administrator, creator]
     menu:      false
     side-menu: false
-  - command:   '/pinned'
+  - &ref_pin_command
+    command:   '/pinned'
     keyword:   'pinned-message'
-    match:     '^\/pin.*'
+    match:     '^\/(pin|pinned)$'
     rights:    [administrator, creator]
     menu:      false
     side-menu: false
+  - <<: *ref_pin_command
+    command:   '/pinned-all'
+    match:     '^\/(pin|pinned)(-all|-all-languages)$'
   - command:   '/start'
     keyword:   'start-message'
     match:     '^\/start\s*$'

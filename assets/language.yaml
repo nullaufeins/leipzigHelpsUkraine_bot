@@ -82,7 +82,7 @@ housing-desc:
   de: Biete/suche Unterkünfte
   en: Offer/searching for accomodation
   pl: Zaoferuj/wyszukaj nocleg
-  ru: Предложить/поискать жилья
+  ru: Предложить/поискать жильё
   uk: Пропоную/шукаю житло
 translations:
   de: Übersetzungen
@@ -97,11 +97,11 @@ translations-desc:
   ru: Помощь переводчика
   uk: Знайти перекладачів
 homepage:
-  de: www
-  en: www
-  pl: www
-  ru: www
-  uk: www
+  de: '🌐 www'
+  en: '🌐 www'
+  pl: '🌐 www'
+  ru: '🌐 www'
+  uk: '🌐 www'
 homepage-desc:
   de: Webseite
   en: Website

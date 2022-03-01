@@ -22,8 +22,9 @@ const COMMANDS = (CONFIG['commands'] || [])
         options['match'] = new RegExp(match);
         return options;
     });
+const DEFAULT_LANGUAGE = CONFIG['default-language'] || 'en';
 const SUPPORTED_LANGUAGES = CONFIG['languages'] || [];
-const TRANSLATIONS = new TranslatedTexts(LANGUAGE || {}, CONFIG['default-language'] || 'en');
+const TRANSLATIONS = new TranslatedTexts(LANGUAGE || {}, DEFAULT_LANGUAGE);
 
 /****************************************************************
  * METHODS
@@ -44,6 +45,7 @@ const get_command_by_command = (text) => {
 module.exports = {
     OPTIONS,
     COMMANDS,
+    DEFAULT_LANGUAGE,
     SUPPORTED_LANGUAGES,
     get_command_by_keyword,
     get_command_by_command,
