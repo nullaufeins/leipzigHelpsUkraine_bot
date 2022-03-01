@@ -10,7 +10,7 @@ call
 
 ```bash
 npm upgrade
-node index.js
+npm run start
 ```
 
 or simply:
@@ -37,6 +37,13 @@ Most feature changes can be performed by simply editing
   and
   [`./assets/language.yaml`](assets/language.yaml)
 for the config and data respectively.
+
+To add a new command, the following parts have to be changed:
+
+- [./src/setup/config.yaml](src/setup/config.yaml) -> add a command.
+- [./assets/language.yaml](assets/language.yaml) -> if necessary add translations for new keyword.
+- [./src/parts/actions.yaml](src/parts/actions.yaml) -> „ergänze“ `universal_action` to cater for new case.
+
 
 ## Notes ##
 
