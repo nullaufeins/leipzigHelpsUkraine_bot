@@ -5,16 +5,22 @@
 ## basic:
 welcome-message: &ref_welcome_message
   de: 'Hey, @%s! Wir versuchen, Hilfsangebote und Anfragen zu koordinieren.'
-  en: 'Hiya, @%s! We are trying to coordinate offers of help and requests.'
+  en: 'Hiya, @%s! We want to coordinate offers of help and requests.'
   pl: 'Cześć, @%s! Staramy się koordynować propozycje i prośby o wsparcie.'
   ru: 'Привіт, @%s! Мы стараемся координировать предложения и запросы о помощи.'
   uk: 'Привіт, @%s! Ми намагаємося координувати пропозиції підтримки та запити.'
 hello-world-message: # only for testing
   <<: *ref_welcome_message
+pinned-message:
+  de: '🌻!Pls READ / BITTE LESEN! Wir versuchen, Hilfsangebote und Anfragen zu koordinieren. Bitte eine Option wählen.'
+  en: '🌻!Pls README first! We want to coordinate offers of help and requests. Please choose a topic.'
+  pl: '🌻!Proszę najpierw PRZECZYTAĆ! Staramy się koordynować propozycje i prośby o wsparcie. Wybierz temat.'
+  ru: '🌻!ПРОЧИТАЙТЕ сначала! Мы стараемся координировать предложения и запросы о помощи. Выберите соответствующую тему.'
+  uk: '🌻!ПРОЧИТАЙТЕ спочатку! Ми намагаємося координувати пропозиції підтримки та запити. Будь ласка, оберіть тему.'
 start-message:
   de: '🌻 Wir versuchen, Hilfsangebote und Anfragen zu koordinieren. Bitte eine Option wählen.'
-  en: '🌻 We are trying to coordinate offers of help and requests. Please choose a topic.'
-  pl: '🌻 Staramy się koordynować propozycje i prośby o wsparcie. Wybierz temat.'
+  en: '🌻 We want to coordinate offers of help and requests. Please choose a topic.'
+  pl: '!!!Proszę najpierw PRZECZYTAĆ!!! 🌻 Staramy się koordynować propozycje i prośby o wsparcie. Wybierz temat.'
   ru: '🌻 Мы стараемся координировать предложения и запросы о помощи. Выберите соответствующую тему.'
   uk: '🌻 Ми намагаємося координувати пропозиції підтримки та запити. Будь ласка, оберіть тему.'
 help-message:
