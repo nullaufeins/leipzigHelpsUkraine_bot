@@ -111,3 +111,13 @@ commands:
     redirect:  true
     url:       '@donations_leipzig_ukraine'
     new_row:   true
+  ## 4th row
+  - command:   '/homepage'
+    rights:    [administrator, creator]
+    keyword:   homepage
+    match:     '^\/(homepage|web|website|webpage)$'
+    menu:      true
+    side-menu: true
+    redirect:  true
+    url:       'http://leipzig-helps-ukraine.de/'
+    new_row:   true
