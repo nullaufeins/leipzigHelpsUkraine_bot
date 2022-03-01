@@ -40,12 +40,19 @@ endef
 # BASIC TARGETS: setup, build, run
 ################################
 setup:
-	@echo "Call \x1b[93;1mcd src && npm init\x1b[0m in order to set up src/package.json, if it does not exist."
+	@echo "Call \x1b[93;1mnpm init\x1b[0m in order to set up src/package.json, if it does not exist."
 build:
 	@cp .env src/
-	@cd src && npm upgrade
+	@npm upgrade
+# NOTE: the following target is under development!
+deploy:
+	@heroku create -a telegram-bot-hilfe
+	@heroku git:remote -a telegram-bot-hilfe
+	@#heroku buildpacks:set heroku/nodejs
+	@git push heroku main:main
+	@heroku local web
 run:
-	@cd src && node main.js
+	@npm run start
 all: setup build run
 ################################
 # TARGETS: clean
@@ -55,7 +62,6 @@ clean:
 	@$(call clean_all_files,.DS_Store)
 	@echo "All build artefacts will be force removed."
 	@$(call clean_all_folders,__pycache__)
-	@$(call delete_if_file_exists,src/package-lock.json)
-	@$(call delete_if_file_exists,src/.env)
-	@$(call delete_if_file_exists,src/node_modules)
+	@$(call delete_if_file_exists,package-lock.json)
+	@$(call delete_if_file_exists,node_modules)
 	@exit 0
