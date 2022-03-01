@@ -21,7 +21,7 @@ class TranslatedText {
 
     value(lang) {
         if (!(lang in this.values)) {
-            console.warn(`Keyword \x1b[1m${this.keyword}\x1b[0m has no \x1b[92;1m${lang}\x1b[0m-translation; -> default to \x1b[92;1m${this.default}\x1b[0m.`);
+            // console.warn(`Keyword \x1b[1m${this.keyword}\x1b[0m has no \x1b[92;1m${lang}\x1b[0m-translation; -> default to \x1b[92;1m${this.default}\x1b[0m.`);
             lang = this.default;
         }
         return this.values[lang] || '';
@@ -40,8 +40,8 @@ class TranslatedTexts {
 
     value(lang, keyword) {
         if (!(keyword in this.values)) {
-            console.error(`The keyword \x1b[1m${keyword}\x1b[0m has no translations!`);
-            return '???'
+            // console.error(`The keyword \x1b[1m${keyword}\x1b[0m has no translations!`);
+            return undefined;
         }
         return this.values[keyword].value(lang);
     }

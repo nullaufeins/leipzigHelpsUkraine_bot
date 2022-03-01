@@ -16,6 +16,7 @@ async function main () {
     console.log(`Setup app...`);
     const app = new MyApp(OPTIONS);
     app.setup();
+    app.start();
     console.log(`Listening to user input...`);
 }
 

@@ -2,7 +2,7 @@
  * IMPORTS
  ****************************************************************/
 
-const TelegramBot = require('node-telegram-bot-api');
+const { Telegraf } = require('telegraf');
 const {
     COMMANDS,
     SUPPORTED_LANGUAGES,
@@ -23,22 +23,46 @@ class MyApp {
 
     constructor(options) {
         this.options = options;
-        this.bot = new TelegramBot(process.env.token, { polling: true });
+        // this.bot = new TelegramBot(process.env.token, { polling: true });
+        this.bot = new Telegraf(process.env.token, { polling: true });
     }
 
     async setup() {
-        const { debug } = this.options;
-        // siehe https://github.com/yagop/node-telegram-bot-api/blob/master/doc/api.md#TelegramBot+setMyCommands
-        for (const lang of SUPPORTED_LANGUAGES) {
-            let commands = COMMANDS.map(({command, keyword}) => {
-                const description = get_translation(lang, keyword + '-desc');
-                return { command, description };
-            });
-            if (debug) commands.push({ 'command': `/hello`, 'description': 'Hello world' });
-            await this.bot.setMyCommands(commands, { language_code: lang });
+        if (this.options.show_side_menu) {
+            this.setup_command_list();
         }
+        console.log('Connect listeners...');
         this.bot.on('callback_query', async (msg) => {listener_on_callback_query(this.bot, msg, this.options);});
-        this.bot.on('message', async (msg) => {listener_on_message(this.bot, msg, this.options);});
+        this.bot.on('message', async (ctx) => {listener_on_message(this.bot, ctx, this.options);});
+    }
+
+    // siehe https://github.com/yagop/node-telegram-bot-api/blob/master/doc/api.md#TelegramBot+setMyCommands
+    async setup_command_list() {
+        console.log('Build side-menu...');
+        const { debug } = this.options;
+        for (const lang of SUPPORTED_LANGUAGES) {
+            let commands = COMMANDS
+                .filter(({side_menu}) => (side_menu))
+                .map(({command, keyword}) => {
+                    const description = get_translation(lang, keyword + '-desc') || get_translation(lang, keyword);
+                    return { command, description };
+                });
+            if (debug) commands.push({
+                'command':      `/hello`,
+                'description': 'Hello world',
+            });
+            await this.bot.telegram.setMyCommands(commands, { language_code: lang });
+        }
+    }
+
+    async start() {
+        this.bot.launch();
+        process.once('SIGINT', () => this.bot.stop('SIGINT'));
+        process.once('SIGTERM', () => this.bot.stop('SIGTERM'));
+    }
+
+    async stop() {
+        this.bot.stop();
     }
 }
 

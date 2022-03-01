@@ -12,38 +12,67 @@ const {
  ****************************************************************/
 
 // Creates inline keyboard categories for the user to select from
-const get_main_menu = (lang) => {
-    let rows = [];
-    let count = 0;
-    let row_index = 0;
-    for (const {keyword, hidden, new_row} of COMMANDS) {
-        if (hidden) continue;
-        if (count > 0 && new_row) {
-            row_index += 1;
-        }
-        if (rows.length <= row_index) {
-            rows.push([]);
-        }
-        const callback_data = keyword;
-        const text = get_translation(lang, keyword);
-        rows[row_index].push({text, callback_data});
-        count += 1;
-    }
+const get_main_menu_inline = (lang) => {
     return {
         reply_markup: {
-            // remove_keyboard: true,
-            inline_keyboard: rows,
+            inline_keyboard: create_rows(lang),
+            disable_notification: true,
             // parse_mode: 'markdown', // <- does not work
         },
     };
 };
 
-const get_message_options_basic = () => {
-    return {
+const get_main_menu_hidden = (lang) => (
+    {
         reply_markup: {
+            keyboard: create_rows(lang),
+            resize_keyboard: true,
+            one_time_keyboard: true,
+            disable_notification: true,
             // parse_mode: 'markdown', // <- does not work
         },
-    };
+    }
+);
+
+const get_message_options_basic = () => (
+    {
+        reply_markup: {
+            disable_notification: true,
+            // parse_mode: 'markdown', // <- does not work
+        },
+    }
+);
+
+/****************************************************************
+ * AUXILIARY METHODS
+ ****************************************************************/
+
+const create_rows = (lang) => {
+    let rows = [];
+    let count = 0;
+    let row_index = 0;
+    for (const {keyword, menu, url, new_row} of COMMANDS) {
+        if (!menu) continue;
+        if (count > 0 && new_row) row_index += 1;
+        if (rows.length <= row_index) rows.push([]);
+        const text = get_translation(lang, keyword);
+        rows[row_index].push({text, url: create_url(url)});
+        // rows[row_index].push(text);
+        count += 1;
+    }
+    return rows;
+};
+
+const create_url = (text) => {
+    let pattern = /^\@(.*)$/;
+    if (pattern.test(text)) {
+        return text.replace(pattern, `https://t.me/$1`);
+    }
+    pattern = /^[^:]:\/{2}.*/;
+    if (pattern.test(text)) {
+        return text;
+    }
+    return text;
 };
 
 /****************************************************************
@@ -51,6 +80,7 @@ const get_message_options_basic = () => {
  ****************************************************************/
 
 module.exports = {
-    get_main_menu,
-    get_message_options_basic
+    get_main_menu_inline,
+    get_main_menu_hidden,
+    get_message_options_basic,
 };
