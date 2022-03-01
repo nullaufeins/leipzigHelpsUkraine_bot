@@ -3,7 +3,6 @@
 Set up `.env` as
 
 ```.env
-user={your API Username} # <- not necessary atm, but may be useful later.
 token={your API Token}
 ```
 
