@@ -26,6 +26,7 @@ default-language: en
 #
 #   command:     '/...'
 #   keyword:     keyword for call_back_data AND on screen message.
+#   match:       regex to match commands.
 #   rights:      [ list of user stati who can use this command ]
 #   menu:        true/false - should appear in big menu?
 #   side-menu:
@@ -41,16 +42,25 @@ commands:
   ## special commandos
   - command:   '/hello'
     keyword:   'hello-world-message'
+    match:     '^\/hello.*'
+    rights:    [administrator, creator]
+    menu:      false
+    side-menu: false
+  - command:   '/pinned'
+    keyword:   'pinned-message'
+    match:     '^\/pin.*'
     rights:    [administrator, creator]
     menu:      false
     side-menu: false
   - command:   '/start'
     keyword:   'start-message'
+    match:     '^\/start\s*$'
     rights:    [administrator, creator]
     menu:      false
     side-menu: false
   - command:   '/help'
     keyword:   'help-message'
+    match:     '^\/(help|info)$'
     rights:    [administrator, creator]
     menu:      false
     side-menu: false
@@ -58,6 +68,7 @@ commands:
   ## 1st row
   - command:   '/transport'
     keyword:   transport
+    match:     '^\/(transport|travel).*$'
     rights:    [administrator, creator]
     menu:      true
     side-menu: true
@@ -66,6 +77,7 @@ commands:
     new_row:   true
   - command:   '/housing'
     keyword:   housing
+    match:     '^\/(housing|shelter|obdach|accom).*$'
     rights:    [administrator, creator]
     menu:      true
     side-menu: true
@@ -75,6 +87,7 @@ commands:
   - command:   '/translations'
     rights:    [administrator, creator]
     keyword:   translations
+    match:     '^\/(translation|language|dolmetsch).*$'
     menu:      true
     side-menu: true
     redirect:  true
@@ -83,6 +96,7 @@ commands:
   - command:   '/legal'
     rights:    [administrator, creator]
     keyword:   legal
+    match:     '^\/(legal|law|jura|jurist|rights).*$'
     menu:      true
     side-menu: true
     redirect:  true
@@ -91,6 +105,7 @@ commands:
   - command:   '/donations'
     rights:    [administrator, creator]
     keyword:   donations
+    match:     '^\/(donation|charity|spenden|give|gifts).*$'
     menu:      true
     side-menu: true
     redirect:  true
