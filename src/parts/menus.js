@@ -5,7 +5,7 @@
 const {
     COMMANDS,
     get_translation
-} = require.main.require('./setup/config.js');
+} = require.main.require('./src/setup/config.js');
 
 /****************************************************************
  * METHODS

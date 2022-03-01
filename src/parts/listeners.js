@@ -7,15 +7,15 @@ const {
     get_command_by_keyword,
     get_command_by_command,
     get_translation,
-} = require.main.require('./setup/config.js');
+} = require.main.require('./src/setup/config.js');
 const {
     remove_message,
     delay_remove_reply,
-} = require.main.require('./application/operations.js');
+} = require.main.require('./src/parts/operations.js');
 const {
     get_main_menu,
     get_message_options_basic,
-} = require.main.require('./application/menus.js');
+} = require.main.require('./src/parts/menus.js');
 
 /****************************************************************
  * METHODS - LISTENERS

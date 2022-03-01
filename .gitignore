@@ -15,15 +15,15 @@
 # PROJECT FILES
 ################################################################
 
-
 !/src
 !/src/classes/
 !/src/core/
-!/src/application/
+!/src/parts/
 !/src/setup/
 !/src/setup/*.yaml
 !/src/**/*.js
 !/src/**/*.yaml
+!/index.js
 
 !/tests
 

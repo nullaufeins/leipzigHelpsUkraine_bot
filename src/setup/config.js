@@ -4,8 +4,8 @@
 
 yaml = require('js-yaml');
 fs = require('fs-extra');
-const { yaml_to_js_dictionary } = require.main.require('./core/utils.js');
-const { TranslatedTexts } = require.main.require('./classes/language.js');
+const { yaml_to_js_dictionary } = require.main.require('./src/core/utils.js');
+const { TranslatedTexts } = require.main.require('./src/classes/language.js');
 
 /****************************************************************
  * CONSTANTS - extract from data assets + app configuration

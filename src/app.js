@@ -7,11 +7,11 @@ const {
     COMMANDS,
     SUPPORTED_LANGUAGES,
     get_translation
-} = require.main.require('./setup/config.js');
+} = require.main.require('./src/setup/config.js');
 const {
     listener_on_callback_query,
     listener_on_message,
-} = require.main.require('./application/listeners.js');
+} = require.main.require('./src/parts/listeners.js');
 
 /****************************************************************
  * METHODS
