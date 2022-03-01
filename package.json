@@ -16,14 +16,14 @@
     "build": "node index.js"
   },
   "engines": {
-    "node": "12.16.1",
-    "npm": "^8.4.1"
+    "node": "^16.14.0",
+    "npm": "^8.5.2"
   },
   "dependencies": {
     "dotenv": "^15.0.1",
     "fs-extra": "^10.0.1",
     "js-yaml": "^4.1.0",
-    "node-telegram-bot-api": "^0.56.0",
+    "telegraf": "4.7.0",
     "sprintf-js": "^1.1.2"
   }
 }
