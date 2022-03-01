@@ -1,7 +1,7 @@
 {
-  "name": "telegram_bot",
-  "version": "0.0.0",
-  "description": "A Telegram bot.",
+  "name": "LeipzigHilftUkraineBot",
+  "version": "1.0.0",
+  "description": "Dieser Bot wurde mit viel Liebe von Freiwilligen aus der Stadt Leipzig 🇩🇪 für Ukrainer/innen erstellt. 🤗",
   "author": "me",
   "license": "MIT",
   "keywords": [
