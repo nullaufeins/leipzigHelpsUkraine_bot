@@ -47,14 +47,14 @@ commands:
     menu:      false
     side-menu: false
   - &ref_pin_command
-    command:   '/pinned'
+    command:   '/pin'
     keyword:   'pinned-message'
     match:     '^\/(pin|pinned)$'
     rights:    [administrator, creator]
     menu:      false
     side-menu: false
   - <<: *ref_pin_command
-    command:   '/pinned-all'
+    command:   '/pin-all'
     match:     '^\/(pin|pinned)(-all|-all-languages)$'
   - command:   '/start'
     keyword:   'start-message'
@@ -125,3 +125,11 @@ commands:
     redirect:  true
     url:       'http://leipzig-helps-ukraine.de/'
     new_row:   true
+  - command:   '/feedback'
+    rights:    [administrator, creator]
+    keyword:   feedback
+    match:     '^\/(feedback|review)$'
+    menu:      true
+    side-menu: true
+    redirect:  true
+    url:       '@feedback_leipzig_ukraine'

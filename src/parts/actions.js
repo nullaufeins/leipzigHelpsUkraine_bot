@@ -33,11 +33,11 @@ const universal_action = async (bot, ctx, command_options, { debug }) => {
 
     switch (command) {
         // use this to pin message in the language of the caller:
-        case '/pinned':
-            return action_on_pinned(bot, user, msg, command_options);
+        case '/pin':
+            return action_on_pin(bot, user, msg, command_options);
         // use this to show all languages:
-        case '/pinned-all':
-            return action_on_pinned_all_languages(bot, user, msg, command_options);
+        case '/pin-all':
+            return action_on_pin_all_languages(bot, user, msg, command_options);
         case '/hello':
             if (!debug) return;
             return action_on_hello(bot, user, msg, command_options);
@@ -53,7 +53,7 @@ const universal_action = async (bot, ctx, command_options, { debug }) => {
     }
 }
 
-const action_on_pinned = async (bot, user, msg, command_options) => {
+const action_on_pin = async (bot, user, msg, command_options) => {
     const chatId = msg.chat.id;
     const lang = msg.from.language_code;
     const { keyword, rights } = command_options;
@@ -66,7 +66,7 @@ const action_on_pinned = async (bot, user, msg, command_options) => {
     return bot.telegram.pinChatMessage(chatId, messageId, {disable_notification: true});
 }
 
-const action_on_pinned_all_languages = async (bot, user, msg, command_options) => {
+const action_on_pin_all_languages = async (bot, user, msg, command_options) => {
     const chatId = msg.chat.id;
     const { keyword, rights } = command_options;
     if (!user_has_rights(user, rights)) return;

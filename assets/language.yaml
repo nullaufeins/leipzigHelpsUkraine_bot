@@ -97,14 +97,14 @@ translations-desc:
   ru: Помощь переводчика
   uk: Знайти перекладачів
 homepage:
-  de: '🌐 www'
-  en: '🌐 www'
-  pl: '🌐 www'
-  ru: '🌐 www'
-  uk: '🌐 www'
-homepage-desc:
-  de: Webseite
-  en: Website
-  pl: Stronie internetowej
-  ru: Веб-сайт
-  uk: Веб-сайт
+  de: 'www | 🌐'
+  en: 'www | 🌐'
+  pl: 'www | 🌐'
+  ru: 'www | 🌐'
+  uk: 'www | 🌐'
+feedback:
+  de: 'Feedback zum 🤖'
+  en: 'Feedback for 🤖'
+  pl: 'Opinie na 🤖'
+  ru: 'Отзыв о 🤖'
+  uk: 'Відгук про 🤖'
