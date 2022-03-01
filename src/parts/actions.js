@@ -30,6 +30,8 @@ const universal_action = async (bot, ctx, command_options, { debug }) => {
     // }
 
     switch (command) {
+        case '/pinned':
+            return action_on_pinned(bot, user, msg, command_options);
         case '/hello':
             if (!debug) return;
             return action_on_hello(bot, user, msg, command_options);
@@ -45,8 +47,22 @@ const universal_action = async (bot, ctx, command_options, { debug }) => {
     }
 }
 
+const action_on_pinned = async (bot, user, msg, command_options) => {
+    console.log('Not yet implemented!');
+    const chatId = msg.chat.id;
+    const lang = msg.from.language_code;
+    const { keyword, rights } = command_options;
+    if (!user_has_rights(user, rights)) return;
+
+    const responseText = get_translation(lang, keyword);
+    const options = get_main_menu_inline(lang);
+    const reply = await bot.telegram.sendMessage(chatId, responseText, options);
+    const messageId = reply.message_id;
+    return bot.telegram.pinChatMessage(chatId, messageId, {disable_notification: true});
+}
+
 // const action_on_special = (bot, chatId, lang, username, )
-const action_on_new_member = (bot, user, msg, command_options) => {
+const action_on_new_member = async (bot, user, msg, command_options) => {
     const username = user.username;
     const chatId = msg.chat.id;
     const lang = msg.from.language_code;
@@ -58,7 +74,7 @@ const action_on_new_member = (bot, user, msg, command_options) => {
     return bot.telegram.sendMessage(chatId, responseText, options);
 }
 
-const action_on_hello = (bot, user, msg, command_options) => {
+const action_on_hello = async (bot, user, msg, command_options) => {
     const username = user.username;
     const chatId = msg.chat.id;
     const lang = msg.from.language_code;
@@ -70,7 +86,7 @@ const action_on_hello = (bot, user, msg, command_options) => {
     return bot.telegram.sendMessage(chatId, responseText, options);
 }
 
-const action_on_help = (bot, user, msg, command_options) => {
+const action_on_help = async (bot, user, msg, command_options) => {
     const chatId = msg.chat.id;
     const lang = msg.from.language_code;
     const { keyword, rights } = command_options;
@@ -81,11 +97,11 @@ const action_on_help = (bot, user, msg, command_options) => {
     return bot.telegram.sendMessage(chatId, responseText, options);
 };
 
-const action_on_start = (bot, user, msg, command_options) => {
+const action_on_start = async (bot, user, msg, command_options) => {
     return action_on_help(bot, user, msg, command_options);
 };
 
-const action_on_redirect = (bot, user, msg, command_options) => {
+const action_on_redirect = async (bot, user, msg, command_options) => {
     const chatId = msg.chat.id;
     const lang = msg.from.language_code;
     const { rights } = command_options;

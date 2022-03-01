@@ -7,7 +7,6 @@ const {
     get_command_by_command,
 } = require.main.require('./src/setup/config.js');
 const {
-    get_user_from_context,
     user_in_context_is_bot,
 } = require.main.require('./src/parts/users.js');
 const {
