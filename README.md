@@ -10,7 +10,7 @@ call
 
 ```bash
 npm upgrade
-node src/main.js
+node index.js
 ```
 
 or simply:
