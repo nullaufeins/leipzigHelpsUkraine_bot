@@ -22,6 +22,10 @@ define delete_if_file_exists
 	@if [ -f "$(1)" ]; then rm "$(1)"; fi
 endef
 
+define delete_if_folder_exists
+	@if [ -d "$(1)" ]; then rm -rf "$(1)"; fi
+endef
+
 define clean_all_files
 	@find . -type f -name "$(1)" -exec basename {} \;
 	@find . -type f -name "$(1)" -exec rm {} \; 2> /dev/null
@@ -42,15 +46,7 @@ endef
 setup:
 	@echo "Call \x1b[93;1mnpm init\x1b[0m in order to set up src/package.json, if it does not exist."
 build:
-	@cp .env src/
 	@npm upgrade
-# NOTE: the following target is under development!
-deploy:
-	@heroku create -a telegram-bot-hilfe
-	@heroku git:remote -a telegram-bot-hilfe
-	@#heroku buildpacks:set heroku/nodejs
-	@git push heroku main:main
-	@heroku local web
 run:
 	@npm run start
 all: setup build run
@@ -63,5 +59,5 @@ clean:
 	@echo "All build artefacts will be force removed."
 	@$(call clean_all_folders,__pycache__)
 	@$(call delete_if_file_exists,package-lock.json)
-	@$(call delete_if_file_exists,node_modules)
+	@$(call delete_if_folder_exists,node_modules)
 	@exit 0
