@@ -91,7 +91,7 @@ commands:
     menu:      true
     side-menu: true
     redirect:  true
-    url:       '@interpreter_leipzig_ukraine'
+    url:       '@translators_leipzig_ukraine'
     new_row:   true
   - command:   '/legal'
     rights:    [administrator, creator]
