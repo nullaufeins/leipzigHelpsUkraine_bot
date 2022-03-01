@@ -1,9 +1,13 @@
 info:
   description: Internal configuration of app.
 options:
-  debug:        false # Only set to true when developing.
-  timeout:       5000 # time in ms before bot response is deleted.
-  timeout-menu: 10000 # time in ms before menus are deleted.
+  debug: false # <- only set to true when developing.
+  ################
+  # Times in ms before bot response (inline resp. menu) are deleted.
+  # Use value -1, if no deletion should occur.
+  ################
+  timeout:       5000
+  timeout-menu: 10000
 # ------------------------------------------------------------------------------------------------
 # SUPPORTED LANGUAGES
 # Note: use ISO-639-1 alpha-2 format; e.g. uk (not ua) for Ukrainian.

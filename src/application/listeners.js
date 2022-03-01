@@ -38,7 +38,7 @@ const listener_on_callback_query = async (bot, msg, {debug, timeout}) => {
 
     // Trigger response, then delete after delay:
     const reply = bot.sendMessage(chatId, responseText, options);
-    delay_remove_reply(bot, timeout, reply);
+    if (timeout > 0) delay_remove_reply(bot, timeout, reply);
 };
 
 // handles inline user query:
@@ -56,7 +56,7 @@ const listener_on_message = async (bot, msg, {debug, timeout, timeout_menu}) => 
 
         // Trigger response, then delete response after delay:
         const reply = bot.sendMessage(chatId, responseText, options);
-        delay_remove_reply(bot, timeout_menu, reply);
+        if (timeout_menu > 0) delay_remove_reply(bot, timeout_menu, reply);
         return;
     }
 
@@ -74,7 +74,7 @@ const listener_on_message = async (bot, msg, {debug, timeout, timeout_menu}) => 
         // Delete message, trigger response, then delete response after delay:
         remove_message(bot, msg);
         const reply = bot.sendMessage(chatId, responseText, options);
-        delay_remove_reply(bot, timeout, reply);
+        if (timeout > 0) delay_remove_reply(bot, timeout, reply);
     // Response to `/start`
     } else if (command == '/start') {
         const responseText = get_translation(lang, 'start-message');
@@ -82,7 +82,7 @@ const listener_on_message = async (bot, msg, {debug, timeout, timeout_menu}) => 
 
         // Trigger response, then delete response after delay:
         const reply = bot.sendMessage(chatId, responseText, options);
-        delay_remove_reply(bot, timeout_menu, reply);
+        if (timeout_menu > 0) delay_remove_reply(bot, timeout_menu, reply);
     // Response to `/help`
     } else if (command == '/help') {
         const responseText = get_translation(lang, 'help-message');
@@ -91,7 +91,7 @@ const listener_on_message = async (bot, msg, {debug, timeout, timeout_menu}) => 
         // Delete message, trigger response, then delete response after delay:
         remove_message(bot, msg);
         const reply = bot.sendMessage(chatId, responseText, options);
-        delay_remove_reply(bot, timeout_menu, reply);
+        if (timeout_menu > 0) delay_remove_reply(bot, timeout_menu, reply);
     // Response to command from list:
     } else if (commands.length > 0) {
         const message = get_translation(lang, 'redirect-message');
@@ -102,7 +102,7 @@ const listener_on_message = async (bot, msg, {debug, timeout, timeout_menu}) => 
         // Delete message, trigger response, then delete response after delay:
         remove_message(bot, msg);
         const reply = bot.sendMessage(chatId, responseText, options);
-        delay_remove_reply(bot, timeout, reply);
+        if (timeout > 0) delay_remove_reply(bot, timeout, reply);
     }
 
     // otherwise ignore the message and remain passive!
