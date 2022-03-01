@@ -146,22 +146,24 @@ const translationsResponse = (chatId, bot, language) => {
 bot.on("callback_query", (msg) => {
   // chatId: unique identifier for the target chat or username of the target channel (in the format @channelusername)
   const chatId = msg.message.chat.id;
+  const userId = msg.from.id;
+  // console.log("inline keyboard", msg.from.id);
   const lang = msg.from.language_code;
 
   if (msg.data === "transport") {
-    transportResponse(chatId, bot, lang);
+    transportResponse(userId, bot, lang);
   }
   if (msg.data === "housing") {
-    housingResponse(chatId, bot, lang);
+    housingResponse(userId, bot, lang);
   }
   if (msg.data === "donations") {
-    donationsResponse(chatId, bot, lang);
+    donationsResponse(userId, bot, lang);
   }
   if (msg.data === "legal") {
-    legalResponse(chatId, bot, lang);
+    legalResponse(userId, bot, lang);
   }
   if (msg.data === "translations") {
-    translationsResponse(chatId, bot, lang);
+    translationsResponse(userId, bot, lang);
   }
 });
 
@@ -170,11 +172,14 @@ bot.on("callback_query", (msg) => {
  */
 bot.on("message", async function (msg, args) {
   const chatId = msg.chat.id;
+  const userId = msg.from.id;
   const lang = msg.from.language_code;
-  
+  //console.log("userId", msg.from.id);
 
   if (msg.new_chat_members != undefined) {
-    bot.sendMessage(chatId, getTranslation("welcomeMsg", lang), {
+    const newMemberId = msg.new_chat_participant.id;
+    //console.log(newMemberId);
+    bot.sendMessage(newMemberId, getTranslation("welcomeMsg", lang), {
       reply_markup: {
         inline_keyboard: getCategorySelection(lang),
       },
@@ -182,7 +187,7 @@ bot.on("message", async function (msg, args) {
   }
 
   if (msg.text == "/start") {
-    bot.sendMessage(chatId, getTranslation("welcomeMsg", lang), {
+    bot.sendMessage(userId, getTranslation("welcomeMsg", lang), {
       reply_markup: {
         inline_keyboard: getCategorySelection(lang),
       },
@@ -190,7 +195,7 @@ bot.on("message", async function (msg, args) {
   }
 
   if (msg.text == "/help") {
-    bot.sendMessage(chatId, getTranslation("welcomeMsg", lang), {
+    bot.sendMessage(userId, getTranslation("welcomeMsg", lang), {
       reply_markup: {
         inline_keyboard: getCategorySelection(lang),
       },
@@ -199,27 +204,27 @@ bot.on("message", async function (msg, args) {
 
 
   if (msg.text == TRANSPORT_CMD) {
-    transportResponse(chatId, bot, lang);
+    transportResponse(userId, bot, lang);
   }
 
   if (msg.text == HOUSING_CMD) {
-    housingResponse(chatId, bot);
+    housingResponse(userId, bot);
   }
 
   if (msg.text == DONATIONS_CMD) {
-    donationsResponse(chatId, bot);
+    donationsResponse(userId, bot);
   }
 
   if (msg.text == LEGAL_CMD) {
-    legalResponse(chatId, bot);
+    legalResponse(userId, bot);
   }
 
   if (msg.text == TRANSLATIONS_CMD) {
-    translationsResponse(chatId, bot);
+    translationsResponse(userId, bot);
   }
 });
 
 /**
  * On server initialization
  */
-setBotCommands();
+//setBotCommands();
