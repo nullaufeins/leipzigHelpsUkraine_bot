@@ -1,18 +1,19 @@
-# Telegram Bot - Weiterleitung für Freiwillige #
+# Telegram Bot - **@LeipzigHelpsUkraine** #
 
 ## Usage ##
 
 Admins have access to the following commands:
 
 - Special commands:
+  - `/info` or: `/help`    - displays main menu.
   - `/pin`     - displays and pins main menu in group
-                 (in the language of admin);
+    </br>
+    (in the language of admin).
   - `/pin-all` - displays and pins main menu in group
-                 (in all languages);
-  - `/start`   - displays main menu;
-  - `/help`    - displays main menu;
+    </br>
+    (in all languages — use with care!!).
 - Redirect commands:
-  - Quick link to sub groups:
+  - Quick link to telegram-subgroups:
     ```
     /transport
     /housing
@@ -20,8 +21,8 @@ Admins have access to the following commands:
     /legal
     /donations
     ```
-  - `/homepage` - opens browser link to webpage;
-  - `/feedback` - quick link to sub group for technical feedback for bot.
+  - `/homepage` - browser link to webpage.
+  - `/feedback` - telegram-link to sub group for technical feedback for bot.
 
 
 ## Setup ##
