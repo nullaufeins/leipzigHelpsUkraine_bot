@@ -1,0 +1,29 @@
+{
+  "name": "LeipzigHilftUkraineBot",
+  "version": "1.4.0",
+  "description": "Dieser Bot wurde mit viel Liebe von Freiwilligen aus der Stadt Leipzig 🇩🇪 für Ukrainer/innen erstellt. 🤗",
+  "author": "me",
+  "license": "MIT",
+  "keywords": [
+    "telegram",
+    "bot",
+    "sandbox"
+  ],
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js",
+    "start": "node index.js",
+    "build": "node index.js"
+  },
+  "engines": {
+    "node": "^16.12.0",
+    "npm": "^7.20.6"
+  },
+  "dependencies": {
+    "dotenv": "^15.0.1",
+    "fs-extra": "^10.0.1",
+    "js-yaml": "^4.1.0",
+    "telegraf": "4.7.0",
+    "sprintf-js": "^1.1.2"
+  }
+}
