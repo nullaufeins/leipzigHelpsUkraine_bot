@@ -25,7 +25,7 @@ const universal_action = async (bot, ctx, command_options, { debug }) => {
     const user = await get_user_from_context(bot, ctx);
     const msg = ctx.update.message;
     const { aspects, text } = command_options;
-    const { command } = aspects;
+    const { command, rights } = aspects;
 
     /*
     NOTE: Not currently implemented.
@@ -36,27 +36,28 @@ const universal_action = async (bot, ctx, command_options, { debug }) => {
     }
     */
 
+    if (!user_has_rights(user, rights)) return;
+
     if ('redirect' in aspects) {
-        return action_on_redirect(bot, user, msg, aspects, text);
+        return action_on_redirect(bot, msg, aspects, text);
     }
 
     switch (command) {
         case '/pin_all':
-            return action_on_pin_all_languages(bot, user, msg, aspects, text);
+            return action_on_pin_all_languages(bot, msg, text);
         case command.match(/^\/pin(?:|_(.*))$/)?.input:
-            return action_on_pin_one_language(bot, user, msg, aspects, text);
+            return action_on_pin_one_language(bot, msg, text);
         case '/hello':
             if (!debug) return;
-            return action_on_hello(bot, user, msg, aspects, text);
+            return action_on_hello(bot, msg, text);
         case '/help':
-            return action_on_help(bot, user, msg, aspects, text);
+            return action_on_help(bot, msg, text);
         default:
             return;
     }
 }
 
-const action_on_pin_one_language = async (bot, user, msg, { rights }, { keyword, lang }) => {
-    if (!user_has_rights(user, rights)) return;
+const action_on_pin_one_language = async (bot, msg, { keyword, lang }) => {
     const chatId = msg.chat.id;
     lang = lang || DEFAULT_LANGUAGE;
     // post menu:
@@ -68,8 +69,7 @@ const action_on_pin_one_language = async (bot, user, msg, { rights }, { keyword,
     return bot.telegram.pinChatMessage(chatId, messageId, {disable_notification: true});
 }
 
-const action_on_pin_all_languages = async (bot, user, msg, { rights }, { keyword }) => {
-    if (!user_has_rights(user, rights)) return;
+const action_on_pin_all_languages = async (bot, msg, { keyword }) => {
     const chatId = msg.chat.id;
     let index = 0;
     let messageId = -1;
@@ -87,8 +87,7 @@ const action_on_pin_all_languages = async (bot, user, msg, { rights }, { keyword
     }
 }
 
-const action_on_hello = async (bot, user, msg, { rights }, { keyword, lang }) => {
-    if (!user_has_rights(user, rights)) return;
+const action_on_hello = async (bot, msg, { keyword, lang }) => {
     const username = user.username;
     const chatId = msg.chat.id;
     const lang_caller = msg.from.language_code;
@@ -99,8 +98,7 @@ const action_on_hello = async (bot, user, msg, { rights }, { keyword, lang }) =>
     return bot.telegram.sendMessage(chatId, responseText, options);
 }
 
-const action_on_help = async (bot, user, msg, { rights }, { keyword, lang }) => {
-    if (!user_has_rights(user, rights)) return;
+const action_on_help = async (bot, msg, { keyword, lang }) => {
     const chatId = msg.chat.id;
     const lang_caller = msg.from.language_code;
     lang = lang || lang_caller;
@@ -110,8 +108,7 @@ const action_on_help = async (bot, user, msg, { rights }, { keyword, lang }) => 
     return bot.telegram.sendMessage(chatId, responseText, options);
 };
 
-const action_on_redirect = async (bot, user, msg, { rights, redirect }, { keyword, lang }) => {
-    if (!user_has_rights(user, rights)) return;
+const action_on_redirect = async (bot, msg, { redirect }, { keyword, lang }) => {
     const chatId = msg.chat.id;
     const lang_caller = msg.from.language_code;
     lang = lang || lang_caller;
