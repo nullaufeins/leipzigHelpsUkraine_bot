@@ -59,13 +59,13 @@ commands:
   - <<: *ref_pin_command
     command:   '/pin-all'
     match:     '^\/(pin|pinned)(-all|-all-languages)$'
-  - command:   '/start'
-    keyword:   'start-message'
-    match:     '^\/start\s*$'
-    strict:    false
-    rights:    [administrator, creator]
-    menu:      false
-    side-menu: false
+  # - command:   '/start'
+  #   keyword:   'start-message'
+  #   match:     '^\/start$'
+  #   strict:    false
+  #   rights:    [administrator, creator]
+  #   menu:      false
+  #   side-menu: false
   - command:   '/help'
     keyword:   'help-message'
     match:     '^\/(help|info)$'
@@ -87,7 +87,7 @@ commands:
     new_row:   true
   - command:   '/housing'
     keyword:   housing
-    match:     '^\/(housing|shelter|obdach|accom.*)$'
+    match:     '^\/(housing|a(c+)o(m+)odation|shelter|obdach)$'
     strict:    false
     rights:    [administrator, creator]
     menu:      true
