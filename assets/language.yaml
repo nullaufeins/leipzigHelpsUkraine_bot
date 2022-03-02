@@ -11,6 +11,12 @@ welcome-message: &ref_welcome_message
   uk: 'Привіт, @%s! Ми намагаємося координувати пропозиції підтримки та запити.'
 hello-world-message: # only for testing
   <<: *ref_welcome_message
+pinned-short:
+  de: '📌 Menü mit Weiterleitungen anheften'
+  en: '📌 Pin menu with redirects'
+  pl: '📌 Przypnij menu z przekierowaniami'
+  ru: '📌 Закрепить меню с редиректами'
+  uk: '📌 Закріпити меню з переадресаціями'
 pinned-message:
   de: '🌻!BITTE LESEN! Wir versuchen, Hilfsangebote und Anfragen zu koordinieren. Bitte eine Option wählen.'
   en: '🌻!Pls README first! We want to coordinate offers of help and requests. Please choose a topic.'
