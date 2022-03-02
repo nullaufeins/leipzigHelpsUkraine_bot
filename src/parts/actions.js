@@ -31,6 +31,10 @@ const universal_action = async (bot, ctx, command_options, { debug }) => {
     //     return action_on_new_member(bot, user, msg, options);
     // }
 
+    if (('redirect' in command_options) && command_options.redirect) {
+        return action_on_redirect(bot, user, msg, command_options);
+    }
+
     switch (command) {
         // use this to pin message in the language of the caller:
         case '/pin':
@@ -46,9 +50,6 @@ const universal_action = async (bot, ctx, command_options, { debug }) => {
         case '/help':
             return action_on_help(bot, user, msg, command_options);
         default:
-            if (('redirect' in command_options) && command_options.redirect) {
-                return action_on_redirect(bot, user, msg, command_options);
-            }
             return;
     }
 }
