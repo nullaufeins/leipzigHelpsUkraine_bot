@@ -84,7 +84,6 @@ const action_on_pin_all_languages = async (bot, user, msg, command_options) => {
     return bot.telegram.pinChatMessage(chatId, messageId, {disable_notification: true});
 }
 
-// const action_on_special = (bot, chatId, lang, username, )
 const action_on_new_member = async (bot, user, msg, command_options) => {
     const username = user.username;
     const chatId = msg.chat.id;
