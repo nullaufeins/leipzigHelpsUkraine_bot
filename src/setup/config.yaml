@@ -27,6 +27,7 @@ default-language: en
 #   command:     '/...'
 #   keyword:     keyword for call_back_data AND on screen message.
 #   match:       regex to match commands.
+#   strict:      true => only those commands accepted, which address bot with @<botname>
 #   rights:      [ list of user stati who can use this command ]
 #   menu:        true/false - should appear in big menu?
 #   side-menu:
@@ -42,7 +43,8 @@ commands:
   ## special commandos
   - command:   '/hello'
     keyword:   'hello-world-message'
-    match:     '^\/hello.*'
+    match:     '^\/(hello|helloworld|hello-world)'
+    strict:    false
     rights:    [administrator, creator]
     menu:      false
     side-menu: false
@@ -50,6 +52,7 @@ commands:
     command:   '/pin'
     keyword:   'pinned-message'
     match:     '^\/(pin|pinned)$'
+    strict:    false
     rights:    [administrator, creator]
     menu:      false
     side-menu: false
@@ -59,12 +62,14 @@ commands:
   - command:   '/start'
     keyword:   'start-message'
     match:     '^\/start\s*$'
+    strict:    false
     rights:    [administrator, creator]
     menu:      false
     side-menu: false
   - command:   '/help'
     keyword:   'help-message'
     match:     '^\/(help|info)$'
+    strict:    false
     rights:    [administrator, creator]
     menu:      false
     side-menu: false
@@ -73,6 +78,7 @@ commands:
   - command:   '/transport'
     keyword:   transport
     match:     '^\/(transport|travel).*$'
+    strict:    false
     rights:    [administrator, creator]
     menu:      true
     side-menu: true
@@ -81,7 +87,8 @@ commands:
     new_row:   true
   - command:   '/housing'
     keyword:   housing
-    match:     '^\/(housing|shelter|obdach|accom).*$'
+    match:     '^\/(housing|shelter|obdach|accom.*)$'
+    strict:    false
     rights:    [administrator, creator]
     menu:      true
     side-menu: true
@@ -91,7 +98,8 @@ commands:
   - command:   '/translations'
     rights:    [administrator, creator]
     keyword:   translations
-    match:     '^\/(translation|language|dolmetsch).*$'
+    match:     '^\/(translation(s|)|language(s|)|dolmetsch.*)$'
+    strict:    false
     menu:      true
     side-menu: true
     redirect:  true
@@ -100,7 +108,8 @@ commands:
   - command:   '/legal'
     rights:    [administrator, creator]
     keyword:   legal
-    match:     '^\/(legal|law|jura|jurist|rights).*$'
+    match:     '^\/(legal.*|law|jura|jurist.*|rights)$'
+    strict:    false
     menu:      true
     side-menu: true
     redirect:  true
@@ -109,7 +118,8 @@ commands:
   - command:   '/donations'
     rights:    [administrator, creator]
     keyword:   donations
-    match:     '^\/(donation|charity|spenden|give|gifts).*$'
+    match:     '^\/(donation|charity|spenden|give.*|gifts)$'
+    strict:    false
     menu:      true
     side-menu: true
     redirect:  true
@@ -120,6 +130,7 @@ commands:
     rights:    [administrator, creator]
     keyword:   homepage
     match:     '^\/(homepage|web|website|webpage)$'
+    strict:    false
     menu:      true
     side-menu: true
     redirect:  true
@@ -129,6 +140,7 @@ commands:
     rights:    [administrator, creator]
     keyword:   feedback
     match:     '^\/(feedback|review)$'
+    strict:    false
     menu:      true
     side-menu: true
     redirect:  true
