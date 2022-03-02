@@ -80,12 +80,13 @@ And that's it! No need to add any code!
 
 ### Contribute new special command ###
 
-To add a new special command (amongst `/start`, `/help`, `/pinned`, _etc._),
+To add a new special command (amongst `/start`, `/help`, `/pin`, _etc._),
 the following parts have to be changed:
 
 - [./src/setup/config.yaml](src/setup/config.yaml) -> add a command.
 - [./assets/language.yaml](assets/language.yaml) -> if necessary add translations for new keyword.
-- [./src/parts/actions.yaml](src/parts/actions.yaml) -> „ergänze“ `universal_action` to cater for new case.
+- [./src/parts/actions.js](src/parts/actions.js) -> „ergänze“ `universal_action` to cater for new case.
+  </br>One can also if necessary follow the logic backwards from there (`actions.js` <- `listeners.js` <- `app.js`), and adjust things that happen 'higher up'.
 
 ## Notes and issues ##
 
