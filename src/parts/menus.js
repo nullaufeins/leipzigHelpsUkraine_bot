@@ -51,13 +51,14 @@ const create_rows = (lang) => {
     let rows = [];
     let count = 0;
     let row_index = 0;
-    for (const {keyword, menu, url, new_row} of COMMANDS) {
-        if (!menu) continue;
+    for (const { aspects, menu } of COMMANDS) {
+        const { redirect } = aspects;
+        if (!redirect || !menu) continue;
+        const { keyword, new_row } = menu;
         if (count > 0 && new_row) row_index += 1;
         if (rows.length <= row_index) rows.push([]);
         const text = get_translation(lang, keyword);
-        rows[row_index].push({text, url: create_url(url)});
-        // rows[row_index].push(text);
+        rows[row_index].push({text, url: create_url(redirect)});
         count += 1;
     }
     return rows;

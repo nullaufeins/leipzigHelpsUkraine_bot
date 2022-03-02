@@ -9,7 +9,6 @@ const {
     get_translation
 } = require.main.require('./src/setup/config.js');
 const {
-    listener_on_callback_query,
     listener_on_message,
 } = require.main.require('./src/parts/listeners.js');
 
@@ -31,23 +30,35 @@ class MyApp {
         if (this.options.show_side_menu) {
             // siehe https://github.com/yagop/node-telegram-bot-api/blob/master/doc/api.md#TelegramBot+setMyCommands
             console.log('Build side-menu...');
-            const { debug } = this.options;
-            for (const lang of SUPPORTED_LANGUAGES) {
-                let commands = COMMANDS
-                    .filter(({side_menu}) => (side_menu))
-                    .map(({command, keyword}) => {
-                        const description = get_translation(lang, keyword + '-desc') || get_translation(lang, keyword);
-                        return { command, description };
-                    });
-                if (debug) commands.push({
-                    'command':      `/hello`,
-                    'description': 'Hello world',
-                });
-                await this.bot.telegram.setMyCommands(commands, { language_code: lang });
-            }
+            this.setup_sidemenu();
         }
         console.log('Connect listeners...');
-        this.bot.on('callback_query', async (msg) => {listener_on_callback_query(this.bot, msg, this.options);});
+        this.setup_listeners();
+    }
+
+    async setup_sidemenu() {
+        const { debug } = this.options;
+        for (const _lang of SUPPORTED_LANGUAGES) {
+            let commands = COMMANDS
+                .filter((options) => ('side_menu' in options))
+                .map(({ aspects, side_menu }) => {
+                    const { command } = aspects;
+                    const { lang, keyword } = side_menu;
+                    const description = get_translation(lang || _lang, keyword);
+                    return { command, description };
+                });
+            if (debug) commands.push({ command: `/hello`, description: 'Hello world' });
+            await this.bot.telegram.setMyCommands(commands, { language_code: _lang });
+        }
+    }
+
+    async setup_listeners() {
+        /********************************
+         * Options for on:
+         * - 'callback_query'
+         * - 'text'
+         * - 'message'
+         ********************************/
         this.bot.on('message', async (ctx) => {listener_on_message(this.bot, ctx, this.options);});
     }
 

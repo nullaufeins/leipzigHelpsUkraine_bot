@@ -14,12 +14,14 @@ const { TranslatedTexts } = require.main.require('./src/classes/language.js');
 const LANGUAGE = yaml.load(fs.readFileSync('assets/language.yaml', 'utf8'));
 const CONFIG = yaml.load(fs.readFileSync('src/setup/config.yaml', 'utf8'));
 
-const OPTIONS = yaml_to_js_dictionary(CONFIG['options'] || {} || {debug: false, timeout: 10*1000, timeout_menu: 60*1000});
+const OPTIONS = yaml_to_js_dictionary(CONFIG['options'] || {} || {debug: false, timeout: 10*1000, timeout_menu: 60*1000}, true);
 const COMMANDS = (CONFIG['commands'] || [])
-    .map((options) => yaml_to_js_dictionary(options))
+    .map((options) => yaml_to_js_dictionary(options, true))
     .map((options) => {
-        const { match } = options;
-        options['match'] = new RegExp(match);
+        const { aspects } = options;
+        const { match } = aspects;
+        aspects['match'] = new RegExp(match);
+        options['command'] = aspects;
         return options;
     });
 const DEFAULT_LANGUAGE = CONFIG['default-language'] || 'en';
@@ -42,20 +44,15 @@ const strip_botname = (text, botname) => {
 
 const get_translation = (lang, text) => (TRANSLATIONS.value(lang, text));
 const get_command_by_condition = (condition) => COMMANDS.filter(condition);
-const get_command_by_keyword = (text_, botname) => {
-    // extract information about bot addressed:
-    const { text, verified } = strip_botname(text_, botname);
-    if (!verified) return [];
-    // condition: bot names must match if command is strict, and keyword must match
-    const condition = ({keyword}) => ((!strict || botname == botname_) && (keyword === text));
-    return get_command_by_condition(condition);
-}
 const get_command_by_command = (text_, botname_) => {
     // extract information about bot addressed:
     const { text, botname, verified } = strip_botname(text_, botname_);
     if (!verified) return [];
     // condition: bot names must match if command is strict, and command must match
-    const condition = ({match, strict}) => ((!strict || botname == botname_) && match.test(text));
+    const condition = ({ aspects }) => {
+        const { match, strict } = aspects;
+        return ((!strict || botname == botname_) && match.test(text));
+    };
     return get_command_by_condition(condition);
 };
 
@@ -68,7 +65,6 @@ module.exports = {
     COMMANDS,
     DEFAULT_LANGUAGE,
     SUPPORTED_LANGUAGES,
-    get_command_by_keyword,
     get_command_by_command,
     get_translation
 };
