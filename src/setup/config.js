@@ -29,13 +29,34 @@ const TRANSLATIONS = new TranslatedTexts(LANGUAGE || {}, DEFAULT_LANGUAGE);
 /****************************************************************
  * METHODS
  ****************************************************************/
+const COMMAND_PATTERN = /^(.*?)\@(.*)$/;
+const strip_botname = (text, botname) => {
+    if (COMMAND_PATTERN.test(text)) {
+        const _text = text.replace(COMMAND_PATTERN, `$1`).trim();
+        const _botname = text.replace(COMMAND_PATTERN, `$2`).trim();
+        return { text: _text, botname: _botname, verified: botname == _botname };
+    }
+    const _text = text.trim();
+    return { text: _text, botname: '', verified: true };
+}
 
 const get_translation = (lang, text) => (TRANSLATIONS.value(lang, text));
 const get_command_by_condition = (condition) => COMMANDS.filter(condition);
-const get_command_by_keyword = (text) => get_command_by_condition(({keyword}) => (keyword === text));
-const get_command_by_command = (text) => {
-    const cmd = text.replace(/^(.*?)\@.*$/, `$1`);
-    return get_command_by_condition(({match}) => (match.test(cmd)));
+const get_command_by_keyword = (text_, botname) => {
+    // extract information about bot addressed:
+    const { text, verified } = strip_botname(text_, botname);
+    if (!verified) return [];
+    // condition: bot names must match if command is strict, and keyword must match
+    const condition = ({keyword}) => ((!strict || botname == botname_) && (keyword === text));
+    return get_command_by_condition(condition);
+}
+const get_command_by_command = (text_, botname_) => {
+    // extract information about bot addressed:
+    const { text, botname, verified } = strip_botname(text_, botname_);
+    if (!verified) return [];
+    // condition: bot names must match if command is strict, and command must match
+    const condition = ({match, strict}) => ((!strict || botname == botname_) && match.test(text));
+    return get_command_by_condition(condition);
 };
 
 /****************************************************************
