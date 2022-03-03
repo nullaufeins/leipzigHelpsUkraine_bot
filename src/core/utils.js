@@ -5,7 +5,18 @@
 //
 
 /****************************************************************
- * DEFINITIONS
+ * METHODS - strings, arrays
+ ****************************************************************/
+
+const split_non_empty_parts = (text) => {
+    text = text.trim();
+    return text === '' ? [] : text.split(/\s+/);
+}
+
+const take_one = (X) => ([X[0], X.slice(1)]);
+
+/****************************************************************
+ * METHODS - dict
  ****************************************************************/
 
 const yaml_key_to_js_key = (key) => (key.replace(/-/g, '_'));
@@ -24,5 +35,7 @@ const yaml_to_js_dictionary = (data, deep = false) => {
  ****************************************************************/
 
 module.exports = {
+    split_non_empty_parts,
+    take_one,
     yaml_to_js_dictionary,
 };
