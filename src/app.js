@@ -10,6 +10,7 @@ const {
 } = require.main.require('./src/setup/config.js');
 const {
     listener_on_message,
+    listener_on_text,
 } = require.main.require('./src/parts/listeners.js');
 
 /****************************************************************
@@ -59,6 +60,7 @@ class MyApp {
          * - 'text'
          * - 'message'
          ********************************/
+        this.bot.on('text', async (ctx) => {listener_on_text(this.bot, ctx, this.options);});
         this.bot.on('message', async (ctx) => {listener_on_message(this.bot, ctx, this.options);});
     }
 
