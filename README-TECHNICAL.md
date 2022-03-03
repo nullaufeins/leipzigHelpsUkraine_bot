@@ -37,7 +37,7 @@ The internal logic of the app has been refactored, in order to cleanly separate:
 - application data.
 
 Most feature changes can be performed by simply editing
-  [`./src/settings/config.yaml`](src/settings/config.yaml)
+  [`./setup/config.yaml`](setup/config.yaml)
   and
   [`./assets/language.yaml`](assets/language.yaml)
 for the config and data respectively.
@@ -49,7 +49,7 @@ and it very likely would suffice to just change the logic in the `universal_acti
 
 To add a new redirect button, the following parts have to be changed:
 
-- [./src/setup/config.yaml](src/setup/config.yaml) -> add a command
+- [./setup/config.yaml](setup/config.yaml) -> add a command
   (cf. commands like `/transport`, `/housing`, _etc._).
 - [./assets/language.yaml](assets/language.yaml) -> if necessary add translations for new keyword.
 
@@ -60,7 +60,7 @@ And that's it! No need to add any code!
 To add a new special command (amongst `/start`, `/help`, `/pin`, _etc._),
 the following parts have to be changed:
 
-- [./src/setup/config.yaml](src/setup/config.yaml) -> add a command.
+- [./setup/config.yaml](setup/config.yaml) -> add a command.
 - [./assets/language.yaml](assets/language.yaml) -> if necessary add translations for new keyword.
 - [./src/parts/actions.js](src/parts/actions.js) -> „ergänze“ `universal_action` to cater for new case.
   </br>One can also if necessary follow the logic backwards from there (`actions.js` <- `listeners.js` <- `app.js`), and adjust things that happen 'higher up'.

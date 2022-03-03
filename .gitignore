@@ -31,6 +31,9 @@
 !/assets
 !/assets/language.yaml
 
+!/setup
+!/setup/config.yaml
+
 !/dist
 !/dist/VERSION
 
