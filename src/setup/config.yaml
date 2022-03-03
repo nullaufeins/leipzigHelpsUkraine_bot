@@ -2,7 +2,7 @@ info:
   description: Internal configuration of app.
 options:
   debug: false # <- only set to true when developing.
-  show-side-menu: false
+  show-side-menu: true
   ################
   # Times in ms before bot response (inline resp. menu) are deleted.
   # Use negative (-) values, if no deletion should occur.
@@ -19,129 +19,216 @@ languages:
   - uk
   - pl
   - ru
-default-language: en
+default-language: &ref_default_lang en
 # ------------------------------------------------------------------------------------------------
 # COMMANDS
 # NOTE structure is as follows:
 #
-#   command:     '/...'
-#   keyword:     keyword for call_back_data AND on screen message.
-#   match:       regex to match commands.
-#   strict:      true => only those commands accepted, which address bot with @<botname>
-#   rights:      [ list of user stati who can use this command ]
-#   menu:        true/false - should appear in big menu?
-#   side-menu:
-#   * redirect:  if should be used as redirect command.
-#   * url:       redirect url
-#   * new_row:   true => button should be placed on new row
+#    aspects: # <- defines basic attributes fo command
+#      command:  '/...' # exact form of command to be registered.
+#      rights:   # [ list of user stati who can use this command ]
+#      strict:   # true => only those commands accepted, which address bot with @<botname>
+#      match:    # regex by which bot should recognise user input as command (after removing @ + trimming)
+#    * redirect: # url => if included command treated as redirection to url.
+#  * menu: # <- add this, if command should appear as a button in a menu
+#      keyword: # kw for text to appear in menu
+#    * lang:    # forces language of text (missing => use caller's language)
+#    * new_row: # true => button should be placed on new row; default = false.
+#  * side-menu: # <- add this, if command should appear in side-menu (suggestions)
+#      keyword: # kw for text to appear in side-menu
+#    * lang:    # forces language of text (missing => use caller's language)
+#    text: # <- for handling of inline text
+#      keyword: # kw for text to appear inline
+#    * lang:    # forces language of text (missing => use caller's language)
+#
+# (* = optional)
 #
 # Note: each keyword-attribute *must* correspond to a key from assets/translations.yml
 # Note: rights can be any subset of
 #  [creator, administrator, member]
 # ------------------------------------------------------------------------------------------------
 commands:
-  ## special commandos
-  - command:   '/hello'
-    keyword:   'hello-world-message'
-    match:     '^\/(hello|helloworld|hello-world)'
-    strict:    false
-    rights:    [administrator, creator]
-    menu:      false
-    side-menu: false
-  - &ref_pin_command
-    command:   '/pin'
-    keyword:   'pinned-message'
-    match:     '^\/(pin|pinned)$'
-    strict:    false
-    rights:    [administrator, creator]
-    menu:      false
-    side-menu: false
-  - <<: *ref_pin_command
-    command:   '/pin-all'
-    match:     '^\/(pin|pinned)(-all|-all-languages)$'
-  # - command:   '/start'
-  #   keyword:   'start-message'
-  #   match:     '^\/start$'
-  #   strict:    false
-  #   rights:    [administrator, creator]
-  #   menu:      false
-  #   side-menu: false
-  - command:   '/help'
-    keyword:   'help-message'
-    match:     '^\/(help|info)$'
-    strict:    false
-    rights:    [administrator, creator]
-    menu:      false
-    side-menu: false
-  ## menu commands
+  ################################################################
+  # START special commandos
+  - aspects:
+      command: '/hello'
+      rights:  [administrator, creator]
+      strict:  false
+      match:   '^\/hello(-?world)?$'
+    text:
+      keyword: hello-world-message
+  - aspects:
+      command: '/help'
+      rights:  [administrator, creator]
+      strict:  false
+      match:   '^\/help$'
+    side-menu:
+      keyword: help-message
+    text:
+      keyword: help-message
+  # END special commands
+  ################################################################
+  # START menu commands
   ## 1st row
-  - command:   '/transport'
-    keyword:   transport
-    match:     '^\/(transport|travel).*$'
-    strict:    false
-    rights:    [administrator, creator]
-    menu:      true
-    side-menu: true
-    redirect:  true
-    url:       '@transport_leipzig_ukraine'
-    new_row:   true
-  - command:   '/housing'
-    keyword:   housing
-    match:     '^\/(housing|a(c+)o(m+)odation|shelter|obdach)$'
-    strict:    false
-    rights:    [administrator, creator]
-    menu:      true
-    side-menu: true
-    redirect:  true
-    url:       '@accomodation_leipzig_ukraine'
+  - aspects:
+      command:  '/transport'
+      rights:   [administrator, creator]
+      strict:   false
+      match:    '^\/(transport|travel).*$'
+      redirect: '@transport_leipzig_ukraine'
+    menu:
+      keyword: transport
+      new_row: true
+    side-menu:
+      keyword: transport-desc
+    text:
+      keyword: redirect-message
+  - aspects:
+      command:  '/housing'
+      rights:   [administrator, creator]
+      strict:   false
+      match:    '^\/(housing|a(c+)o(m+)odation|shelter|obdach)$'
+      redirect: '@accomodation_leipzig_ukraine'
+    menu:
+      keyword: housing
+      new_row: true
+    side-menu:
+      keyword: housing-desc
+    text:
+      keyword: redirect-message
   ## 2nd row
-  - command:   '/translations'
-    rights:    [administrator, creator]
-    keyword:   translations
-    match:     '^\/(translation(s|)|language(s|)|dolmetsch.*)$'
-    strict:    false
-    menu:      true
-    side-menu: true
-    redirect:  true
-    url:       '@translators_leipzig_ukraine'
-    new_row:   true
-  - command:   '/legal'
-    rights:    [administrator, creator]
-    keyword:   legal
-    match:     '^\/(legal.*|law|jura|jurist.*|rights)$'
-    strict:    false
-    menu:      true
-    side-menu: true
-    redirect:  true
-    url:       '@legal_leipzig_ukraine'
+  - aspects:
+      command:  '/translations'
+      rights:   [administrator, creator]
+      strict:   false
+      match:    '^\/(translation(s|)|language(s|)|dolmetsch.*)$'
+      redirect: '@translators_leipzig_ukraine'
+    menu:
+      keyword: translations
+      new_row: true
+    side-menu:
+      keyword: translations-desc
+    text:
+      keyword: redirect-message
+  - aspects:
+      command:  '/legal'
+      rights :  [administrator, creator]
+      redirect: '@legal_leipzig_ukraine'
+      match:    '^\/(legal.*|law|jura|jurist.*|rights)$'
+    menu:
+      keyword: legal
+    side-menu:
+      keyword: legal-desc
+    text:
+      keyword: redirect-message
   ## 3rd row
-  - command:   '/donations'
-    rights:    [administrator, creator]
-    keyword:   donations
-    match:     '^\/(donation|charity|spenden|give.*|gifts)$'
-    strict:    false
-    menu:      true
-    side-menu: true
-    redirect:  true
-    url:       '@donations_leipzig_ukraine'
-    new_row:   true
+  - aspects:
+      command:  '/donations'
+      rights:   [administrator, creator]
+      strict:   false
+      match:    '^\/(donation|charity|spenden|give.*|gifts)$'
+      redirect: '@donations_leipzig_ukraine'
+    menu:
+      keyword: donations
+      new_row: true
+    side-menu:
+      keyword: donations-desc
+    text:
+      keyword: redirect-message
   ## 4th row
-  - command:   '/homepage'
-    rights:    [administrator, creator]
-    keyword:   homepage
-    match:     '^\/(homepage|web|website|webpage)$'
-    strict:    false
-    menu:      true
-    side-menu: true
-    redirect:  true
-    url:       'http://leipzig-helps-ukraine.de/'
+  - aspects:
+      command:  '/homepage'
+      rights:   [administrator, creator]
+      strict:   false
+      match:    '^\/(homepage|web|website|webpage)$'
+      redirect: http://leipzig-helps-ukraine.de/'
+    menu:
+      keyword: homepage
+      new_row: true
+    side-menu:
+      keyword: homepage-desc
+    text:
+      keyword: redirect-message
     new_row:   true
-  - command:   '/feedback'
-    rights:    [administrator, creator]
-    keyword:   feedback
-    match:     '^\/(feedback|review)$'
-    strict:    false
-    menu:      true
-    side-menu: true
-    redirect:  true
-    url:       '@feedback_leipzig_ukraine'
+  - aspects:
+      command:  '/feedback'
+      rights :  [administrator, creator]
+      redirect: '@feedback_leipzig_ukraine'
+      match:    '^\/(feedback|review)$'
+    menu:
+      keyword: feedback
+    side-menu:
+      keyword: feedback-desc
+    text:
+      keyword: redirect-message
+  # END menu commands
+  ################################################################
+  # START special commands - variants of /pin
+  - aspects: &ref_command_pin
+      command: '/pin'
+      rights:  [administrator, creator]
+      strict:  false
+      match:   '^\/pin(ned)?$'
+    side-menu:
+      lang:    *ref_default_lang
+      keyword: pinned-short
+    text:
+      keyword: pinned-message
+  - aspects:
+      <<: *ref_command_pin
+      command: '/pin_all'
+      match:   '^\/pin(ned)?[-_]all$'
+    text:
+      keyword: pinned-message
+  - aspects:
+      <<: *ref_command_pin
+      command: '/pin_de'
+      match:   '^\/pin(ned)?[-_](de|deu)$'
+    side-menu:
+      lang:    de
+      keyword: pinned-short
+    text:
+      lang:    de
+      keyword: pinned-message
+  - aspects:
+      <<: *ref_command_pin
+      command: '/pin_en'
+      match:   '^\/pin(ned)?[-_]en$'
+    side-menu:
+      lang:    en
+      keyword: pinned-short
+    text:
+      lang:    en
+      keyword: pinned-message
+  - aspects:
+      <<: *ref_command_pin
+      command: '/pin_pl'
+      match:   '^\/pin(ned)?[-_]pl$'
+    side-menu:
+      lang:    pl
+      keyword: pinned-short
+    text:
+      lang:    pl
+      keyword: pinned-message
+  - aspects:
+      <<: *ref_command_pin
+      command: '/pin_ru'
+      match:   '^\/pin(ned)?[-_]ru$'
+    side-menu:
+      lang:    ru
+      keyword: pinned-short
+    text:
+      lang:    ru
+      keyword: pinned-message
+  - aspects:
+      <<: *ref_command_pin
+      command: '/pin_uk'
+      match:   '^\/pin(ned)?[-_](uk|ukr|ua)$'
+    side-menu:
+      lang:    uk
+      keyword: pinned-short
+    text:
+      lang:    uk
+      keyword: pinned-message
+  # END variants of /pin
+  ################################################################

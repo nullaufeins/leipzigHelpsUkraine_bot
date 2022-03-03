@@ -5,13 +5,20 @@
 Admins have access to the following commands:
 
 - Special commands:
-  - `/info` or: `/help`    - displays main menu.
-  - `/pin`     - displays and pins main menu in group
-    </br>
-    (in the language of admin).
-  - `/pin-all` - displays and pins main menu in group
-    </br>
-    (in all languages — use with care!!).
+  - `/help`    - displays main menu.
+  - `/pin` - displays **and pins** main menu in group.
+    There are the following variants:
+
+    | Variant    | Output languge of post  |
+    | :--------- | :---------------------- |
+    | `/pin`     | Defaults to English     |
+    | `/pin_de`  | German                  |
+    | `/pin_en`  | English                 |
+    | `/pin_pl`  | Polish                  |
+    | `/pin_ru`  | Russian                 |
+    | `/pin_uk`  | Ukrainian               |
+    | `/pin_all` | all - use with caution! |
+
 - Redirect commands:
   - Quick link to telegram-subgroups:
     ```

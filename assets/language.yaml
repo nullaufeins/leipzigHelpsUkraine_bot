@@ -11,8 +11,14 @@ welcome-message: &ref_welcome_message
   uk: 'Привіт, @%s! Ми намагаємося координувати пропозиції підтримки та запити.'
 hello-world-message: # only for testing
   <<: *ref_welcome_message
+pinned-short:
+  de: '📌 Menü mit Weiterleitungen anheften'
+  en: '📌 Pin menu with redirects'
+  pl: '📌 Przypnij menu z przekierowaniami'
+  ru: '📌 Закрепить меню с редиректами'
+  uk: '📌 Закріпити меню з переадресаціями'
 pinned-message:
-  de: '🌻!Pls READ / BITTE LESEN! Wir versuchen, Hilfsangebote und Anfragen zu koordinieren. Bitte eine Option wählen.'
+  de: '🌻!BITTE LESEN! Wir versuchen, Hilfsangebote und Anfragen zu koordinieren. Bitte eine Option wählen.'
   en: '🌻!Pls README first! We want to coordinate offers of help and requests. Please choose a topic.'
   pl: '🌻!Proszę najpierw PRZECZYTAĆ! Staramy się koordynować propozycje i prośby o wsparcie. Wybierz temat.'
   ru: '🌻!ПРОЧИТАЙТЕ сначала! Мы стараемся координировать предложения и запросы о помощи. Выберите соответствующую тему.'
@@ -102,9 +108,17 @@ homepage:
   pl: 'www | 🌐'
   ru: 'www | 🌐'
   uk: 'www | 🌐'
-feedback:
+homepage-desc:
+  de: 'Webseite der Gruppe'
+  en: 'Website of the group'
+  pl: 'Strona internetowa grupy'
+  ru: 'Сайт группы'
+  uk: 'Веб-сайт групи'
+feedback: &ref_feedback
   de: 'Feedback zum 🤖'
   en: 'Feedback for 🤖'
   pl: 'Opinie na 🤖'
   ru: 'Отзыв о 🤖'
   uk: 'Відгук про 🤖'
+feedback-desc:
+  <<: *ref_feedback

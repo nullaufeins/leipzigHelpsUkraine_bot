@@ -24,115 +24,98 @@ const {
 const universal_action = async (bot, ctx, command_options, { debug }) => {
     const user = await get_user_from_context(bot, ctx);
     const msg = ctx.update.message;
-    const { command } = command_options;
+    const { aspects, text } = command_options;
+    const { command, rights } = aspects;
 
-    // // special treatment if new chat member:
-    // if ('new_chat_members' in msg) {
-    //     return action_on_new_member(bot, user, msg, options);
-    // }
+    /*
+    NOTE: Not currently implemented.
 
-    if (('redirect' in command_options) && command_options.redirect) {
-        return action_on_redirect(bot, user, msg, command_options);
+    // special treatment if new chat member:
+    if ('new_chat_members' in msg) {
+        ...
+    }
+    */
+
+    if (!user_has_rights(user, rights)) return;
+
+    if ('redirect' in aspects) {
+        return action_on_redirect(bot, msg, aspects, text);
     }
 
     switch (command) {
-        // use this to pin message in the language of the caller:
-        case '/pin':
-            return action_on_pin(bot, user, msg, command_options);
-        // use this to show all languages:
-        case '/pin-all':
-            return action_on_pin_all_languages(bot, user, msg, command_options);
+        case '/pin_all':
+            return action_on_pin_all_languages(bot, msg, text);
+        case command.match(/^\/pin(?:|_(.*))$/)?.input:
+            return action_on_pin_one_language(bot, msg, text);
         case '/hello':
             if (!debug) return;
-            return action_on_hello(bot, user, msg, command_options);
-        case '/start':
-            return action_on_start(bot, user, msg, command_options);
+            return action_on_hello(bot, msg, text);
         case '/help':
-            return action_on_help(bot, user, msg, command_options);
+            return action_on_help(bot, msg, text);
         default:
             return;
     }
 }
 
-const action_on_pin = async (bot, user, msg, command_options) => {
+const action_on_pin_one_language = async (bot, msg, { keyword, lang }) => {
     const chatId = msg.chat.id;
-    const lang = msg.from.language_code;
-    const { keyword, rights } = command_options;
-    if (!user_has_rights(user, rights)) return;
-
+    lang = lang || DEFAULT_LANGUAGE;
+    // post menu:
     const responseText = get_translation(lang, keyword);
     const options = get_main_menu_inline(lang);
     const reply = await bot.telegram.sendMessage(chatId, responseText, options);
+    // pin menu:
     const messageId = reply.message_id;
     return bot.telegram.pinChatMessage(chatId, messageId, {disable_notification: true});
 }
 
-const action_on_pin_all_languages = async (bot, user, msg, command_options) => {
+const action_on_pin_all_languages = async (bot, msg, { keyword }) => {
     const chatId = msg.chat.id;
-    const { keyword, rights } = command_options;
-    if (!user_has_rights(user, rights)) return;
-
     let index = 0;
     let messageId = -1;
     for (const lang of SUPPORTED_LANGUAGES) {
+        // post menu:
         const responseText = get_translation(lang, keyword);
         const options = get_main_menu_inline(lang);
         const reply = await bot.telegram.sendMessage(chatId, responseText, options);
         if (index == 0) messageId = reply.message_id;
         index += 1;
     }
-    return bot.telegram.pinChatMessage(chatId, messageId, {disable_notification: true});
+    // pin 1st menu:
+    if (messageId >= 0) {
+        return bot.telegram.pinChatMessage(chatId, messageId, {disable_notification: true});
+    }
 }
 
-const action_on_new_member = async (bot, user, msg, command_options) => {
+const action_on_hello = async (bot, msg, { keyword, lang }) => {
     const username = user.username;
     const chatId = msg.chat.id;
-    const lang = msg.from.language_code;
-    const { keyword, rights } = command_options;
-    if (!user_has_rights(user, rights)) return;
-
-    const responseText = sprintf(get_translation(lang, 'welcome-message'), username);
-    const options = get_main_menu_inline(lang);
-    return bot.telegram.sendMessage(chatId, responseText, options);
-}
-
-const action_on_hello = async (bot, user, msg, command_options) => {
-    const username = user.username;
-    const chatId = msg.chat.id;
-    const lang = msg.from.language_code;
-    const { keyword, rights } = command_options;
-    if (!user_has_rights(user, rights)) return;
-
+    const lang_caller = msg.from.language_code;
+    lang = lang || lang_caller;
+    // post text:
     const responseText = sprintf(get_translation(lang, keyword), username);
     const options = get_message_options_basic();
     return bot.telegram.sendMessage(chatId, responseText, options);
 }
 
-const action_on_help = async (bot, user, msg, command_options) => {
+const action_on_help = async (bot, msg, { keyword, lang }) => {
     const chatId = msg.chat.id;
-    const lang = msg.from.language_code;
-    const { keyword, rights } = command_options;
-    if (!user_has_rights(user, rights)) return;
-
+    const lang_caller = msg.from.language_code;
+    lang = lang || lang_caller;
+    // post menu:
     const responseText = get_translation(lang, keyword);
     const options = get_main_menu_inline(lang);
     return bot.telegram.sendMessage(chatId, responseText, options);
 };
 
-const action_on_start = async (bot, user, msg, command_options) => {
-    return action_on_help(bot, user, msg, command_options);
-};
-
-const action_on_redirect = async (bot, user, msg, command_options) => {
+const action_on_redirect = async (bot, msg, { redirect }, { keyword, lang }) => {
     const chatId = msg.chat.id;
-    const lang = msg.from.language_code;
-    const { rights } = command_options;
-    if (!user_has_rights(user, rights)) return;
-
-    const { url } = command_options;
-    const message = get_translation(lang, 'redirect-message');
+    const lang_caller = msg.from.language_code;
+    lang = lang || lang_caller;
+    // post text with link:
+    const message = get_translation(lang, keyword);
+    const responseText = `${message}: ${redirect}`;
     const options = get_message_options_basic();
-    const responseText = `${message}: ${url}`;
     return bot.telegram.sendMessage(chatId, responseText, options);
 };
 
