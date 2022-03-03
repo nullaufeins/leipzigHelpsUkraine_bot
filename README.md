@@ -11,15 +11,10 @@ Admins have access to the following commands:
   - `/pin` - displays **and pins** main menu in group.
     There are the following variants:
 
-    | Variant    | Output languge of post  |
+    | Variant    | Output language of post |
     | :--------- | :---------------------- |
     | `/pin`     | Defaults to English     |
     | `/pin_de`  | German                  |
-    | `/pin_en`  | English                 |
-    | `/pin_pl`  | Polish                  |
-    | `/pin_ru`  | Russian                 |
-    | `/pin_uk`  | Ukrainian               |
-    | `/pin_all` | all - use with caution! |
 
 - Redirect commands:
   - Quick link to telegram-subgroups:
@@ -35,11 +30,37 @@ Admins have access to the following commands:
 
 ### Advanced ###
 
-Admins may also call
+For greater control, admins may also send commands with arguments directly to the bot via:
 
 ```md
 @<botname> command [args...]
 ```
+
+The following commands + optional args are available.
+
+| Command                        | Behaviour                                                 |
+| :----------------------------- | :-------------------------------------------------------- |
+| `@<botname> pin [xx]`          | Pin command (default English, otherwise in language xx)   |
+| `@<botname> pin all`           | Pin command - posts menu in all languages and pins 1st    |
+| `@<botname> help [xx]`         | Pin command - posts menu in all languages and pins 1st    |
+| `@<botname> transport [xx]`    | Quick link to subgroup (default in en, else language xx). |
+| `@<botname> housing [xx]`      | " |
+| `@<botname> translations [xx]` | " |
+| `@<botname> legal [xx]`        | " |
+| `@<botname> donations [xx]`    | " |
+| `@<botname> homepage [xx]`     | Posts link to webpage (default in en, else language xx).  |
+| `@<botname> feedback [xx]`     | Quick link to to subgroup for feedback.                   |
+
+Here, `[...]` means that the argument is optional,
+</br>
+and `xx` can be any of the following language codes:
+
+| Code  | Language   |
+| :---- | :--------- |
+| `en`  | English    |
+| `pl`  | Polish     |
+| `ru`  | Russian    |
+| `uk`  | Ukrainian  |
 
 _e.g._
 
@@ -50,7 +71,6 @@ _e.g._
 
 prints the help menu in Polish, shows the redirect link to legal issues in Ukrainian,
 _etc._ regardless of the user's language setting.
-This can be done with any command.
 
 ## Setup ##
 
