@@ -43,9 +43,11 @@ const universal_action = async (bot, ctx, command_options, arguments, { debug })
     }
 
     switch (command) {
-        case '/pin_all':
-            return action_on_pin_all_languages(bot, arguments, msg, text);
         case command.match(/^\/pin(?:|_(.*))$/)?.input:
+            const [ flag ] = arguments;
+            if (flag === 'all') {
+                return action_on_pin_all_languages(bot, msg, text);
+            }
             return action_on_pin_one_language(bot, arguments, msg, text);
         case '/hello':
             if (!debug) return;
@@ -69,11 +71,11 @@ const action_on_pin_one_language = async (bot, [ lang_arg ], msg, { keyword, lan
     return bot.telegram.pinChatMessage(chatId, messageId, {disable_notification: true});
 }
 
-const action_on_pin_all_languages = async (bot, arguments, msg, { keyword }) => {
+const action_on_pin_all_languages = async (bot, msg, { keyword }) => {
     const chatId = msg.chat.id;
     let index = 0;
     let messageId = -1;
-    for (const lang of arguments || SUPPORTED_LANGUAGES) {
+    for (const lang of SUPPORTED_LANGUAGES) {
         // post menu:
         const responseText = get_translation(lang, keyword);
         const options = get_main_menu_inline(lang);
