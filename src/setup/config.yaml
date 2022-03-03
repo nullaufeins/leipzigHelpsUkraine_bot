@@ -54,14 +54,14 @@ commands:
       command: '/hello'
       rights:  [administrator, creator]
       strict:  false
-      match:   '^\/hello(-?world)?$'
+      match:   '^hello(-?world)?$'
     text:
       keyword: hello-world-message
   - aspects:
       command: '/help'
       rights:  [administrator, creator]
       strict:  false
-      match:   '^\/help$'
+      match:   '^help$'
     side-menu:
       keyword: help-message
     text:
@@ -74,7 +74,7 @@ commands:
       command:  '/transport'
       rights:   [administrator, creator]
       strict:   false
-      match:    '^\/(transport|travel).*$'
+      match:    '^(transport|travel).*$'
       redirect: '@transport_leipzig_ukraine'
     menu:
       keyword: transport
@@ -87,7 +87,7 @@ commands:
       command:  '/housing'
       rights:   [administrator, creator]
       strict:   false
-      match:    '^\/(housing|a(c+)o(m+)odation|shelter|obdach)$'
+      match:    '^(housing|a(c+)o(m+)odation|shelter|obdach)$'
       redirect: '@accomodation_leipzig_ukraine'
     menu:
       keyword: housing
@@ -101,7 +101,7 @@ commands:
       command:  '/translations'
       rights:   [administrator, creator]
       strict:   false
-      match:    '^\/(translation(s|)|language(s|)|dolmetsch.*)$'
+      match:    '^(translation(s|)|language(s|)|dolmetsch.*)$'
       redirect: '@translators_leipzig_ukraine'
     menu:
       keyword: translations
@@ -114,7 +114,7 @@ commands:
       command:  '/legal'
       rights :  [administrator, creator]
       redirect: '@legal_leipzig_ukraine'
-      match:    '^\/(legal.*|law|jura|jurist.*|rights)$'
+      match:    '^(legal.*|law|jura|jurist.*|rights)$'
     menu:
       keyword: legal
     side-menu:
@@ -126,7 +126,7 @@ commands:
       command:  '/donations'
       rights:   [administrator, creator]
       strict:   false
-      match:    '^\/(donation|charity|spenden|give.*|gifts)$'
+      match:    '^(donation|charity|spenden|give.*|gifts)$'
       redirect: '@donations_leipzig_ukraine'
     menu:
       keyword: donations
@@ -140,7 +140,7 @@ commands:
       command:  '/homepage'
       rights:   [administrator, creator]
       strict:   false
-      match:    '^\/(homepage|web|website|webpage)$'
+      match:    '^(homepage|web|website|webpage)$'
       redirect: http://leipzig-helps-ukraine.de/'
     menu:
       keyword: homepage
@@ -154,7 +154,7 @@ commands:
       command:  '/feedback'
       rights :  [administrator, creator]
       redirect: '@feedback_leipzig_ukraine'
-      match:    '^\/(feedback|review)$'
+      match:    '^(feedback|review)$'
     menu:
       keyword: feedback
     side-menu:
@@ -168,7 +168,7 @@ commands:
       command: '/pin'
       rights:  [administrator, creator]
       strict:  false
-      match:   '^\/pin(ned)?$'
+      match:   '^pin(ned)?$'
     side-menu:
       lang:    *ref_default_lang
       keyword: pinned-short
@@ -177,13 +177,13 @@ commands:
   - aspects:
       <<: *ref_command_pin
       command: '/pin_all'
-      match:   '^\/pin(ned)?[-_]all$'
+      match:   '^pin(ned)?[-_]all$'
     text:
       keyword: pinned-message
   - aspects:
       <<: *ref_command_pin
       command: '/pin_de'
-      match:   '^\/pin(ned)?[-_](de|deu)$'
+      match:   '^pin(ned)?[-_](de|deu)$'
     side-menu:
       lang:    de
       keyword: pinned-short
@@ -193,7 +193,7 @@ commands:
   - aspects:
       <<: *ref_command_pin
       command: '/pin_en'
-      match:   '^\/pin(ned)?[-_]en$'
+      match:   '^pin(ned)?[-_]en$'
     side-menu:
       lang:    en
       keyword: pinned-short
@@ -203,7 +203,7 @@ commands:
   - aspects:
       <<: *ref_command_pin
       command: '/pin_pl'
-      match:   '^\/pin(ned)?[-_]pl$'
+      match:   '^pin(ned)?[-_]pl$'
     side-menu:
       lang:    pl
       keyword: pinned-short
@@ -213,7 +213,7 @@ commands:
   - aspects:
       <<: *ref_command_pin
       command: '/pin_ru'
-      match:   '^\/pin(ned)?[-_]ru$'
+      match:   '^pin(ned)?[-_]ru$'
     side-menu:
       lang:    ru
       keyword: pinned-short
@@ -223,7 +223,7 @@ commands:
   - aspects:
       <<: *ref_command_pin
       command: '/pin_uk'
-      match:   '^\/pin(ned)?[-_](uk|ukr|ua)$'
+      match:   '^pin(ned)?[-_](uk|ukr|ua)$'
     side-menu:
       lang:    uk
       keyword: pinned-short
