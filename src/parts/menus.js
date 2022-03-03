@@ -69,7 +69,7 @@ const create_url = (text) => {
     if (pattern.test(text)) {
         return text.replace(pattern, `https://t.me/$1`);
     }
-    pattern = /^[^:]:\/{2}.*/;
+    pattern = /^[^:]+:\/{2}.*/;
     if (pattern.test(text)) {
         return text;
     }
