@@ -202,9 +202,6 @@ commands:
       <<: *ref_command_pin
       command: '/pin_en'
       match:   '^pin(ned)?[-_]en$'
-    side-menu:
-      lang:    en
-      keyword: pinned-short
     text:
       lang:    en
       keyword: pinned-message
@@ -212,9 +209,6 @@ commands:
       <<: *ref_command_pin
       command: '/pin_pl'
       match:   '^pin(ned)?[-_]pl$'
-    side-menu:
-      lang:    pl
-      keyword: pinned-short
     text:
       lang:    pl
       keyword: pinned-message
@@ -222,9 +216,6 @@ commands:
       <<: *ref_command_pin
       command: '/pin_ru'
       match:   '^pin(ned)?[-_]ru$'
-    side-menu:
-      lang:    ru
-      keyword: pinned-short
     text:
       lang:    ru
       keyword: pinned-message
@@ -232,9 +223,6 @@ commands:
       <<: *ref_command_pin
       command: '/pin_uk'
       match:   '^pin(ned)?[-_](uk|ukr|ua)$'
-    side-menu:
-      lang:    uk
-      keyword: pinned-short
     text:
       lang:    uk
       keyword: pinned-message
