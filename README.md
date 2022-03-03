@@ -31,7 +31,7 @@ Admins have access to the following commands:
   - `/homepage` - browser link to webpage.
   - `/feedback` - telegram-link to sub group for technical feedback for bot.
 
-*Please enter `/` in the message input box to choose the command from a selection. This will prevent typo errors!*
+**Please enter `/` in the message input box to choose the command from a selection. This will prevent typo errors!**
 
 ## Setup ##
 
