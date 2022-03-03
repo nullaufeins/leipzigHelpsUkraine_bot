@@ -134,7 +134,7 @@ commands:
       command:  '/donations'
       rights:   [administrator, creator]
       strict:   false
-      match:    '^(donation|charity|spenden|give.*|gifts)$'
+      match:    '^(donation(s?)|charit(y|ies)|spenden|give|giving|gift(s?))$'
       redirect: '@donations_leipzig_ukraine'
     menu:
       keyword: donations
