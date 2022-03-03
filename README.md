@@ -33,6 +33,25 @@ Admins have access to the following commands:
   - `/homepage` - browser link to webpage.
   - `/feedback` - telegram-link to sub group for technical feedback for bot.
 
+### Advanced ###
+
+Admins may also call
+
+```md
+@<botname> command [args...]
+```
+
+_e.g._
+
+```md
+@<botname> help pl
+@<botname> legal uk
+```
+
+prints the help menu in Polish, shows the redirect link to legal issues in Ukrainian,
+_etc._ regardless of the user's language setting.
+This can be done with any command.
+
 ## Setup ##
 
 Set up `.env` as
