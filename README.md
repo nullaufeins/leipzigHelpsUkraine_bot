@@ -5,7 +5,7 @@
 Admins have access to the following commands:
 
 - Special commands:
-  - `/help`    - displays main menu.
+  - `/help`    - displays main menu (in the language of the admin using the command)
   - `/pin` - displays **and pins** main menu in group.
     There are the following variants:
 
