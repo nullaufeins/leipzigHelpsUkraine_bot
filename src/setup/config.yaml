@@ -1,14 +1,22 @@
 info:
   description: Internal configuration of app.
 options:
-  debug: false # <- only set to true when developing.
+  ################
+  # only set to true during development. Do NOT commit with 'debug: true'!
+  debug: false
+  ################
+  # true => shows suggests when user starts typing /...
   show-side-menu: true
   ################
+  # true => listens to all texts; false => only listens to messages starting with /...
+  listen-to-text: true
+  ################
+  # NOTE: The following parameters are no longer in use.
   # Times in ms before bot response (inline resp. menu) are deleted.
   # Use negative (-) values, if no deletion should occur.
-  ################
   timeout:       -5000
   timeout-menu: -10000
+  ################
 # ------------------------------------------------------------------------------------------------
 # SUPPORTED LANGUAGES
 # Note: use ISO-639-1 alpha-2 format; e.g. uk (not ua) for Ukrainian.
