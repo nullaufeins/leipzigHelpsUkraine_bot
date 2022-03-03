@@ -184,12 +184,6 @@ commands:
       keyword: pinned-message
   - aspects:
       <<: *ref_command_pin
-      command: '/pin_all'
-      match:   '^pin(ned)?[-_]all$'
-    text:
-      keyword: pinned-message
-  - aspects:
-      <<: *ref_command_pin
       command: '/pin_de'
       match:   '^pin(ned)?[-_](de|deu)$'
     side-menu:
@@ -200,29 +194,11 @@ commands:
       keyword: pinned-message
   - aspects:
       <<: *ref_command_pin
-      command: '/pin_en'
-      match:   '^pin(ned)?[-_]en$'
-    text:
-      lang:    en
-      keyword: pinned-message
-  - aspects:
-      <<: *ref_command_pin
-      command: '/pin_pl'
-      match:   '^pin(ned)?[-_]pl$'
-    text:
-      lang:    pl
-      keyword: pinned-message
-  - aspects:
-      <<: *ref_command_pin
-      command: '/pin_ru'
-      match:   '^pin(ned)?[-_]ru$'
-    text:
-      lang:    ru
-      keyword: pinned-message
-  - aspects:
-      <<: *ref_command_pin
       command: '/pin_uk'
       match:   '^pin(ned)?[-_](uk|ukr|ua)$'
+    side-menu:
+      lang:    uk
+      keyword: pinned-short
     text:
       lang:    uk
       keyword: pinned-message

@@ -15,6 +15,7 @@ Admins have access to the following commands:
     | :--------- | :---------------------- |
     | `/pin`     | Defaults to English     |
     | `/pin_de`  | German                  |
+    | `/pin_uk`  | Ukrainian               |
 
 - Redirect commands:
   - Quick link to telegram-subgroups:
