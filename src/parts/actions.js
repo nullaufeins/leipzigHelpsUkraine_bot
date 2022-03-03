@@ -100,8 +100,7 @@ const action_on_hello = async (bot, [ lang_arg ], msg, { keyword, lang }) => {
 
 const action_on_help = async (bot, [ lang_arg ], msg, { keyword, lang }) => {
     const chatId = msg.chat.id;
-    const lang_caller = msg.from.language_code;
-    lang = lang || lang_arg || lang_caller;
+    lang = lang || lang_arg || DEFAULT_LANGUAGE;
     // post menu:
     const responseText = get_translation(lang, keyword);
     const options = get_main_menu_inline(lang);
@@ -110,8 +109,7 @@ const action_on_help = async (bot, [ lang_arg ], msg, { keyword, lang }) => {
 
 const action_on_redirect = async (bot, [ lang_arg ], msg, { redirect }, { keyword, lang }) => {
     const chatId = msg.chat.id;
-    const lang_caller = msg.from.language_code;
-    lang = lang || lang_arg || lang_caller;
+    lang = lang || lang_arg || DEFAULT_LANGUAGE;
     // post text with link:
     const message = get_translation(lang, keyword);
     const responseText = `${message}: ${redirect}`;
