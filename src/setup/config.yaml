@@ -61,14 +61,14 @@ commands:
   - aspects:
       command: '/hello'
       rights:  [administrator, creator]
-      strict:  false
+      strict:  true
       match:   '^hello(-?world)?$'
     text:
       keyword: hello-world-message
   - aspects:
       command: '/help'
       rights:  [administrator, creator]
-      strict:  false
+      strict:  true
       match:   '^help$'
     side-menu:
       keyword: help-message
@@ -81,7 +81,7 @@ commands:
   - aspects:
       command:  '/transport'
       rights:   [administrator, creator]
-      strict:   false
+      strict:   true
       match:    '^(transport|travel).*$'
       redirect: '@transport_leipzig_ukraine'
     menu:
@@ -94,7 +94,7 @@ commands:
   - aspects:
       command:  '/housing'
       rights:   [administrator, creator]
-      strict:   false
+      strict:   true
       match:    '^(housing|a(c+)o(m+)odation|shelter|obdach)$'
       redirect: '@accomodation_leipzig_ukraine'
     menu:
@@ -108,8 +108,8 @@ commands:
   - aspects:
       command:  '/translations'
       rights:   [administrator, creator]
-      strict:   false
-      match:    '^(translation(s|)|language(s|)|dolmetsch.*)$'
+      strict:   true
+      match:    '^(translation(s?)|language(s?)|dolmetsch.*)$'
       redirect: '@translators_leipzig_ukraine'
     menu:
       keyword: translations
@@ -121,6 +121,7 @@ commands:
   - aspects:
       command:  '/legal'
       rights :  [administrator, creator]
+      strict:   true
       redirect: '@legal_leipzig_ukraine'
       match:    '^(legal.*|law|jura|jurist.*|rights)$'
     menu:
@@ -133,7 +134,7 @@ commands:
   - aspects:
       command:  '/donations'
       rights:   [administrator, creator]
-      strict:   false
+      strict:   true
       match:    '^(donation(s?)|charit(y|ies)|spenden|give|giving|gift(s?))$'
       redirect: '@donations_leipzig_ukraine'
     menu:
@@ -147,7 +148,7 @@ commands:
   - aspects:
       command:  '/homepage'
       rights:   [administrator, creator]
-      strict:   false
+      strict:   true
       match:    '^(homepage|web|website|webpage)$'
       redirect: http://leipzig-helps-ukraine.de/'
     menu:
@@ -161,6 +162,7 @@ commands:
   - aspects:
       command:  '/feedback'
       rights :  [administrator, creator]
+      strict:   true
       redirect: '@feedback_leipzig_ukraine'
       match:    '^(feedback|review)$'
     menu:
@@ -175,7 +177,7 @@ commands:
   - aspects: &ref_command_pin
       command: '/pin'
       rights:  [administrator, creator]
-      strict:  false
+      strict:  true
       match:   '^pin(ned)?$'
     side-menu:
       lang:    *ref_default_lang
