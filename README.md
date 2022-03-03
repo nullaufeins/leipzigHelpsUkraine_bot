@@ -33,6 +33,10 @@ Admins have access to the following commands:
   - `/homepage` - browser link to webpage.
   - `/feedback` - telegram-link to sub group for technical feedback for bot.
 
+## Shutdown bot ##
+
+If you need to shut down the bot remove it from the telegram group.
+
 ## Setup ##
 
 Set up `.env` as
