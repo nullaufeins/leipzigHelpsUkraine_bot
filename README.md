@@ -72,6 +72,11 @@ _e.g._
 
 prints the help menu in Polish, shows the redirect link to legal issues in Ukrainian,
 _etc._ regardless of the user's language setting.
+## Shutdown bot ##
+
+To shut down the bot, the easiest way is to remove it from the telegram group.
+
+(It can always be added again at a later stage.)
 
 ## Setup ##
 
