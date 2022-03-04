@@ -12,34 +12,37 @@ const {
  ****************************************************************/
 
 // Creates inline keyboard categories for the user to select from
-const get_main_menu_inline = (lang) => {
+const get_main_menu_inline = (lang, reply_to_msg = undefined) => {
     return {
         reply_markup: {
             inline_keyboard: create_rows(lang),
             disable_notification: true,
-            // parse_mode: 'markdown', // <- does not work
+            parse_mode: 'MarkdownV2',
         },
+        reply_to_message_id: reply_to_msg === undefined ? undefined : reply_to_msg.message_id,
     };
 };
 
-const get_main_menu_hidden = (lang) => (
+const get_main_menu_hidden = (lang, reply_to_msg = undefined) => (
     {
         reply_markup: {
             keyboard: create_rows(lang),
             resize_keyboard: true,
             one_time_keyboard: true,
             disable_notification: true,
-            // parse_mode: 'markdown', // <- does not work
+            parse_mode: 'MarkdownV2',
         },
+        reply_to_message_id: reply_to_msg === undefined ? undefined : reply_to_msg.message_id,
     }
 );
 
-const get_message_options_basic = () => (
+const get_message_options_basic = (reply_to_msg = undefined) => (
     {
         reply_markup: {
             disable_notification: true,
-            // parse_mode: 'markdown', // <- does not work
+            parse_mode: 'MarkdownV2',
         },
+        reply_to_message_id: reply_to_msg === undefined ? undefined : reply_to_msg.message_id,
     }
 );
 
