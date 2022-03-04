@@ -31,11 +31,11 @@ options:
 # Note: use ISO-639-1 alpha-2 format; e.g. uk (not ua) for Ukrainian.
 # ------------------------------------------------------------------------------------------------
 languages:
-  - en
-  - de
-  - uk
-  - pl
-  - ru
+  en: '^(en)$'
+  de: '^(de|deu)$'
+  uk: '^(uk|ukr|ua)$'
+  pl: '^(pl)$'
+  ru: '^(ru)$'
 default-language: &ref_default_lang en
 # ------------------------------------------------------------------------------------------------
 # COMMANDS
