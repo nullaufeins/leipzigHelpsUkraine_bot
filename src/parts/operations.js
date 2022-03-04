@@ -14,23 +14,46 @@ const message_too_old = (msg, t, expiry) => {
     return (typeof date === 'number') ? (date * 1000 + expiry < t) : true;
 };
 
-const send_message = (bot, text, options, msg) => {
+const send_message = async (bot, text, options, msg) => {
     const chatId = msg.chat.id;
-    return bot.telegram.sendMessage(chatId, text, options);
+    return bot.telegram
+        .sendMessage(chatId, text, options)
+        // log error and then carry on:
+        .catch((err) => (console.error(err)));
 };
 
-const send_message_as_overwrite = (bot, text, options, msg) => {
+const send_message_as_overwrite = async (bot, text, options, msg) => {
     const chatId = msg.chat.id;
     const { message_id } = msg;
     const { reply_markup } = options;
     const { parse_mode } = reply_markup;
-    return bot.telegram.editMessageText(chatId, message_id, undefined, text, { parse_mode }, undefined, undefined, reply_markup);
+    return bot.telegram
+        .editMessageText(chatId, message_id, undefined, text, { parse_mode }, undefined, undefined, reply_markup)
+        // log error and then carry on:
+        .catch((err) => (console.error(err)));
 };
+
+const pin_message = async (bot, msg) => {
+    const chatId = msg.chat.id;
+    const { message_id } = msg;
+    return bot.telegram
+        .pinChatMessage(chatId, message_id, {disable_notification: true})
+        // log error and then carry on:
+        .catch((err) => (console.error(err)));
+};
+
+const post_and_pin_message = async (bot, text, options, msg) => {
+    const reply = await send_message(bot, text, options, msg);
+    return pin_message(bot, reply);
+}
 
 const remove_message = async (bot, msg) => {
     const chatId = msg.chat.id;
     const { message_id } = msg;
-    bot.telegram.deleteMessage(chatId, message_id);
+    bot.telegram
+        .deleteMessage(chatId, message_id)
+        // log error and then carry on:
+        .catch((err) => (console.error(err)));
 };
 
 const delay_remove_reply = async (bot, timeout, reply) => {
@@ -49,6 +72,7 @@ const delay_remove_reply = async (bot, timeout, reply) => {
 
 module.exports = {
     message_too_old,
+    pin_message,
     send_message,
     send_message_as_overwrite,
     remove_message,

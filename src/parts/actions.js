@@ -9,9 +9,10 @@ const {
     get_translation,
 } = require.main.require('./src/setup/config.js');
 const {
+    pin_message,
+    remove_message,
     send_message,
     send_message_as_overwrite,
-    remove_message,
 } = require.main.require('./src/parts/operations.js');
 const {
     get_main_menu_inline,
@@ -79,7 +80,7 @@ const action_delete_and_ignore = async (bot, msg) => {
     return remove_message(bot, msg);
 };
 
-const action_send_message = async (bot, text, options, msg, as_reply, delete_calls) => {
+const action_send_message = async (bot, text, options, msg, delete_calls) => {
     if (delete_calls) {
         await remove_message(bot, msg);
         return send_message(bot, text, options, msg);
@@ -93,35 +94,37 @@ const action_send_message = async (bot, text, options, msg, as_reply, delete_cal
  ****************************************************************/
 
 const action_on_pin_one_language = async (bot, [ lang_arg ], msg, { keyword, lang }, { debug }) => {
-    const chatId = msg.chat.id;
     lang = lang || lang_arg || DEFAULT_LANGUAGE;
     // post menu:
     const responseText = get_translation(lang, keyword);
     const options = get_main_menu_inline(lang);
-    const reply = await bot.telegram.sendMessage(chatId, responseText, options);
     // pin menu:
-    const messageId = reply.message_id;
     await remove_message(bot, msg);
-    return bot.telegram.pinChatMessage(chatId, messageId, {disable_notification: true}, true);
+    reply = await send_message(bot, responseText, options, msg)
+    return pin_message(bot, reply);
 }
 
 const action_on_pin_all_languages = async (bot, msg, { keyword }, { debug }) => {
-    const chatId = msg.chat.id;
+    const n = SUPPORTED_LANGUAGES.length;
     let index = 0;
-    let messageId = -1;
-    await remove_message(bot, msg);
     for (const lang of SUPPORTED_LANGUAGES) {
-        // post menu:
         const responseText = get_translation(lang, keyword);
         const options = get_main_menu_inline(lang);
-        const reply = await bot.telegram.sendMessage(chatId, responseText, options);
-        if (index == 0) messageId = reply.message_id;
+        if (index == 0) {
+            // post then pin 1st menu:
+            reply = await send_message(bot, responseText, options, msg)
+            result = pin_message(bot, reply);
+        } else {
+            // post all other menus:
+            result = send_message(bot, responseText, options, msg);
+        }
+        // return if last
+        if (index == n-1) return result;
+        // otherwise await and continue:
+        await result;
         index += 1;
     }
-    // pin 1st menu:
-    if (messageId >= 0) {
-        return bot.telegram.pinChatMessage(chatId, messageId, {disable_notification: true});
-    }
+    return action_ignore();
 }
 
 const action_on_hello = async (bot, user, [ lang_arg ], msg, reply_to_msg, { keyword, lang }, { debug, delete_calls }) => {
@@ -131,7 +134,7 @@ const action_on_hello = async (bot, user, [ lang_arg ], msg, reply_to_msg, { key
     // post text:
     const responseText = sprintf(get_translation(lang, keyword), username);
     const options = get_message_options_basic(reply_to_msg);
-    return action_send_message(bot, responseText, options, msg, !(reply_to_msg === undefined), delete_calls);
+    return action_send_message(bot, responseText, options, msg, delete_calls);
 }
 
 const action_on_help = async (bot, [ lang_arg ], msg, reply_to_msg, { keyword, lang }, { debug, delete_calls }) => {
@@ -139,7 +142,7 @@ const action_on_help = async (bot, [ lang_arg ], msg, reply_to_msg, { keyword, l
     // post menu:
     const responseText = get_translation(lang, keyword);
     const options = get_main_menu_inline(lang, reply_to_msg);
-    return action_send_message(bot, responseText, options, msg, !(reply_to_msg === undefined), delete_calls);
+    return action_send_message(bot, responseText, options, msg, delete_calls);
 };
 
 const action_on_redirect = async (bot, [ lang_arg ], msg, reply_to_msg, { redirect }, { keyword, lang }, { debug, delete_calls }) => {
@@ -148,7 +151,7 @@ const action_on_redirect = async (bot, [ lang_arg ], msg, reply_to_msg, { redire
     const message = get_translation(lang, keyword);
     const responseText = `${message}: ${redirect}`;
     const options = get_message_options_basic(reply_to_msg);
-    return action_send_message(bot, responseText, options, msg, !(reply_to_msg === undefined), delete_calls);
+    return action_send_message(bot, responseText, options, msg, delete_calls);
 };
 
 /****************************************************************
