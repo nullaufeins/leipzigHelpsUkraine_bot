@@ -98,10 +98,10 @@ const action_on_pin_one_language = async (bot, [ lang_arg ], msg, { keyword, lan
     lang = lang || lang_arg || DEFAULT_LANGUAGE;
     // post menu:
     const responseText = get_translation(lang, keyword);
-    const options = get_main_menu_inline(lang);
+    const layout_options = get_main_menu_inline(lang);
     // pin menu:
     await remove_message(bot, msg);
-    reply = await send_message(bot, responseText, options, msg)
+    reply = await send_message(bot, responseText, layout_options, msg)
     return pin_message(bot, reply);
 }
 
@@ -110,14 +110,14 @@ const action_on_pin_all_languages = async (bot, msg, { keyword }, options) => {
     let index = 0;
     for (const lang of SUPPORTED_LANGUAGES) {
         const responseText = get_translation(lang, keyword);
-        const options = get_main_menu_inline(lang);
+        const layout_options = get_main_menu_inline(lang);
         if (index == 0) {
             // post then pin 1st menu:
-            reply = await send_message(bot, responseText, options, msg)
+            reply = await send_message(bot, responseText, layout_options, msg)
             result = pin_message(bot, reply);
         } else {
             // post all other menus:
-            result = send_message(bot, responseText, options, msg);
+            result = send_message(bot, responseText, layout_options, msg);
         }
         // return if last
         if (index == n-1) return result;
@@ -134,16 +134,16 @@ const action_on_hello = async (bot, user, [ lang_arg ], msg, reply_to_msg, { key
     lang = lang || lang_arg || lang_caller;
     // post text:
     const responseText = sprintf(get_translation(lang, keyword), username);
-    const options = get_message_options_basic(reply_to_msg);
-    return action_send_message(bot, responseText, options, msg, options);
+    const layout_options = get_message_options_basic(reply_to_msg);
+    return action_send_message(bot, responseText, layout_options, msg, options);
 }
 
 const action_on_help = async (bot, [ lang_arg ], msg, reply_to_msg, { keyword, lang }, options) => {
     lang = lang || lang_arg || DEFAULT_LANGUAGE;
     // post menu:
     const responseText = get_translation(lang, keyword);
-    const options = get_main_menu_inline(lang, reply_to_msg);
-    return action_send_message(bot, responseText, options, msg, options);
+    const layout_options = get_main_menu_inline(lang, reply_to_msg);
+    return action_send_message(bot, responseText, layout_options, msg, options);
 };
 
 const action_on_redirect = async (bot, [ lang_arg ], msg, reply_to_msg, { redirect }, { keyword, lang }, options) => {
@@ -151,8 +151,8 @@ const action_on_redirect = async (bot, [ lang_arg ], msg, reply_to_msg, { redire
     // post text with link:
     const message = get_translation(lang, keyword);
     const responseText = `${message}: ${redirect}`;
-    const options = get_message_options_basic(reply_to_msg);
-    return action_send_message(bot, responseText, options, msg, options);
+    const layout_options = get_message_options_basic(reply_to_msg);
+    return action_send_message(bot, responseText, layout_options, msg, options);
 };
 
 /****************************************************************
