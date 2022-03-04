@@ -27,6 +27,8 @@
 !/index.js
 
 !/tests
+!/tests/**/
+!/tests/**/*.test.js
 
 !/assets
 !/assets/language.yaml
