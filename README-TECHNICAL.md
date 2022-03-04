@@ -77,3 +77,18 @@ the following parts have to be changed:
 
 Currently this is parcelled out into local testing,
 live testing, and production release.
+
+## Logical flow ##
+
+The bot listens to all messages, then does the following
+(see [./src/parts/listeners.js](src/parts/listeners.js) for more):
+
+- ignores posts by bots, regardless of content
+- ignores too old messages, regardless of content
+- if message has the syntactic form `@<botname> /?command [args...]`, then:
+  - if command in config, then performs corresponding action;
+  - else does nothing.
+- if message has the syntactic form `/command @<botname>`, then:
+  - if command in config, then performs corresponding action;
+  - else does nothing.
+- otherwise, does nothing.
