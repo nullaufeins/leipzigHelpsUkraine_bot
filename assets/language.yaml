@@ -23,18 +23,12 @@ pinned-message:
   pl: '🌻!Proszę najpierw PRZECZYTAĆ! Staramy się koordynować propozycje i prośby o wsparcie. Wybierz temat.'
   ru: '🌻!ПРОЧИТАЙТЕ сначала! Мы стараемся координировать предложения и запросы о помощи. Выберите соответствующую тему.'
   uk: '🌻!ПРОЧИТАЙТЕ спочатку! Ми намагаємося координувати пропозиції підтримки та запити. Будь ласка, оберіть тему.'
-start-message:
+help-message:
   de: '🌻 Wir versuchen, Hilfsangebote und Anfragen zu koordinieren. Bitte eine Option wählen.'
   en: '🌻 We want to coordinate offers of help and requests. Please choose a topic.'
-  pl: '!!!Proszę najpierw PRZECZYTAĆ!!! 🌻 Staramy się koordynować propozycje i prośby o wsparcie. Wybierz temat.'
+  pl: '🌻 Staramy się koordynować propozycje i prośby o wsparcie. Wybierz temat.'
   ru: '🌻 Мы стараемся координировать предложения и запросы о помощи. Выберите соответствующую тему.'
   uk: '🌻 Ми намагаємося координувати пропозиції підтримки та запити. Будь ласка, оберіть тему.'
-help-message:
-  de: Diese App soll Hilfsangebote und Anfragen koordiniern.
-  en: This app is to coordinate volunteer help. Please choose a topic.
-  pl: Staramy się koordynować propozycje i prośby o wsparcie. Wybierz temat.
-  ru: Это приложение для согласованной работы волонтёров. Выберите соответствующую тему.
-  uk: Ми намагаємося координувати пропозиції підтримки та запити. Будь ласка, оберіть тему.
 redirect-message:
   de: Hier entlang bitte!
   en: This way please!
