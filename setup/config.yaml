@@ -11,6 +11,10 @@ options:
   # true => listens to all texts; false => only listens to messages starting with /...
   listen-to-text: true
   ################
+  # maximum age of messages in ms.
+  # All messages that occur 'too long' ago, will be ignored.
+  message-expiry: 10000
+  ################
   # NOTE: The following parameters are no longer in use.
   # Times in ms before bot response (inline resp. menu) are deleted.
   # Use negative (-) values, if no deletion should occur.

@@ -14,7 +14,13 @@ const { TranslatedTexts } = require.main.require('./src/classes/language.js');
 const LANGUAGE = yaml.load(fs.readFileSync('assets/language.yaml', 'utf8'));
 const CONFIG = yaml.load(fs.readFileSync('setup/config.yaml', 'utf8'));
 
-const OPTIONS = yaml_to_js_dictionary(CONFIG['options'] || {} || {debug: false, timeout: 10*1000, timeout_menu: 60*1000}, true);
+const OPTIONS = yaml_to_js_dictionary(
+    CONFIG['options'] || {} || {
+        message_expiry: 10*1000,
+        debug:          false,
+        timeout:        10*1000,
+        timeout_menu:   60*1000
+    }, true);
 const COMMANDS = (CONFIG['commands'] || [])
     .map((options) => yaml_to_js_dictionary(options, true))
     .map((options) => {

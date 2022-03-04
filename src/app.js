@@ -61,9 +61,9 @@ class MyApp {
          * - 'message'
          ********************************/
         if ( this.options.listen_to_text ) {
-            this.bot.on('text', async (ctx) => {listener_on_text(this.bot, ctx, this.options);});
+            this.bot.on('text', async (ctx) => {listener_on_text(this.bot, ctx, Date.now(), this.options);});
         } else {
-            this.bot.on('message', async (ctx) => {listener_on_message(this.bot, ctx, this.options);});
+            this.bot.on('message', async (ctx) => {listener_on_message(this.bot, ctx, Date.now(), this.options);});
         }
     }
 
