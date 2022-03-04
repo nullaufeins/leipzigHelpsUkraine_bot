@@ -159,7 +159,7 @@ commands:
       rights:   [administrator, creator]
       strict:   true
       match:    '^(homepage|web|website|webpage)$'
-      redirect: http://leipzig-helps-ukraine.de/'
+      redirect: http://leipzig-helps-ukraine.de/
     menu:
       keyword: homepage
       new_row: true
