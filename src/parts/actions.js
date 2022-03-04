@@ -51,7 +51,8 @@ const universal_action = async (bot, ctx, command_options, arguments, { debug })
             return action_on_pin_one_language(bot, arguments, msg, text);
         case '/hello':
             if (!debug) return;
-            return action_on_hello(bot, arguments, msg, text);
+            const user = await get_user_from_context(bot, ctx);
+            return action_on_hello(bot, user, arguments, msg, text);
         case '/help':
             return action_on_help(bot, arguments, msg, text);
         default:
@@ -89,8 +90,8 @@ const action_on_pin_all_languages = async (bot, msg, { keyword }) => {
     }
 }
 
-const action_on_hello = async (bot, [ lang_arg ], msg, { keyword, lang }) => {
-    const username = user.username;
+const action_on_hello = async (bot, user, [ lang_arg ], msg, { keyword, lang }) => {
+    const username = user.user.first_name;
     const chatId = msg.chat.id;
     const lang_caller = msg.from.language_code;
     lang = lang || lang_arg || lang_caller;

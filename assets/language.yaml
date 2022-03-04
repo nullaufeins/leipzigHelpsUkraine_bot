@@ -4,11 +4,11 @@
 # ------------------------------------------------------------------------------------------------
 ## basic:
 welcome-message: &ref_welcome_message
-  de: 'Hey, @%s! Wir versuchen, Hilfsangebote und Anfragen zu koordinieren.'
-  en: 'Hiya, @%s! We want to coordinate offers of help and requests.'
-  pl: 'Cześć, @%s! Staramy się koordynować propozycje i prośby o wsparcie.'
-  ru: 'Привіт, @%s! Мы стараемся координировать предложения и запросы о помощи.'
-  uk: 'Привіт, @%s! Ми намагаємося координувати пропозиції підтримки та запити.'
+  de: 'Hej, %s! Wir versuchen, Hilfsangebote und Anfragen zu koordinieren.'
+  en: 'Hiya, %s! We want to coordinate offers of help and requests.'
+  pl: 'Cześć, %s! Staramy się koordynować propozycje i prośby o wsparcie.'
+  ru: 'Привіт, %s! Мы стараемся координировать предложения и запросы о помощи.'
+  uk: 'Привіт, %s! Ми намагаємося координувати пропозиції підтримки та запити.'
 hello-world-message: # only for testing
   <<: *ref_welcome_message
 pinned-short:
