@@ -11,6 +11,10 @@ options:
   # true => listens to all texts; false => only listens to messages starting with /...
   listen-to-text: true
   ################
+  # true => calls to bot will be deleted before reply
+  # false => calls to bot will be retained
+  delete-calls: true
+  ################
   # maximum age of messages in ms.
   # All messages that occur 'too long' ago, will be ignored.
   message-expiry: 10000
