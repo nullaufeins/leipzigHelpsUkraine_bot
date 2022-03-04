@@ -24,7 +24,7 @@ const send_message_as_overwrite = (bot, text, options, msg) => {
     const { message_id } = msg;
     const { reply_markup } = options;
     const { parse_mode } = reply_markup;
-    return bot.telegram.editMessageText(chatId, message_id, undefined, text, parse_mode, undefined, undefined, reply_markup);
+    return bot.telegram.editMessageText(chatId, message_id, undefined, text, { parse_mode }, undefined, undefined, reply_markup);
 };
 
 const remove_message = async (bot, msg) => {

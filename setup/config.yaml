@@ -13,6 +13,7 @@ options:
   ################
   # true => calls to bot will be deleted before reply
   # false => calls to bot will be retained
+  # (NOTE: only use false, if bot can edit messages --- likely not the case!)
   delete-calls: true
   ################
   # maximum age of messages in ms.
