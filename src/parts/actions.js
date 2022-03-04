@@ -9,6 +9,9 @@ const {
     get_translation,
 } = require('./../setup/config.js');
 const {
+    recognise_language,
+} = require('./../setup/arguments.js');
+const {
     pin_message,
     remove_message,
     send_message,
@@ -95,7 +98,7 @@ const action_send_message = async (bot, text, options, msg, { delete_calls }) =>
  ****************************************************************/
 
 const action_on_pin_one_language = async (bot, [ lang_arg ], msg, { keyword, lang }, options) => {
-    lang = lang || lang_arg || DEFAULT_LANGUAGE;
+    lang = recognise_language(lang || lang_arg) || DEFAULT_LANGUAGE;
     // post menu:
     const responseText = get_translation(lang, keyword);
     const layout_options = get_main_menu_inline(lang);
@@ -131,7 +134,7 @@ const action_on_pin_all_languages = async (bot, msg, { keyword }, options) => {
 const action_on_hello = async (bot, user, [ lang_arg ], msg, reply_to_msg, { keyword, lang }, options) => {
     const username = user.user.first_name;
     const lang_caller = msg.from.language_code;
-    lang = lang || lang_arg || lang_caller;
+    lang = recognise_language(lang || lang_arg || lang_caller);
     // post text:
     const responseText = sprintf(get_translation(lang, keyword), username);
     const layout_options = get_message_options_basic(reply_to_msg);
@@ -139,7 +142,7 @@ const action_on_hello = async (bot, user, [ lang_arg ], msg, reply_to_msg, { key
 }
 
 const action_on_help = async (bot, [ lang_arg ], msg, reply_to_msg, { keyword, lang }, options) => {
-    lang = lang || lang_arg || DEFAULT_LANGUAGE;
+    lang = recognise_language(lang || lang_arg) || DEFAULT_LANGUAGE;
     // post menu:
     const responseText = get_translation(lang, keyword);
     const layout_options = get_main_menu_inline(lang, reply_to_msg);
@@ -147,7 +150,7 @@ const action_on_help = async (bot, [ lang_arg ], msg, reply_to_msg, { keyword, l
 };
 
 const action_on_redirect = async (bot, [ lang_arg ], msg, reply_to_msg, { redirect }, { keyword, lang }, options) => {
-    lang = lang || lang_arg || DEFAULT_LANGUAGE;
+    lang = recognise_language(lang || lang_arg) || DEFAULT_LANGUAGE;
     // post text with link:
     const message = get_translation(lang, keyword);
     const responseText = `${message}: ${redirect}`;
