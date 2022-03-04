@@ -5,8 +5,8 @@
 const {
     split_non_empty_parts,
     take_one,
-} = require.main.require('./src/core/utils.js');
-const { COMMANDS } = require.main.require('./src/setup/config.js');
+} = require('./../core/utils.js');
+const { COMMANDS } = require('./../setup/config.js');
 
 /****************************************************************
  * METHODS - pattern recognition

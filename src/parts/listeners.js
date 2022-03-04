@@ -7,15 +7,15 @@ const {
     is_valid_communication_post,
     filter_commands_by_command_pre,
     filter_commands_by_command_post,
-} = require.main.require('./src/setup/comms.js');
-const { message_too_old } = require.main.require('./src/parts/operations.js');
+} = require('./../setup/comms.js');
+const { message_too_old } = require('./operations.js');
 const {
     user_in_context_is_bot,
-} = require.main.require('./src/parts/users.js');
+} = require('./users.js');
 const {
     universal_action,
     action_ignore,
-} = require.main.require('./src/parts/actions.js');
+} = require('./actions.js');
 
 /****************************************************************
  * METHODS - LISTENERS

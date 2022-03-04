@@ -4,8 +4,8 @@
 
 const yaml = require('js-yaml');
 const fs = require('fs-extra');
-const { yaml_to_js_dictionary } = require.main.require('./src/core/utils.js');
-const { TranslatedTexts } = require.main.require('./src/classes/language.js');
+const { yaml_to_js_dictionary } = require('./../core/utils.js');
+const { TranslatedTexts } = require('./../classes/language.js');
 
 /****************************************************************
  * CONSTANTS - extract from data assets + app configuration
@@ -32,8 +32,13 @@ const COMMANDS = (CONFIG['commands'] || [])
         aspects.match = new RegExp(match);
         return options;
     });
+
 const DEFAULT_LANGUAGE = CONFIG['default-language'] || 'en';
-const SUPPORTED_LANGUAGES = CONFIG['languages'] || [];
+const LANGUAGE_PATTERNS = Object.assign({},
+    ...Object.entries(CONFIG['languages'] || {})
+        .map(([key, value]) => ({[key]: new RegExp(value)}))
+    );
+const SUPPORTED_LANGUAGES = Object.keys(LANGUAGE_PATTERNS);
 const TRANSLATIONS = new TranslatedTexts(LANGUAGE || {}, DEFAULT_LANGUAGE);
 
 /****************************************************************
@@ -50,6 +55,7 @@ module.exports = {
     OPTIONS,
     COMMANDS,
     DEFAULT_LANGUAGE,
+    LANGUAGE_PATTERNS,
     SUPPORTED_LANGUAGES,
     get_translation
 };

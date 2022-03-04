@@ -7,21 +7,21 @@ const {
     DEFAULT_LANGUAGE,
     SUPPORTED_LANGUAGES,
     get_translation,
-} = require.main.require('./src/setup/config.js');
+} = require('./../setup/config.js');
 const {
     pin_message,
     remove_message,
     send_message,
     send_message_as_overwrite,
-} = require.main.require('./src/parts/operations.js');
+} = require('./operations.js');
 const {
     get_main_menu_inline,
     get_message_options_basic,
-} = require.main.require('./src/parts/menus.js');
+} = require('./menus.js');
 const {
     get_user_from_context,
     user_has_rights,
-} = require.main.require('./src/parts/users.js');
+} = require('./users.js');
 
 /****************************************************************
  * METHODS universal action
