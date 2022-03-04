@@ -15,7 +15,6 @@ const {
 const {
     universal_action,
     action_ignore,
-    action_delete_and_ignore,
 } = require.main.require('./src/parts/actions.js');
 
 /****************************************************************
@@ -44,7 +43,7 @@ const listener_on_callback_query = async () => {
  *      - No? -> GOTO 4.
  *    4. Do the parts of the syntactically correct message match commands from config file?
  *      - Yes? -> Perform action!
- *      - No? -> Delete message and then do nothing.
+ *      - No? -> Do nothing.
  ****************/
 const listener_on_text = async (bot, ctx, t, options) => {
     // do nothing if bot:
@@ -64,7 +63,7 @@ const listener_on_text = async (bot, ctx, t, options) => {
             return universal_action(bot, ctx, commands[0], arguments, options);
         }
         // if invalid command, delete and return:
-        return action_delete_and_ignore(bot, msg);
+        return action_ignore(bot, msg);
     } else if (text.startsWith(`/`)) {
         return listener_on_message(bot, ctx, t, options);
     } else {
@@ -88,7 +87,7 @@ const listener_on_text = async (bot, ctx, t, options) => {
  *      - No? -> GOTO 4.
  *    4. Do the parts of the syntactically correct message match commands from config file?
  *      - Yes? -> Perform action!
- *      - No? -> Delete message and then do nothing.
+ *      - No? -> Do nothing.
  ****************/
 const listener_on_message = async (bot, ctx, t, options) => {
     // do nothing if bot:
@@ -108,7 +107,7 @@ const listener_on_message = async (bot, ctx, t, options) => {
             return universal_action(bot, ctx, commands[0], arguments, options);
         }
         // if invalid command, delete and return:
-        return action_delete_and_ignore(bot, msg);
+        return action_ignore(bot, msg);
     } else {
         // do nothing if not potentially a command:
         return action_ignore(bot, msg);
