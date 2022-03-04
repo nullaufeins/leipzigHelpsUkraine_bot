@@ -17,7 +17,8 @@ const get_main_menu_inline = (lang, reply_to_msg = undefined) => {
         reply_markup: {
             inline_keyboard: create_rows(lang),
             disable_notification: true,
-            parse_mode: 'MarkdownV2',
+            // TODO: this works, but would be nice to use 'MarkdownV2', which currently causes issues.
+            parse_mode: undefined,
         },
         reply_to_message_id: reply_to_msg === undefined ? undefined : reply_to_msg.message_id,
     };
@@ -30,7 +31,8 @@ const get_main_menu_hidden = (lang, reply_to_msg = undefined) => (
             resize_keyboard: true,
             one_time_keyboard: true,
             disable_notification: true,
-            parse_mode: 'MarkdownV2',
+            // TODO: this works, but would be nice to use 'MarkdownV2', which currently causes issues.
+            parse_mode: undefined,
         },
         reply_to_message_id: reply_to_msg === undefined ? undefined : reply_to_msg.message_id,
     }
@@ -40,7 +42,8 @@ const get_message_options_basic = (reply_to_msg = undefined) => (
     {
         reply_markup: {
             disable_notification: true,
-            parse_mode: 'MarkdownV2',
+            // TODO: this works, but would be nice to use 'MarkdownV2', which currently causes issues.
+            parse_mode: undefined,
         },
         reply_to_message_id: reply_to_msg === undefined ? undefined : reply_to_msg.message_id,
     }
