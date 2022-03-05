@@ -12,6 +12,7 @@ const {
     recognise_language,
 } = require('./../setup/arguments.js');
 const {
+    get_language_sender_in_message,
     pin_message,
     remove_message,
     send_message,
@@ -133,8 +134,10 @@ const action_on_pin_all_languages = async (bot, msg, { keyword }, options) => {
 
 const action_on_hello = async (bot, user, [ lang_arg ], msg, reply_to_msg, { keyword, lang }, options) => {
     const username = user.user.first_name;
-    const lang_caller = msg.from.language_code;
-    lang = recognise_language(lang || lang_arg || lang_caller);
+    const lang_caller = get_language_sender_in_message(msg);
+    const lang_reply_to = get_language_sender_in_message(reply_to_msg);
+    // const lang_des_repliers = reply_to_msg.language_code;
+    lang = recognise_language(lang || lang_arg || lang_reply_to || lang_caller);
     // post text:
     const responseText = sprintf(get_translation(lang, keyword), username);
     const layout_options = get_message_options_basic(reply_to_msg);
@@ -142,7 +145,8 @@ const action_on_hello = async (bot, user, [ lang_arg ], msg, reply_to_msg, { key
 }
 
 const action_on_help = async (bot, [ lang_arg ], msg, reply_to_msg, { keyword, lang }, options) => {
-    lang = recognise_language(lang || lang_arg) || DEFAULT_LANGUAGE;
+    const lang_reply_to = get_language_sender_in_message(reply_to_msg);
+    lang = recognise_language(lang || lang_arg || lang_reply_to) || DEFAULT_LANGUAGE;
     // post menu:
     const responseText = get_translation(lang, keyword);
     const layout_options = get_main_menu_inline(lang, reply_to_msg);
@@ -150,7 +154,8 @@ const action_on_help = async (bot, [ lang_arg ], msg, reply_to_msg, { keyword, l
 };
 
 const action_on_redirect = async (bot, [ lang_arg ], msg, reply_to_msg, { redirect }, { keyword, lang }, options) => {
-    lang = recognise_language(lang || lang_arg) || DEFAULT_LANGUAGE;
+    const lang_reply_to = get_language_sender_in_message(reply_to_msg);
+    lang = recognise_language(lang || lang_arg || lang_reply_to) || DEFAULT_LANGUAGE;
     // post text with link:
     const message = get_translation(lang, keyword);
     const responseText = `${message}: ${redirect}`;

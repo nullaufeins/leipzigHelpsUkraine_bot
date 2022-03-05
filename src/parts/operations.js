@@ -5,14 +5,26 @@
 //
 
 /****************************************************************
- * METHODS
+ * METHODS get aspects
  ****************************************************************/
+
+const get_language_sender_in_message = (msg) => {
+    try {
+        return msg.from.language_code;
+    } catch(_) {
+        return undefined;
+    }
+}
 
 // true <==> message too old (and should therefore be ignored):
 const message_too_old = (msg, t, expiry) => {
     const { date } = msg;
     return (typeof date === 'number') ? (date * 1000 + expiry < t) : true;
 };
+
+/****************************************************************
+ * METHODS posting
+ ****************************************************************/
 
 const send_message = async (bot, text, options, msg) => {
     const chatId = msg.chat.id;
@@ -47,6 +59,10 @@ const post_and_pin_message = async (bot, text, options, msg) => {
     return pin_message(bot, reply);
 }
 
+/****************************************************************
+ * METHODS deletion
+ ****************************************************************/
+
 const remove_message = async (bot, msg) => {
     const chatId = msg.chat.id;
     const { message_id } = msg;
@@ -71,6 +87,7 @@ const delay_remove_reply = async (bot, timeout, reply) => {
  ****************************************************************/
 
 module.exports = {
+    get_language_sender_in_message,
     message_too_old,
     pin_message,
     send_message,
