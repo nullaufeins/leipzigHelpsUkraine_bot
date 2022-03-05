@@ -101,7 +101,7 @@ commands:
     text:
       keyword: redirect-message
   - aspects:
-      command:  '/housing'
+      command:  '/accomodation'
       rights:   [administrator, creator]
       strict:   true
       match:    '^(housing|a(c+)o(m+)odation|shelter|obdach)$'
