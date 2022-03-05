@@ -1,24 +1,41 @@
 info:
   description: Internal configuration of app.
 options:
-  debug: false # <- only set to true when developing.
+  ################
+  # only set to true during development. Do NOT commit with 'debug: true'!
+  debug: false
+  ################
+  # true => shows suggests when user starts typing /...
   show-side-menu: true
   ################
+  # true => listens to all texts; false => only listens to messages starting with /...
+  listen-to-text: true
+  ################
+  # true => calls to bot will be deleted before reply
+  # false => calls to bot will be retained
+  # (NOTE: only use false, if bot can edit messages --- likely not the case!)
+  delete-calls: true
+  ################
+  # maximum age of messages in ms.
+  # All messages that occur 'too long' ago, will be ignored.
+  message-expiry: 10000
+  ################
+  # NOTE: The following parameters are no longer in use.
   # Times in ms before bot response (inline resp. menu) are deleted.
   # Use negative (-) values, if no deletion should occur.
-  ################
   timeout:       -5000
   timeout-menu: -10000
+  ################
 # ------------------------------------------------------------------------------------------------
 # SUPPORTED LANGUAGES
 # Note: use ISO-639-1 alpha-2 format; e.g. uk (not ua) for Ukrainian.
 # ------------------------------------------------------------------------------------------------
 languages:
-  - en
-  - de
-  - uk
-  - pl
-  - ru
+  en: '^(en)$'
+  de: '^(de|deu)$'
+  uk: '^(uk|ukr|ua)$'
+  pl: '^(pl)$'
+  ru: '^(ru)$'
 default-language: &ref_default_lang en
 # ------------------------------------------------------------------------------------------------
 # COMMANDS
@@ -53,15 +70,15 @@ commands:
   - aspects:
       command: '/hello'
       rights:  [administrator, creator]
-      strict:  false
-      match:   '^\/hello(-?world)?$'
+      strict:  true
+      match:   '^hello(-?world)?$'
     text:
       keyword: hello-world-message
   - aspects:
       command: '/help'
       rights:  [administrator, creator]
-      strict:  false
-      match:   '^\/help$'
+      strict:  true
+      match:   '^help$'
     side-menu:
       keyword: help-message
     text:
@@ -73,8 +90,8 @@ commands:
   - aspects:
       command:  '/transport'
       rights:   [administrator, creator]
-      strict:   false
-      match:    '^\/(transport|travel).*$'
+      strict:   true
+      match:    '^(transport|travel).*$'
       redirect: '@transport_leipzig_ukraine'
     menu:
       keyword: transport
@@ -86,8 +103,8 @@ commands:
   - aspects:
       command:  '/housing'
       rights:   [administrator, creator]
-      strict:   false
-      match:    '^\/(housing|a(c+)o(m+)odation|shelter|obdach)$'
+      strict:   true
+      match:    '^(housing|a(c+)o(m+)odation|shelter|obdach)$'
       redirect: '@accomodation_leipzig_ukraine'
     menu:
       keyword: housing
@@ -100,8 +117,8 @@ commands:
   - aspects:
       command:  '/translations'
       rights:   [administrator, creator]
-      strict:   false
-      match:    '^\/(translation(s|)|language(s|)|dolmetsch.*)$'
+      strict:   true
+      match:    '^(translation(s?)|language(s?)|dolmetsch.*)$'
       redirect: '@translators_leipzig_ukraine'
     menu:
       keyword: translations
@@ -113,8 +130,9 @@ commands:
   - aspects:
       command:  '/legal'
       rights :  [administrator, creator]
+      strict:   true
       redirect: '@legal_leipzig_ukraine'
-      match:    '^\/(legal.*|law|jura|jurist.*|rights)$'
+      match:    '^(legal.*|law|jura|jurist.*|rights)$'
     menu:
       keyword: legal
     side-menu:
@@ -125,8 +143,8 @@ commands:
   - aspects:
       command:  '/donations'
       rights:   [administrator, creator]
-      strict:   false
-      match:    '^\/(donation|charity|spenden|give.*|gifts)$'
+      strict:   true
+      match:    '^(donation(s?)|charit(y|ies)|spenden|give|giving|gift(s?))$'
       redirect: '@donations_leipzig_ukraine'
     menu:
       keyword: donations
@@ -139,9 +157,9 @@ commands:
   - aspects:
       command:  '/homepage'
       rights:   [administrator, creator]
-      strict:   false
-      match:    '^\/(homepage|web|website|webpage)$'
-      redirect: http://leipzig-helps-ukraine.de/'
+      strict:   true
+      match:    '^(homepage|web|website|webpage)$'
+      redirect: http://leipzig-helps-ukraine.de/
     menu:
       keyword: homepage
       new_row: true
@@ -153,8 +171,9 @@ commands:
   - aspects:
       command:  '/feedback'
       rights :  [administrator, creator]
+      strict:   true
       redirect: '@feedback_leipzig_ukraine'
-      match:    '^\/(feedback|review)$'
+      match:    '^(feedback|review)$'
     menu:
       keyword: feedback
     side-menu:
@@ -167,8 +186,8 @@ commands:
   - aspects: &ref_command_pin
       command: '/pin'
       rights:  [administrator, creator]
-      strict:  false
-      match:   '^\/pin(ned)?$'
+      strict:  true
+      match:   '^pin(ned)?$'
     side-menu:
       lang:    *ref_default_lang
       keyword: pinned-short
@@ -176,54 +195,18 @@ commands:
       keyword: pinned-message
   - aspects:
       <<: *ref_command_pin
-      command: '/pin_all'
-      match:   '^\/pin(ned)?[-_]all$'
-    text:
-      keyword: pinned-message
-  - aspects:
-      <<: *ref_command_pin
       command: '/pin_de'
-      match:   '^\/pin(ned)?[-_](de|deu)$'
+      match:   '^pin(ned)?[-_](de|deu)$'
     side-menu:
       lang:    de
       keyword: pinned-short
     text:
       lang:    de
-      keyword: pinned-message
-  - aspects:
-      <<: *ref_command_pin
-      command: '/pin_en'
-      match:   '^\/pin(ned)?[-_]en$'
-    side-menu:
-      lang:    en
-      keyword: pinned-short
-    text:
-      lang:    en
-      keyword: pinned-message
-  - aspects:
-      <<: *ref_command_pin
-      command: '/pin_pl'
-      match:   '^\/pin(ned)?[-_]pl$'
-    side-menu:
-      lang:    pl
-      keyword: pinned-short
-    text:
-      lang:    pl
-      keyword: pinned-message
-  - aspects:
-      <<: *ref_command_pin
-      command: '/pin_ru'
-      match:   '^\/pin(ned)?[-_]ru$'
-    side-menu:
-      lang:    ru
-      keyword: pinned-short
-    text:
-      lang:    ru
       keyword: pinned-message
   - aspects:
       <<: *ref_command_pin
       command: '/pin_uk'
-      match:   '^\/pin(ned)?[-_](uk|ukr|ua)$'
+      match:   '^pin(ned)?[-_](uk|ukr|ua)$'
     side-menu:
       lang:    uk
       keyword: pinned-short

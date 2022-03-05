@@ -7,10 +7,11 @@ const {
     COMMANDS,
     SUPPORTED_LANGUAGES,
     get_translation
-} = require.main.require('./src/setup/config.js');
+} = require('./setup/config.js');
 const {
     listener_on_message,
-} = require.main.require('./src/parts/listeners.js');
+    listener_on_text,
+} = require('./parts/listeners.js');
 
 /****************************************************************
  * METHODS
@@ -59,7 +60,11 @@ class MyApp {
          * - 'text'
          * - 'message'
          ********************************/
-        this.bot.on('message', async (ctx) => {listener_on_message(this.bot, ctx, this.options);});
+        if ( this.options.listen_to_text ) {
+            this.bot.on('text', async (ctx) => {listener_on_text(this.bot, ctx, Date.now(), this.options);});
+        } else {
+            this.bot.on('message', async (ctx) => {listener_on_message(this.bot, ctx, Date.now(), this.options);});
+        }
     }
 
     async start() {

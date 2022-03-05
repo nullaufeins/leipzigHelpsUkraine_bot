@@ -9,9 +9,9 @@
  ****************************************************************/
 
 class TranslatedText {
-    keyword = '';
-    values = {};
-    default = 'en';
+    keyword;
+    values;
+    default;
 
     constructor(keyword, values, default_lang) {
         this.keyword = keyword;
@@ -29,7 +29,7 @@ class TranslatedText {
 }
 
 class TranslatedTexts {
-    values = {};
+    values;
 
     constructor(data, default_lang) {
         this.values = {};

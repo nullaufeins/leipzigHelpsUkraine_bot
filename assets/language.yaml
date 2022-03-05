@@ -4,11 +4,11 @@
 # ------------------------------------------------------------------------------------------------
 ## basic:
 welcome-message: &ref_welcome_message
-  de: 'Hey, @%s! Wir versuchen, Hilfsangebote und Anfragen zu koordinieren.'
-  en: 'Hiya, @%s! We want to coordinate offers of help and requests.'
-  pl: 'Cześć, @%s! Staramy się koordynować propozycje i prośby o wsparcie.'
-  ru: 'Привіт, @%s! Мы стараемся координировать предложения и запросы о помощи.'
-  uk: 'Привіт, @%s! Ми намагаємося координувати пропозиції підтримки та запити.'
+  de: 'Hej, %s! Wir versuchen, Hilfsangebote und Anfragen zu koordinieren.'
+  en: 'Hiya, %s! We want to coordinate offers of help and requests.'
+  pl: 'Cześć, %s! Staramy się koordynować propozycje i prośby o wsparcie.'
+  ru: 'Привіт, %s! Мы стараемся координировать предложения и запросы о помощи.'
+  uk: 'Привіт, %s! Ми намагаємося координувати пропозиції підтримки та запити.'
 hello-world-message: # only for testing
   <<: *ref_welcome_message
 pinned-short:
@@ -23,18 +23,12 @@ pinned-message:
   pl: '🌻!Proszę najpierw PRZECZYTAĆ! Staramy się koordynować propozycje i prośby o wsparcie. Wybierz temat.'
   ru: '🌻!ПРОЧИТАЙТЕ сначала! Мы стараемся координировать предложения и запросы о помощи. Выберите соответствующую тему.'
   uk: '🌻!ПРОЧИТАЙТЕ спочатку! Ми намагаємося координувати пропозиції підтримки та запити. Будь ласка, оберіть тему.'
-start-message:
+help-message:
   de: '🌻 Wir versuchen, Hilfsangebote und Anfragen zu koordinieren. Bitte eine Option wählen.'
   en: '🌻 We want to coordinate offers of help and requests. Please choose a topic.'
-  pl: '!!!Proszę najpierw PRZECZYTAĆ!!! 🌻 Staramy się koordynować propozycje i prośby o wsparcie. Wybierz temat.'
+  pl: '🌻 Staramy się koordynować propozycje i prośby o wsparcie. Wybierz temat.'
   ru: '🌻 Мы стараемся координировать предложения и запросы о помощи. Выберите соответствующую тему.'
   uk: '🌻 Ми намагаємося координувати пропозиції підтримки та запити. Будь ласка, оберіть тему.'
-help-message:
-  de: Diese App soll Hilfsangebote und Anfragen koordiniern.
-  en: This app is to coordinate volunteer help. Please choose a topic.
-  pl: Staramy się koordynować propozycje i prośby o wsparcie. Wybierz temat.
-  ru: Это приложение для согласованной работы волонтёров. Выберите соответствующую тему.
-  uk: Ми намагаємося координувати пропозиції підтримки та запити. Будь ласка, оберіть тему.
 redirect-message:
   de: Hier entlang bitte!
   en: This way please!
@@ -52,7 +46,7 @@ transport-desc:
   de: Biete/Suche Transportmöglichkeiten
   en: Offer/need transport
   pl: Oferuj/wyszukuj opcje transportu
-  ru: Предложить/поискать варианты транспорта
+  ru: Предлагаю транспорт / ищу транспорт
   uk: Пропоную/шукаю опції пересування чи логістики
 donations:
   de: Spenden | 📦 🪙

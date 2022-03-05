@@ -7,6 +7,7 @@
 
 !/Makefile
 !/README.md
+!/README-*.md
 !/LICENSE
 !/Procfile
 !/package*.json
@@ -26,9 +27,14 @@
 !/index.js
 
 !/tests
+!/tests/**/
+!/tests/**/*.test.js
 
 !/assets
 !/assets/language.yaml
+
+!/setup
+!/setup/config.yaml
 
 !/dist
 !/dist/VERSION
