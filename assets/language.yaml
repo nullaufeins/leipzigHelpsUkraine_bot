@@ -61,11 +61,11 @@ donations-desc:
   ru: Найти пункты сбора и информацию о пожертвованиях
   uk: Знайти місця для збору пожертв, чи інформацію про пожертви
 legal:
-  de: Rechtsfragen
-  en: Legal Requests
-  pl: Zagadnienia prawne
-  ru: Юридические проблемы
-  uk: Правові питання
+  de: Rechtsfragen | ⚖️
+  en: Legal Requests | ⚖️
+  pl: Zagadnienia prawne | ⚖️
+  ru: Юридические проблемы | ⚖️
+  uk: Правові питання | ⚖️
 legal-desc:
   de: Hilfe zu Rechtsfragen
   en: Get help with legal questions
@@ -85,11 +85,11 @@ housing-desc:
   ru: Предложить/поискать жильё
   uk: Пропоную/шукаю житло
 translations:
-  de: Übersetzungen
-  en: Translations
-  pl: Tłumaczenia
-  ru: Переводы
-  uk: Переклади
+  de: Übersetzungen | 💬🔄
+  en: Translations | 💬🔄
+  pl: Tłumaczenia | 💬🔄
+  ru: Переводы | 💬🔄
+  uk: Переклади | 💬🔄
 translations-desc:
   de: Finde ÜbersetzerInnen
   en: Get help from translators
