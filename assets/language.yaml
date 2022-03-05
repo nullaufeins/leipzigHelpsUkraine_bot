@@ -35,6 +35,12 @@ redirect-message:
   pl: Proszę odnieść się do telegramu tego kanału!
   ru: Пожалуйста, обращайся к этому телеграмму канала!
   uk: Будь-ласка, звертайся до цього телеграм каналу!
+redirect-remark:
+  de: 'WICHTIG: Beim Betreten bitte die angehefteten Nachrichten zuerst durchlesen!'
+  en: 'NOTE: When you enter the group, pls read the pinned messages first!'
+  pl: 'WAŻNE: Kiedy wchodzisz do grupy, najpierw przeczytaj przypięte wiadomości!'
+  ru: 'ВАЖНО: Когда вы входите в группу, пожалуйста, сначала прочитайте закрепленные сообщения!'
+  uk: 'ВАЖЛИВО: Коли ви входите в групу, спершу прочитайте закріплені повідомлення!'
 ## channels
 transport:
   de: Transport | 🚉 ✈️ 🚘
@@ -60,6 +66,18 @@ donations-desc:
   pl: Znajdź punkty zbiórki i informacje o darowiznach
   ru: Найти пункты сбора и информацию о пожертвованиях
   uk: Знайти місця для збору пожертв, чи інформацію про пожертви
+redirect-message-donations-map:
+  de: Aktuellste Infos zu Spendensammel- + ausgabestellen
+  en: Latest infos for donation-collection + distribution points
+  pl: Najnowsze informacje na temat punktów zbierania i dystrybucji darowizn można znaleźć tutaj
+  ru: Актуальную информацию о пунктах сбора и распределения пожертвований можно найти здесь
+  uk: Останню інформацію про пункти збору та розподілу пожертв можна знайти тут
+donations-map-desc:
+  de: 'URL zur Karte für Spenden'
+  en: 'URL for map for donations'
+  pl: 'Stronie mapy do darowizn'
+  ru: 'Веб-сайт карты для пожертвований'
+  ua: 'Веб-сайт для карти для пожертв'
 legal:
   de: Rechtsfragen | ⚖️
   en: Legal Requests | ⚖️

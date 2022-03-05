@@ -59,27 +59,21 @@ const create_rows = (lang) => {
     let row_index = 0;
     for (const { aspects, menu } of COMMANDS) {
         const { redirect } = aspects;
-        if (!redirect || !menu) continue;
+        if (redirect === undefined || menu === undefined) continue;
+        const { group, url } = redirect;
         const { keyword, new_row } = menu;
         if (count > 0 && new_row) row_index += 1;
         if (rows.length <= row_index) rows.push([]);
         const text = get_translation(lang, keyword);
-        rows[row_index].push({text, url: create_url(redirect)});
+        rows[row_index].push({text, url: create_url_from_group_link(group) || url});
         count += 1;
     }
     return rows;
 };
 
-const create_url = (text) => {
+const create_url_from_group_link = (text) => {
     let pattern = /^\@(.*)$/;
-    if (pattern.test(text)) {
-        return text.replace(pattern, `https://t.me/$1`);
-    }
-    pattern = /^[^:]+:\/{2}.*/;
-    if (pattern.test(text)) {
-        return text;
-    }
-    return text;
+    return pattern.test(text || '') ? text.replace(pattern, `https://t.me/$1`) : text;
 };
 
 /****************************************************************

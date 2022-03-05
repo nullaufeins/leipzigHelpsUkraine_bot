@@ -49,8 +49,9 @@ const universal_action = async (bot, ctx, command_options, arguments, options) =
 
     if (!user_has_rights(user, rights)) return;
 
-    if ('redirect' in aspects) {
-        return action_on_redirect(bot, arguments, msg, reply_to_message, aspects, text, options);
+    const { redirect } = aspects;
+    if (!(redirect === undefined)) {
+        return action_on_redirect(bot, arguments, msg, reply_to_message, redirect, text, options);
     }
 
     switch (command) {
@@ -153,12 +154,21 @@ const action_on_help = async (bot, [ lang_arg ], msg, reply_to_msg, { keyword, l
     return action_send_message(bot, responseText, layout_options, msg, options);
 };
 
-const action_on_redirect = async (bot, [ lang_arg ], msg, reply_to_msg, { redirect }, { keyword, lang }, options) => {
+const action_on_redirect = async (bot, [ lang_arg ], msg, reply_to_msg, { group, url }, { keyword, lang }, options) => {
     const lang_reply_to = get_language_sender_in_message(reply_to_msg);
     lang = recognise_language(lang || lang_arg || lang_reply_to) || DEFAULT_LANGUAGE;
     // post text with link:
     const message = get_translation(lang, keyword);
-    const responseText = `${message}: ${redirect}`;
+    let responseText = '';
+    if (!(group === undefined)) {
+        const remark = get_translation(lang, 'redirect-remark');
+        responseText = `${remark}\n\n${message}: ${group}`;
+    } else if (!(url === undefined)) {
+        responseText = `${message}: ${url}`;
+    } else {
+        // should not occur!
+        return action_ignore();
+    }
     const layout_options = get_message_options_basic(reply_to_msg);
     return action_send_message(bot, responseText, layout_options, msg, options);
 };
