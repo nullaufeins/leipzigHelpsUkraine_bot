@@ -92,7 +92,8 @@ commands:
       rights:   [administrator, creator]
       strict:   true
       match:    '^(transport|travel).*$'
-      redirect: '@transport_leipzig_ukraine'
+      redirect:
+        group: '@transport_leipzig_ukraine'
     menu:
       keyword: transport
       new_row: true
@@ -105,7 +106,8 @@ commands:
       rights:   [administrator, creator]
       strict:   true
       match:    '^(housing|a(c+)o(m+)odation|shelter|obdach)$'
-      redirect: '@accomodation_leipzig_ukraine'
+      redirect:
+        group: '@accomodation_leipzig_ukraine'
     menu:
       keyword: housing
       new_row: true
@@ -119,7 +121,8 @@ commands:
       rights:   [administrator, creator]
       strict:   true
       match:    '^(translation(s?)|language(s?)|dolmetsch.*)$'
-      redirect: '@translators_leipzig_ukraine'
+      redirect:
+        group: '@translators_leipzig_ukraine'
     menu:
       keyword: translations
       new_row: true
@@ -131,7 +134,8 @@ commands:
       command:  '/legal'
       rights :  [administrator, creator]
       strict:   true
-      redirect: '@legal_leipzig_ukraine'
+      redirect:
+        group: '@legal_leipzig_ukraine'
       match:    '^(legal.*|law|jura|jurist.*|rights)$'
     menu:
       keyword: legal
@@ -145,7 +149,8 @@ commands:
       rights:   [administrator, creator]
       strict:   true
       match:    '^(donation(s?)|charit(y|ies)|spenden|give|giving|gift(s?))$'
-      redirect: '@donations_leipzig_ukraine'
+      redirect:
+        group: '@donations_leipzig_ukraine'
     menu:
       keyword: donations
       new_row: true
@@ -153,13 +158,26 @@ commands:
       keyword: donations-desc
     text:
       keyword: redirect-message
+  ## Following is NOT in menu:
+  - aspects:
+      command:  '/map'
+      rights:   [administrator, creator]
+      strict:   true
+      match:    '^(map|donation(s?)-map)$'
+      redirect:
+        url: 'https://getethermap.org/m/leipzig-donation-for-ukraine'
+    side-menu:
+      keyword: donations-map-desc
+    text:
+      keyword: redirect-message-donations-map
   ## 4th row
   - aspects:
       command:  '/homepage'
       rights:   [administrator, creator]
       strict:   true
       match:    '^(homepage|web|website|webpage)$'
-      redirect: http://leipzig-helps-ukraine.de/
+      redirect:
+        url: http://leipzig-helps-ukraine.de/
     menu:
       keyword: homepage
       new_row: true
@@ -172,7 +190,8 @@ commands:
       command:  '/feedback'
       rights :  [administrator, creator]
       strict:   true
-      redirect: '@feedback_leipzig_ukraine'
+      redirect:
+        group: '@feedback_leipzig_ukraine'
       match:    '^(feedback|review)$'
     menu:
       keyword: feedback
