@@ -162,7 +162,7 @@ const action_on_redirect = async (bot, [ lang_arg ], msg, reply_to_msg, { group,
     let responseText = '';
     if (!(group === undefined)) {
         const remark = get_translation(lang, 'redirect-remark');
-        responseText = `${remark}\n\n${message}: ${group}`;
+        responseText = `${message}: ${group}\n\n${remark}`;
     } else if (!(url === undefined)) {
         responseText = `${message}: ${url}`;
     } else {
