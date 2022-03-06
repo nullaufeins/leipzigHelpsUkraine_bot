@@ -54,7 +54,9 @@ const action_on_pin_all_languages = async (bot, context, { keyword }, options) =
             P = P.then(() => {
                 return send_message(bot, context.getCallerMessage(), responseText, layout_options)
             });
-            P = P.then(([_, reply]) => {
+            P = P.then((value) => {
+                if (!(value instanceof Array)) return;
+                const [_, reply] = value;
                 return pin_message(bot, new Message(reply))
             });
         } else {

@@ -29,7 +29,8 @@ const decorate_listener = (listener, bot, options) => {
         const context = new CallContext(ctx);
         return listener(bot, context, t, options)
             // !!! logging only in debug mode during local testing !!!
-            .then(([action_taken, _]) => {
+            .then((value) => {
+                if (!(value instanceof Array)) return;
                 if (debug && (action_taken === true)) {
                     console.log('Current state', context.toRepr());
                 }
@@ -71,7 +72,7 @@ const listener_on_text = async (bot, context, t, options) => {
 
         // command not recognised. Only delete, if command addressed to bot!
         if (commands.length == 0) {
-            if (verified) action_delete_and_ignore_with_error(bot, context, `Command '@<botname> ${command} ...' addressed to bot but not recognised!`);
+            if (verified) return action_delete_and_ignore_with_error(bot, context, `Command '@<botname> ${command} ...' addressed to bot but not recognised!`);
             return action_ignore(context);
         }
 
