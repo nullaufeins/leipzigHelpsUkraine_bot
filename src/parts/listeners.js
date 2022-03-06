@@ -8,21 +8,41 @@ const {
     filter_commands_by_command_pre,
     filter_commands_by_command_post,
 } = require('./../setup/comms.js');
-const { message_too_old } = require('./operations.js');
+const { logListenerErrorSilently } = require('./../core/logging.js');
+const { CallContext } = require('./../models/callcontext.js');
+const { universal_action } = require('./actions.js');
 const {
-    user_in_context_is_bot,
-} = require('./users.js');
-const {
-    universal_action,
     action_ignore,
-} = require('./actions.js');
+    action_ignore_with_error,
+} = require('./actions_basic.js');
+
+/****************************************************************
+ * META METHOD - decorate listener
+ ****************************************************************/
+
+const decorate_listener = (listener, bot, options) => {
+    const { debug } = options;
+    return async (ctx) => {
+        const t = Date.now();
+        const context = new CallContext(ctx);
+        return listener(bot, context, t, options)
+            // !!! logging only in debug mode during local testing !!!
+            .then(([action_taken, _]) => {
+                if (debug && (action_taken === true)) {
+                    console.log('Current state', context.toRepr());
+                }
+            })
+            // error logging (for live usage):
+            .catch((err) => logListenerErrorSilently(context, err))
+    }
+}
 
 /****************************************************************
  * METHODS - LISTENERS
  ****************************************************************/
 
-const listener_on_callback_query = async () => {
-    console.warn('Not yet implemented');
+const listener_on_callback_query = async (bot, context, t, options) => {
+    return action_ignore_with_error(context, 'Listener not yet implemented');
 };
 
 /****************
@@ -31,33 +51,24 @@ const listener_on_callback_query = async () => {
  *
  * See README-TECHNICAL.md.
  ****************/
-const listener_on_text = async (bot, ctx, t, options) => {
-    // do nothing if bot:
-    if (user_in_context_is_bot(ctx)) return action_ignore();
-    // if msg too old, do nothing!
-    const msg = ctx.update.message;
+const listener_on_text = async (bot, context, t, options) => {
+    if (!(context.isBotCaller() === false)) return action_ignore(context);
     const { message_expiry } = options;
-    if (message_too_old(msg, t, message_expiry)) return action_ignore(bot, msg);
-    // otherwise ...
-    const text = (msg.text || '').trim();
+
+    if (context.messageTooOldCaller(t, message_expiry)) return action_ignore(context);
+    const text = context.getTextCaller();
+
     if (is_valid_communication_pre(text)) {
-        // if too old, do nothing!
-        const { message_expiry } = options;
-        if (message_too_old(msg, t, message_expiry)) {
-            return action_ignore(bot, msg);
-        }
-        const botname = ctx.botInfo.username;
-        const {commands, arguments} = filter_commands_by_command_pre(text, botname);
-        if (commands.length > 0) {
-            return universal_action(bot, ctx, commands[0], arguments, options);
-        }
-        // if invalid command, delete and return:
-        return action_ignore(bot, msg);
+        context.track('text-listener');
+        const {commands, arguments} = filter_commands_by_command_pre(text, context.getBotname());
+        if (commands.length > 0) return universal_action(bot, context, commands[0], arguments, options);
+        // if invalid command:
+        return action_ignore(context);
     } else if (text.startsWith(`/`)) {
-        return listener_on_message(bot, ctx, t, options);
+        return listener_on_message(bot, context, t, options);
     } else {
-        // do nothing if not potentially a command:
-        return action_ignore(bot, msg);
+        // if not potentially a command:
+        return action_ignore(context);
     }
 }
 
@@ -66,26 +77,22 @@ const listener_on_text = async (bot, ctx, t, options) => {
  *
  * See README-TECHNICAL.md.
  ****************/
-const listener_on_message = async (bot, ctx, t, options) => {
-    // do nothing if bot:
-    if (user_in_context_is_bot(ctx)) return action_ignore();
-    // if msg too old, do nothing!
-    const msg = ctx.update.message;
+const listener_on_message = async (bot, context, t, options) => {
+    if (!(context.isBotCaller() === false)) return action_ignore(context);
+
     const { message_expiry } = options;
-    if (message_too_old(msg, t, message_expiry)) return action_ignore(bot, msg);
-    // otherwise ...
-    const text = (msg.text || '').trim();
+    if (context.messageTooOldCaller(t, message_expiry)) return action_ignore(context);
+
+    const text = context.getTextCaller();
     if (is_valid_communication_post(text)) {
-        const botname = ctx.botInfo.username;
-        const {commands, arguments} = filter_commands_by_command_post(text, botname);
-        if (commands.length > 0) {
-            return universal_action(bot, ctx, commands[0], arguments, options);
-        }
-        // if invalid command, delete and return:
-        return action_ignore(bot, msg);
+        context.track('msg-listener');
+        const {commands, arguments} = filter_commands_by_command_post(text, context.getBotname());
+        if (commands.length > 0) return universal_action(bot, context, commands[0], arguments, options);
+        // if invalid command:
+        return action_ignore(context);
     } else {
-        // do nothing if not potentially a command:
-        return action_ignore(bot, msg);
+        // if not potentially a command:
+        return action_ignore(context);
     }
 }
 
@@ -94,6 +101,7 @@ const listener_on_message = async (bot, ctx, t, options) => {
  ****************************************************************/
 
 module.exports = {
+    decorate_listener,
     listener_on_callback_query,
     listener_on_text,
     listener_on_message,
