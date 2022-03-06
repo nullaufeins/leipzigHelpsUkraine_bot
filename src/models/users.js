@@ -58,8 +58,8 @@ class User {
             id:         CENSOR_ATTRIBUTE,
             user_type:  this.user_type,
             is_bot:     this.is_bot,
-            first_name: full_censor === false ? this.first_name : CENSOR_ATTRIBUTE,
-            username:   full_censor === false ? this.getUserNameWithReference() : CENSOR_ATTRIBUTE,
+            first_name: CENSOR_ATTRIBUTE,
+            username:   full_censor === false ? this.getUserName() : CENSOR_ATTRIBUTE,
             lang:       this.lang,
         }
     }

@@ -24,7 +24,7 @@ const {
  ****************************************************************/
 
 const decorate_listener = (listener, bot, options) => {
-    const { debug, full_censor } = options;
+    const { debug, full_censor, full_censor_user } = options;
     return async (ctx) => {
         const t = Date.now();
         const context = new CallContext(ctx);
@@ -40,7 +40,7 @@ const decorate_listener = (listener, bot, options) => {
             // error logging (for live usage):
             .catch((err) => {
                 const context_as_str = context instanceof CallContext ? context.toCensoredString(full_censor) : '---';
-                const user_as_str = user instanceof User ? user.toCensoredString(full_censor) : '---';
+                const user_as_str = user instanceof User ? user.toCensoredString(full_censor_user) : '---';
                 logListenerErrorSilently(context_as_str, user_as_str, err, full_censor)
             });
     }
