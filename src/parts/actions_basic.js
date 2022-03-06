@@ -28,6 +28,12 @@ const action_delete_and_ignore = async (bot, context) => {
     return remove_message(bot, context.getCallerMessage());
 };
 
+const action_delete_and_ignore_with_error = async (bot, context, text) => {
+    context.track('basic-action:delete-and-ignore-with-error');
+    remove_message(bot, context.getCallerMessage());
+    return Promise.reject(text || 'Something went wrong. Ignoring.');
+};
+
 const action_send_message = async (bot, context, text, options, { delete_calls }) => {
     if (delete_calls) {
         /********
@@ -53,5 +59,6 @@ module.exports = {
     action_ignore,
     action_ignore_with_error,
     action_delete_and_ignore,
+    action_delete_and_ignore_with_error,
     action_send_message,
 };

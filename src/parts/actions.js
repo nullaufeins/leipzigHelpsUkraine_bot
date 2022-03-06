@@ -3,7 +3,7 @@
  ****************************************************************/
 
 const {
-    action_delete_and_ignore,
+    action_delete_and_ignore_with_error,
 } = require('./actions_basic.js');
 const {
     action_on_pin_one_language,
@@ -31,31 +31,33 @@ const universal_action = async (bot, context, command_options, arguments, option
     }
     */
 
-    if (!user.hasRights(rights)) return;
-
-    if (!(redirect === undefined)) {
-        return action_on_redirect(bot, context, arguments, redirect, text, options);
+    if (user.hasRights(rights)) {
+        if (redirect === undefined) {
+            switch (command) {
+                case command.match(/^\/pin(?:|_(.*))$/)?.input:
+                    const [ flag ] = arguments;
+                    if (flag === 'all') {
+                        return action_on_pin_all_languages(bot, context, text, options);
+                    }
+                    return action_on_pin_one_language(bot, context, arguments, text, options);
+                case '/help':
+                    return action_on_help(bot, context, arguments, text, options);
+                // this command is ONLY available if debug=true in config.
+                case '/hello':
+                    const { debug } = options;
+                    if (debug) {
+                        const user_replied_to = await context.getUserMessageRepliedTo(bot);
+                        return action_on_hello(bot, context, [user, user_replied_to], arguments, text, options);
+                    }
+                default:
+                    return action_delete_and_ignore_with_error(bot, context, `Unrecognised command: '${command}'!`);
+            }
+        } else {
+            return action_on_redirect(bot, context, arguments, redirect, text, options);
+        }
     }
 
-    switch (command) {
-        case command.match(/^\/pin(?:|_(.*))$/)?.input:
-            const [ flag ] = arguments;
-            if (flag === 'all') {
-                return action_on_pin_all_languages(bot, context, text, options);
-            }
-            return action_on_pin_one_language(bot, context, arguments, text, options);
-        case '/help':
-            return action_on_help(bot, context, arguments, text, options);
-        // this command is ONLY available if debug=true in config.
-        case '/hello':
-            const { debug } = options;
-            if (debug) {
-                const user_replied_to = await context.getUserMessageRepliedTo(bot);
-                return action_on_hello(bot, context, [user, user_replied_to], arguments, text, options);
-            }
-        default:
-            return action_delete_and_ignore(bot, context);
-    }
+    return action_delete_and_ignore_with_error(bot, context, 'Caller has insufficient rights!');
 };
 
 /****************************************************************
