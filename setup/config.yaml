@@ -5,6 +5,11 @@ options:
   # only set to true during development. Do NOT commit with 'debug: true'!
   debug: false
   ################
+  # logging messages are censored. With
+  # true => complete censoring of any potential data
+  # false => partial censoring, but enough to precent sensitive information from being logged.
+  full-censor: false
+  ################
   # true => shows suggests when user starts typing /...
   show-side-menu: true
   ################

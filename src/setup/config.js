@@ -17,6 +17,7 @@ const CONFIG = yaml.load(fs.readFileSync('setup/config.yaml', 'utf8'));
 const OPTIONS = yaml_to_js_dictionary(
     CONFIG['options'] || {} || {
         debug:          false,
+        full_censor:    true,
         show_side_menu: false,
         listen_to_text: false,
         delete_calls:   false,
