@@ -79,9 +79,9 @@ class Message {
             text:      full_censor === false ? censorMessage(this.text) : CENSOR_ATTRIBUTE,
             lang:      this.lang,
             is_bot:    this.is_bot,
-            messageId: '*****',
-            chatId:    '*****',
-            userId:    '*****',
+            messageId: CENSOR_ATTRIBUTE,
+            chatId:    CENSOR_ATTRIBUTE,
+            userId:    CENSOR_ATTRIBUTE,
         }
     }
 
