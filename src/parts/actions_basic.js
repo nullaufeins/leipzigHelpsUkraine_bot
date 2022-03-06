@@ -38,8 +38,7 @@ const action_send_message = async (bot, context, text, options, { delete_calls }
         context.track('basic-action:delete-caller-msg');
         await remove_message(bot, context.getCallerMessage());
         context.track('basic-action:new-post');
-        return send_message(bot, context.getCallerMessage(), text, options)
-            .then(() => {throw Error('oh no!')});
+        return send_message(bot, context.getCallerMessage(), text, options);
     } else {
         context.track('basic-action:edit-post');
         return send_message_as_overwrite(bot, context.getCallerMessage(), text, options);
