@@ -30,12 +30,24 @@ class CallContext {
         return {
             botname: this.botname,
             message: this.caller_msg.toRepr(),
-            reply_to_message: this.reply_to_msg.toRepr(),
-            tracking: this.trace.toRepr(),
+            reply_to: this.reply_to_msg.toRepr(),
+            trace: this.trace.toRepr(),
         }
     }
 
     toString() { return JSON.stringify(this.toRepr()); }
+
+    toCensoredRepr(full_censor=false) {
+        return {
+            botname: this.botname,
+            message: this.caller_msg.toCensoredRepr(full_censor),
+            // NOTE: fully censor the messaged replied to, regardless:
+            reply_to: this.reply_to_msg.toCensoredRepr(true),
+            trace: this.trace.toRepr(),
+        }
+    }
+
+    toCensoredString(full_censor=false) { return JSON.stringify(this.toCensoredRepr(full_censor)); }
 
     /********
      * Methods related just to caller

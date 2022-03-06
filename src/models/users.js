@@ -2,7 +2,7 @@
  * IMPORTS
  ****************************************************************/
 
-//
+ const { CENSOR_ATTRIBUTE } = require('./../core/logging.js');
 
 /****************************************************************
  * METHODS
@@ -52,6 +52,19 @@ class User {
     }
 
     toString() { return JSON.stringify(this.toRepr()); }
+
+    toCensoredRepr(full_censor=false) {
+        return {
+            id:         CENSOR_ATTRIBUTE,
+            is_bot:     this.is_bot,
+            first_name: full_censor === false ? this.first_name : CENSOR_ATTRIBUTE,
+            username:   full_censor === false ? this.getUserNameWithReference() : CENSOR_ATTRIBUTE,
+            lang:       this.lang,
+            kind:       this.kind,
+        }
+    }
+
+    toCensoredString(full_censor=false) { return JSON.stringify(this.toCensoredRepr(full_censor)); }
 }
 
 /****************************************************************

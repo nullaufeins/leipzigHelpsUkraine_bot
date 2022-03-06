@@ -2,6 +2,10 @@
  * IMPORTS
  ****************************************************************/
 
+ const {
+    CENSOR_ATTRIBUTE,
+    censorMessage,
+} = require('./../core/logging.js');
 const { User } = require('./users.js');
 
 /****************************************************************
@@ -18,7 +22,7 @@ class Message {
 
     constructor(msg) {
         const date = (msg || {}).date;
-        this.date_posted = typeof date === 'number' ? date * 1000 : undefined;
+        this.timestamp = typeof date === 'number' ? date * 1000 : undefined;
         this.text = ((msg || {}).text || '').trim();
         this.lang = ((msg || {}).from || {}).language_code;
         this.is_bot = (((msg || {}).from) || {}).is_bot;
@@ -43,7 +47,7 @@ class Message {
     isBot() { return this.is_bot; }
 
     // returns timestamp in ms
-    getTimestamp() { return this.date_posted; }
+    getTimestamp() { return this.timestamp; }
 
     async getUser(bot) {
         return bot.telegram.getChatMember(this.chatId, this.userId)
@@ -52,12 +56,12 @@ class Message {
     }
 
     messageTooOld(t, expiry) {
-        return (typeof this.date_posted === 'number') ? (this.date_posted + expiry < t) : true;
+        return (typeof this.timestamp === 'number') ? (this.timestamp + expiry < t) : true;
     }
 
     toRepr() {
         return {
-            data:      this.date_posted,
+            timestamp: this.timestamp,
             text:      this.text,
             lang:      this.lang,
             is_bot:    this.is_bot,
@@ -68,6 +72,20 @@ class Message {
     }
 
     toString() { return JSON.stringify(this.toRepr()); }
+
+    toCensoredRepr(full_censor=false) {
+        return {
+            timestamp: this.timestamp,
+            text:      full_censor === false ? censorMessage(this.text) : CENSOR_ATTRIBUTE,
+            lang:      this.lang,
+            is_bot:    this.is_bot,
+            messageId: '*****',
+            chatId:    '*****',
+            userId:    '*****',
+        }
+    }
+
+    toCensoredString(full_censor) { return JSON.stringify(this.toCensoredRepr(full_censor)); }
 }
 
 /****************************************************************
