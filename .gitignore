@@ -20,6 +20,7 @@
 !/src/classes/
 !/src/core/
 !/src/parts/
+!/src/models/
 !/src/setup/
 !/src/setup/*.yaml
 !/src/**/*.js
