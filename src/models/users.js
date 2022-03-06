@@ -20,7 +20,7 @@ class User {
         this.first_name = first_name;
         this.username = username;
         this.lang = language_code;
-        this.kind = status;
+        this.user_type = status;
     }
 
     isBot() { return this.is_bot }
@@ -36,18 +36,18 @@ class User {
 
     getFirstName() { return this.first_name };
 
-    getKind() { return this.kind; }
+    getUserType() { return this.user_type; }
 
-    hasRights(rights) { return rights.includes(this.kind); }
+    hasRights(rights) { return rights.includes(this.user_type); }
 
     toRepr() {
         return {
             id:         this.id,
+            user_type:  this.user_type,
             is_bot:     this.is_bot,
             first_name: this.first_name,
             username:   this.getUserNameWithReference(),
             lang:       this.lang,
-            kind:       this.kind,
         };
     }
 
@@ -56,11 +56,11 @@ class User {
     toCensoredRepr(full_censor=false) {
         return {
             id:         CENSOR_ATTRIBUTE,
+            user_type:  this.user_type,
             is_bot:     this.is_bot,
             first_name: full_censor === false ? this.first_name : CENSOR_ATTRIBUTE,
             username:   full_censor === false ? this.getUserNameWithReference() : CENSOR_ATTRIBUTE,
             lang:       this.lang,
-            kind:       this.kind,
         }
     }
 
