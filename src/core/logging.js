@@ -9,17 +9,20 @@ const { split_non_empty_parts } = require('./utils');
  * METHODS special error logging
  ****************************************************************/
 
-const ErrorMessageListener = (context, err, full_censor) => (sprintf(
-`Non fatal error caught in context
+const ErrorMessageListener = (context, user, err) => (sprintf(
+`Non fatal error caught in Context:
+%s
+
+Called by User:
 %s
 
 Details of Exception:
 %s
 
-...continuing silently.`, context.toCensoredString(full_censor), err));
+...continuing silently.`, context, user, err));
 
-const logListenerError = (context, err, full_censor) => (console.error(ErrorMessageListener(context, err, full_censor)));
-const logListenerErrorSilently = (context, err, full_censor) => (console.log(ErrorMessageListener(context, err, full_censor)));
+const logListenerError = (context, user, err) => (console.error(ErrorMessageListener(context, user, err)));
+const logListenerErrorSilently = (context, user, err) => (console.log(ErrorMessageListener(context, user, err)));
 
 /****************************************************************
  * METHODS censoring

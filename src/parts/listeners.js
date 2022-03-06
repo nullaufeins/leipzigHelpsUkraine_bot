@@ -11,6 +11,7 @@ const {
 } = require('./../setup/comms.js');
 const { logListenerErrorSilently } = require('./../core/logging.js');
 const { CallContext } = require('./../models/callcontext.js');
+const { User } = require('./../models/users.js');
 const { universal_action } = require('./actions.js');
 const {
     action_ignore,
@@ -27,6 +28,7 @@ const decorate_listener = (listener, bot, options) => {
     return async (ctx) => {
         const t = Date.now();
         const context = new CallContext(ctx);
+        const user = await context.getUserCaller(bot);
         return listener(bot, context, t, options)
             // !!! logging only in debug mode during local testing !!!
             .then((value) => {
@@ -36,7 +38,11 @@ const decorate_listener = (listener, bot, options) => {
                 }
             })
             // error logging (for live usage):
-            .catch((err) => logListenerErrorSilently(context, err, full_censor))
+            .catch((err) => {
+                const context_as_str = context instanceof CallContext ? context.toCensoredString(full_censor) : '---';
+                const user_as_str = user instanceof User ? user.toCensoredString(full_censor) : '---';
+                logListenerErrorSilently(context_as_str, user_as_str, err, full_censor)
+            });
     }
 }
 
