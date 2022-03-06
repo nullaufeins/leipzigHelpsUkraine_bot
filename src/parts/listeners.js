@@ -23,7 +23,7 @@ const {
  ****************************************************************/
 
 const decorate_listener = (listener, bot, options) => {
-    const { debug } = options;
+    const { debug, full_censor } = options;
     return async (ctx) => {
         const t = Date.now();
         const context = new CallContext(ctx);
@@ -32,11 +32,11 @@ const decorate_listener = (listener, bot, options) => {
             .then((value) => {
                 if (!(value instanceof Array)) return;
                 if (debug && (action_taken === true)) {
-                    console.log('Current state', context.toRepr());
+                    console.log('Context of call', context.toCensoredRepr(full_censor));
                 }
             })
             // error logging (for live usage):
-            .catch((err) => logListenerErrorSilently(context, err))
+            .catch((err) => logListenerErrorSilently(context, err, full_censor))
     }
 }
 
