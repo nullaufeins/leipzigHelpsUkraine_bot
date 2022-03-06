@@ -66,9 +66,10 @@ const action_on_pin_all_languages = async (bot, context, { keyword }, options) =
     return P;
 }
 
-const action_on_hello = async (bot, context, user, [ lang_arg ], { keyword, lang }, options) => {
+const action_on_hello = async (bot, context, [user, user_replied_to], [ lang_arg ], { keyword, lang }, options) => {
     context.track('action:hello');
-    const name = user.getFirstName();
+    // decide whether to reply to caller or replied-to-user (if exists):
+    const name = user_replied_to === undefined ? user.getFirstName() : user_replied_to.getFirstName();
     lang = getLanguageByPriorityInContext(context, lang, lang_arg);
     // post text:
     const responseText = sprintf(get_translation(lang, keyword), name);

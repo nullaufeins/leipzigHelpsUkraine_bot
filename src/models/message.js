@@ -46,8 +46,9 @@ class Message {
     getTimestamp() { return this.date_posted; }
 
     async getUser(bot) {
-        const user = await bot.telegram.getChatMember(this.chatId, this.userId);
-        return new User(user);
+        return bot.telegram.getChatMember(this.chatId, this.userId)
+            .then((data) => new User(data))
+            .catch((_) => {return undefined});
     }
 
     messageTooOld(t, expiry) {
