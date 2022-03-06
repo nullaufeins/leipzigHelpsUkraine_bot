@@ -36,11 +36,11 @@ redirect-message:
   ru: Пожалуйста, обращайся к этому телеграмму канала!
   uk: Будь-ласка, звертайся до цього телеграм каналу!
 redirect-remark:
-  de: 'WICHTIG: Beim Betreten bitte die angehefteten Nachrichten zuerst durchlesen!'
-  en: 'NOTE: When you enter the group, pls read the pinned messages first!'
-  pl: 'WAŻNE: Kiedy wchodzisz do grupy, najpierw przeczytaj przypięte wiadomości!'
-  ru: 'ВАЖНО: Когда вы входите в группу, пожалуйста, сначала прочитайте закрепленные сообщения!'
-  uk: 'ВАЖЛИВО: Коли ви входите в групу, спершу прочитайте закріплені повідомлення!'
+  de: 'Bitte auch in den angehefteten Nachrichten nach weiteren Informationen schauen.'
+  en: 'Please take note of the pinned messages for more information.'
+  pl: 'Więcej informacji można znaleźć w zakładce aktualności.'
+  ru: 'Для получения дополнительной информации ознакомьтесь с новостями, помещенными на страницу.'
+  uk: 'Для отримання додаткової інформації ознайомтеся з новинами на сторінці.'
 ## channels
 transport:
   de: Transport | 🚉 ✈️ 🚘
