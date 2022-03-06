@@ -10,6 +10,7 @@
 
 const get_language_sender_in_message = (msg) => {
     try {
+        console.log(`Language from message: ${msg.from.language_code}`)
         return msg.from.language_code;
     } catch(_) {
         return undefined;
