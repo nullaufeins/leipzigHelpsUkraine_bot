@@ -21,7 +21,7 @@ const {
     get_message_options_basic,
 } = require('./menus.js');
 const {
-    action_ignore,
+    action_empty,
     action_ignore_with_error,
     action_send_message,
 } = require('./actions_basic.js');
@@ -38,27 +38,25 @@ const action_on_pin_one_language = async (bot, context, [ lang_arg ], { keyword,
     const layout_options = get_main_menu_inline(lang);
     // pin menu:
     await remove_message(bot, context.getCallerMessage());
-    reply = await send_message(bot, context.getCallerMessage(), responseText, layout_options)
-    return pin_message(bot, reply);
+    const [_, reply_to_msg] = await send_message(bot, context.getCallerMessage(), responseText, layout_options);
+    return pin_message(bot, reply_to_msg);
 }
 
 const action_on_pin_all_languages = async (bot, context, { keyword }, options) => {
     context.track('action:pin-all');
     let index = 0;
-    let P = action_ignore();
+    let P = action_empty();
     for (const lang of SUPPORTED_LANGUAGES) {
         const responseText = get_translation(lang, keyword);
         const layout_options = get_main_menu_inline(lang);
         if (index == 0) {
             // post then pin 1st menu:
-            P = P.then(() => {
-                return send_message(bot, context.getCallerMessage(), responseText, layout_options)
-            });
-            P = P.then((value) => {
-                if (!(value instanceof Array)) return;
-                const [_, reply] = value;
-                return pin_message(bot, new Message(reply))
-            });
+            P = P.then(() => send_message(bot, context.getCallerMessage(), responseText, layout_options))
+                .then((value) => {
+                    if (!(value instanceof Array)) return;
+                    const [_, reply] = value;
+                    return pin_message(bot, new Message(reply))
+                });
         } else {
             // post all other menus:
             P = P.then(() => send_message(bot, context.getCallerMessage(), responseText, layout_options));
