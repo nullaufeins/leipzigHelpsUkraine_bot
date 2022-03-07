@@ -6,6 +6,12 @@ const { sprintf } = require('sprintf-js');
 const { split_non_empty_parts } = require('./utils');
 
 /****************************************************************
+ * METHODS errors
+ ****************************************************************/
+
+const CombineErrors = (err1, err2) => (sprintf(`%s %s`, err1, err2));
+
+/****************************************************************
  * METHODS special error logging
  ****************************************************************/
 
@@ -67,10 +73,11 @@ const censorMessage = (text) => {
  ****************************************************************/
 
 module.exports = {
-    CENSOR_ATTRIBUTE,
-    CENSOR_DIGITS,
-    censorMessage,
+    CombineErrors,
     logDebugListener,
     logListenerError,
     logListenerErrorSilently,
+    CENSOR_ATTRIBUTE,
+    CENSOR_DIGITS,
+    censorMessage,
 };
