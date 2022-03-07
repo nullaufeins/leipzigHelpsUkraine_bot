@@ -168,10 +168,10 @@ commands:
       keyword: redirect-message
   ## Following is NOT in menu:
   - aspects:
-      command:  '/map'
+      command:  '/ethermap'
       rights:   [administrator, creator]
       strict:   true
-      match:    '^(map|donation(s?)-map)$'
+      match:    '^ethermap$'
       redirect:
         url: 'https://getethermap.org/m/leipzig-donation-for-ukraine'
     side-menu:
