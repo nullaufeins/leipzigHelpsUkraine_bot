@@ -43,7 +43,6 @@ const send_message_as_overwrite = async (bot, msg, text, options) => {
 };
 
 const pin_message = async (bot, msg) => {
-    console.log(msg)
     return bot.telegram
         .pinChatMessage(msg.getChatId(), msg.getMessageId(), {disable_notification: true})
         // resolve value true indicates that action was taken
