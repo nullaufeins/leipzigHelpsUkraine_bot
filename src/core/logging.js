@@ -10,16 +10,19 @@ const { split_non_empty_parts } = require('./utils');
  ****************************************************************/
 
 const ErrorMessageListener = (context, user, err) => (sprintf(
-`Non fatal error caught in Context:
+`[(non fatal) ERROR]: %s
+Context + Calling User:
 %s
-
-Called by User:
 %s
+...continuing silently.`, err, context, user));
 
-Details of Exception:
-%s
-
-...continuing silently.`, context, user, err));
+const logDebugListener = (context, user, action_taken) => {
+    console.debug(`Context of Call:`);
+    console.debug(context);
+    console.debug(`Called by User:`);
+    console.debug(user);
+    console.debug(`Action taken:`, action_taken);
+};
 
 const logListenerError = (context, user, err) => (console.error(ErrorMessageListener(context, user, err)));
 const logListenerErrorSilently = (context, user, err) => (console.log(ErrorMessageListener(context, user, err)));
@@ -67,6 +70,7 @@ module.exports = {
     CENSOR_ATTRIBUTE,
     CENSOR_DIGITS,
     censorMessage,
+    logDebugListener,
     logListenerError,
     logListenerErrorSilently,
 };

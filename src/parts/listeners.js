@@ -9,7 +9,10 @@ const {
     extract_botname_post,
     filter_commands_by_match,
 } = require('./../setup/comms.js');
-const { logListenerErrorSilently } = require('./../core/logging.js');
+const {
+    logDebugListener,
+    logListenerErrorSilently
+} = require('./../core/logging.js');
 const { CallContext } = require('./../models/callcontext.js');
 const { User } = require('./../models/users.js');
 const { universal_action } = require('./actions.js');
@@ -32,9 +35,9 @@ const decorate_listener = (listener, bot, options) => {
         return listener(bot, context, t, options)
             // !!! logging only in debug mode during local testing !!!
             .then((value) => {
-                if (!(value instanceof Array)) return;
-                if (debug && (action_taken === true)) {
-                    console.log('Context of call', context.toCensoredRepr(full_censor));
+                if (debug) {
+                    [action_taken, _] = value instanceof Array ? value : [];
+                    logDebugListener(context.toCensoredRepr(full_censor), user.toCensoredRepr(full_censor_user), action_taken);
                 }
             })
             // error logging (for live usage):

@@ -52,8 +52,7 @@ const action_on_pin_all_languages = async (bot, context, { keyword }, options) =
             // post then pin 1st menu:
             P = P.then(() => send_message(bot, context.getCallerMessage(), responseText, layout_options))
                 .then((value) => {
-                    if (!(value instanceof Array)) return;
-                    const [_, reply] = value;
+                    const [_, reply] = value instanceof Array ? value : [];
                     return pin_message(bot, reply);
                 });
         } else {
