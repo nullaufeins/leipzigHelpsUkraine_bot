@@ -166,18 +166,6 @@ commands:
       keyword: donations-desc
     text:
       keyword: redirect-message
-  ## Following is NOT in menu:
-  - aspects:
-      command:  '/ethermap'
-      rights:   [administrator, creator]
-      strict:   true
-      match:    '^ethermap$'
-      redirect:
-        url: 'https://getethermap.org/m/leipzig-donation-for-ukraine'
-    side-menu:
-      keyword: donations-map-desc
-    text:
-      keyword: redirect-message-donations-map
   ## 4th row
   - aspects:
       command:  '/homepage'
@@ -205,6 +193,40 @@ commands:
       keyword: feedback
     side-menu:
       keyword: feedback-desc
+    text:
+      keyword: redirect-message
+  ## Following are NOT in menu:
+  - aspects:
+      command:  '/ethermap'
+      rights:   [administrator, creator]
+      strict:   true
+      match:    '^ethermap$'
+      redirect:
+        url: 'https://getethermap.org/m/leipzig-donation-for-ukraine'
+    side-menu:
+      keyword: donations-map-desc
+    text:
+      keyword: redirect-message-donations-map
+  - aspects:
+      command:  '/animals'
+      rights:   [administrator, creator]
+      strict:   true
+      match:    '^(animal|animals)$'
+      redirect:
+        group: '@animals_leipzig_ukraine'
+    side-menu:
+      keyword: animals-desc
+    text:
+      keyword: redirect-message
+  - aspects:
+      command:  '/arrival'
+      rights:   [administrator, creator]
+      strict:   true
+      match:    '^(arrival|arrivals)$'
+      redirect:
+        group: '@arrival_leipzig_ukraine'
+    side-menu:
+      keyword: arrival-desc
     text:
       keyword: redirect-message
   # END menu commands

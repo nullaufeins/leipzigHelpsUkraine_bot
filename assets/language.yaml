@@ -42,6 +42,18 @@ redirect-remark:
   ru: 'Для получения дополнительной информации ознакомьтесь с новостями, помещенными на страницу.'
   uk: 'Для отримання додаткової інформації ознайомтеся з новинами на сторінці.'
 ## channels
+animals-desc:
+  de: Hilfe für geflüchtete Menschen mit Tieren
+  en: Help for refugees with animals
+  pl: Pomoc dla uchodźców ze zwierzętami
+  ru: Помощь беженцам c животными
+  uk: Допомога біженцям з тваринами
+arrival-desc:
+  de: Koordination der Freiwilligen am Hauptbahnhof
+  en: Coordination of volunteers at the main station
+  pl: Koordynacja wolontariuszy na stacji głównej
+  ru: Координация волонтеров на главной станции
+  uk: Координація роботи волонтерів на головному вокзалі
 transport:
   de: Transport | 🚉 ✈️ 🚘
   en: Transport | 🚉 ✈️ 🚘
