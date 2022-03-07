@@ -77,7 +77,7 @@ const action_on_hello = async (bot, context, [user, user_replied_to], [ lang_arg
 
 const action_on_help = async (bot, context, [ lang_arg ], { keyword, lang }, options) => {
     context.track('action:help');
-    lang = getLanguageByPriorityInContextIgnoreCaller(context, lang, lang_arg);
+    lang = getLanguageByPriorityInContext(context, lang, lang_arg);
     // post menu:
     const responseText = get_translation(lang, keyword);
     const layout_options = get_main_menu_inline(lang, context.getReplyToMessage());
@@ -86,7 +86,7 @@ const action_on_help = async (bot, context, [ lang_arg ], { keyword, lang }, opt
 
 const action_on_redirect = async (bot, context, [ lang_arg ], { group, url }, { keyword, lang }, options) => {
     context.track('action:redirect');
-    lang = getLanguageByPriorityInContextIgnoreCaller(context, lang, lang_arg);
+    lang = getLanguageByPriorityInContext(context, lang, lang_arg);
     // post text with link:
     const message = get_translation(lang, keyword);
     let responseText = '';
