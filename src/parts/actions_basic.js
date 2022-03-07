@@ -12,10 +12,15 @@ const {
  * METHODS basic and generic actions
  ****************************************************************/
 
+const action_empty = async () => {
+    // return resolved with value false to indicated that no action was taken.
+    return Promise.resolve([false, undefined]);
+};
+
 const action_ignore = async (context) => {
     context.track('basic-action:ignore');
     // return resolved with value false to indicated that no action was taken.
-    return Promise.resolve([false, undefined]);
+    return action_empty();
 };
 
 const action_ignore_with_error = async (text) => {
@@ -56,6 +61,7 @@ const action_send_message = async (bot, context, text, options, { delete_calls }
  ****************************************************************/
 
 module.exports = {
+    action_empty,
     action_ignore,
     action_ignore_with_error,
     action_delete_and_ignore,

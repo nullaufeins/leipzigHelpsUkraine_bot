@@ -2,12 +2,10 @@
  * IMPORTS
  ****************************************************************/
 
-const {
-    DEFAULT_LANGUAGE,
-} = require('../setup/config.js');
-const {
-    recognise_language,
-} = require('../setup/arguments.js');
+const { DEFAULT_LANGUAGE } = require('../setup/config.js');
+const { recognise_language } = require('../setup/arguments.js');
+
+const { Message } = require('./message.js');
 
 /****************************************************************
  * METHODS get aspects
@@ -32,7 +30,7 @@ const send_message = async (bot, msg, text, options) => {
     return bot.telegram
         .sendMessage(msg.getChatId(), text, options)
         // resolve value true indicates that action was taken
-        .then((reply) => [true, reply]);
+        .then((reply) => [true, new Message(reply)]);
 };
 
 const send_message_as_overwrite = async (bot, msg, text, options) => {
@@ -41,14 +39,15 @@ const send_message_as_overwrite = async (bot, msg, text, options) => {
     return bot.telegram
         .editMessageText(msg.getChatId(), msg.getMessageId(), undefined, text, { parse_mode }, undefined, undefined, reply_markup)
         // resolve value true indicates that action was taken
-        .then((reply) => [true, reply]);
+        .then((reply) => [true, new Message(reply)]);
 };
 
-const pin_message = async (bot, msg) => {;
+const pin_message = async (bot, msg) => {
+    console.log(msg)
     return bot.telegram
         .pinChatMessage(msg.getChatId(), msg.getMessageId(), {disable_notification: true})
         // resolve value true indicates that action was taken
-        .then((reply) => [true, reply]);
+        .then((reply) => [true, new Message(reply)]);
 };
 
 /****************************************************************

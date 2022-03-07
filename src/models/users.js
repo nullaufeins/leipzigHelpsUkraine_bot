@@ -14,7 +14,7 @@ class User {
 
     constructor(data) {
         const { user, status } = data;
-        const {id, is_bot, first_name, username, language_code} = user;
+        const {id, is_bot, first_name, username, language_code} = user || {};
         this.id = id;
         this.is_bot = is_bot;
         this.first_name = first_name;
