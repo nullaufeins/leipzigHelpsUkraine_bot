@@ -15,7 +15,6 @@ const {
     remove_message,
     send_message,
 } = require('./../models/operations.js');
-const { Message } = require('./../models/message.js');
 const {
     get_main_menu_inline,
     get_message_options_basic,
@@ -32,7 +31,7 @@ const {
 
 const action_on_pin_one_language = async (bot, context, [ lang_arg ], { keyword, lang }, options) => {
     context.track('action:pin');
-    lang = getLanguageByPriorityBasic(context, lang, lang_arg);
+    lang = getLanguageByPriorityBasic(lang, lang_arg);
     // post menu:
     const responseText = get_translation(lang, keyword);
     const layout_options = get_main_menu_inline(lang);
@@ -55,7 +54,7 @@ const action_on_pin_all_languages = async (bot, context, { keyword }, options) =
                 .then((value) => {
                     if (!(value instanceof Array)) return;
                     const [_, reply] = value;
-                    return pin_message(bot, new Message(reply))
+                    return pin_message(bot, reply);
                 });
         } else {
             // post all other menus:
