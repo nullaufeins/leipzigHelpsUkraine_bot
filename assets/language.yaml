@@ -35,6 +35,12 @@ redirect-message:
   pl: Proszę odnieść się do telegramu tego kanału!
   ru: Пожалуйста, обращайся к этому телеграмму канала!
   uk: Будь-ласка, звертайся до цього телеграм каналу!
+redirect-remark:
+  de: 'Bitte auch in den angehefteten Nachrichten nach weiteren Informationen schauen.'
+  en: 'Please take note of the pinned messages for more information.'
+  pl: 'Więcej informacji można znaleźć w zakładce aktualności.'
+  ru: 'Для получения дополнительной информации ознакомьтесь с новостями, помещенными на страницу.'
+  uk: 'Для отримання додаткової інформації ознайомтеся з новинами на сторінці.'
 ## channels
 transport:
   de: Transport | 🚉 ✈️ 🚘
@@ -60,12 +66,24 @@ donations-desc:
   pl: Znajdź punkty zbiórki i informacje o darowiznach
   ru: Найти пункты сбора и информацию о пожертвованиях
   uk: Знайти місця для збору пожертв, чи інформацію про пожертви
+redirect-message-donations-map:
+  de: Aktuellste Infos zu Spendensammel- + ausgabestellen
+  en: Latest infos for donation-collection + distribution points
+  pl: Najnowsze informacje na temat punktów zbierania i dystrybucji darowizn można znaleźć tutaj
+  ru: Актуальную информацию о пунктах сбора и распределения пожертвований можно найти здесь
+  uk: Останню інформацію про пункти збору та розподілу пожертв можна знайти тут
+donations-map-desc:
+  de: 'URL zur Karte für Spenden'
+  en: 'URL for map for donations'
+  pl: 'Stronie mapy do darowizn'
+  ru: 'Веб-сайт карты для пожертвований'
+  ua: 'Веб-сайт для карти для пожертв'
 legal:
-  de: Rechtsfragen
-  en: Legal Requests
-  pl: Zagadnienia prawne
-  ru: Юридические проблемы
-  uk: Правові питання
+  de: Rechtsfragen | ⚖️
+  en: Legal Requests | ⚖️
+  pl: Zagadnienia prawne | ⚖️
+  ru: Юридические проблемы | ⚖️
+  uk: Правові питання | ⚖️
 legal-desc:
   de: Hilfe zu Rechtsfragen
   en: Get help with legal questions
@@ -85,11 +103,11 @@ housing-desc:
   ru: Предложить/поискать жильё
   uk: Пропоную/шукаю житло
 translations:
-  de: Übersetzungen
-  en: Translations
-  pl: Tłumaczenia
-  ru: Переводы
-  uk: Переклади
+  de: Übersetzungen | 💬🔄
+  en: Translations | 💬🔄
+  pl: Tłumaczenia | 💬🔄
+  ru: Переводы | 💬🔄
+  uk: Переклади | 💬🔄
 translations-desc:
   de: Finde ÜbersetzerInnen
   en: Get help from translators
