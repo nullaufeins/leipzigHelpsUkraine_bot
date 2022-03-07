@@ -93,7 +93,7 @@ const action_on_redirect = async (bot, context, [ lang_arg ], { group, url }, { 
     let responseText = '';
     if (!(group === undefined)) {
         const remark = get_translation(lang, 'redirect-remark');
-        responseText = `${remark}\n\n${message}: ${group}`;
+        responseText = `${message}: ${group}\n\n${remark}`;
     } else if (!(url === undefined)) {
         responseText = `${message}: ${url}`;
     } else {
