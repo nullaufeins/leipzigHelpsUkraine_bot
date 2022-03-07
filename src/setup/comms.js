@@ -84,30 +84,10 @@ const extract_botname_post = (text, botname) => (extract_communication_aspects(e
  ****************************************************************/
 
 const filter_commands_by_condition = (condition) => COMMANDS.filter(condition);
-
-// filters commands by matching criteria and returns arguments:
-const filter_commands_by_command = (extraction, text_, botname) => {
-    // extract information about bot addressed:
-    const { command, arguments, verified } = extraction(text_, botname);
-
-    // reject, if a botname is recognised but does not match:
-    if (verified === false) return { commands: [], arguments };
-
-    /****
-     * Conditions for a command to be included in filter:
-     *
-     * 1. if strict mode, botnames must match (i.e. verified == true must hold); and
-     * 2. command pattern must be matched.
-     ****/
-    const condition = ({ aspects }) => {
-        const { match, strict } = aspects;
-        return ((!strict || verified === true) && match.test(command));
-    };
-    return { commands: filter_commands_by_condition(condition), arguments };
-}
-
-const filter_commands_by_command_pre = (text, botname) => (filter_commands_by_command(extract_botname_pre, text, botname));
-const filter_commands_by_command_post = (text, botname) => (filter_commands_by_command(extract_botname_post, text, botname));
+const filter_commands_by_match = (text) => (filter_commands_by_condition(({ aspects }) => {
+    const { match } = aspects;
+    return match.test(text);
+}));
 
 /****************************************************************
  * EXPORTS
@@ -116,6 +96,8 @@ const filter_commands_by_command_post = (text, botname) => (filter_commands_by_c
 module.exports = {
     is_valid_communication_pre,
     is_valid_communication_post,
-    filter_commands_by_command_pre,
-    filter_commands_by_command_post,
+    extract_botname_pre,
+    extract_botname_post,
+    filter_commands_by_condition,
+    filter_commands_by_match,
 };
