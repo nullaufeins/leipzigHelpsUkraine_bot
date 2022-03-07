@@ -2,6 +2,7 @@
  * IMPORTS
  ****************************************************************/
 
+const { CombineErrors } = require('./../core/logging.js');
 const {
     remove_message,
     send_message,
@@ -9,7 +10,28 @@ const {
 } = require('../models/operations.js');
 
 /****************************************************************
- * METHODS basic and generic actions
+ * METHODS generic actions
+ ****************************************************************/
+
+/********
+ * This allows for a complex chain of promises, which attempts to remove a message first
+ * then if an error occurs, this is temporarily ignored, the desired action is taken,
+ * and then the error is thrown again (combined with any subsequent errors from the action).
+ ********/
+const remove_temporarily_ignore_errors_then_do_action = async(bot, context, action) => {
+    context.track('basic-action:delete');
+    return remove_message(bot, context.getCallerMessage())
+        // NOTE: if caught, will guaranteed not proceed to 'then' block:
+        .catch((err) => {
+            return action()
+                .catch((err2) => {throw CombineErrors(err, err2)})
+                .then(() => {throw err});
+        })
+        .then(action);
+}
+
+/****************************************************************
+ * METHODS basic actions
  ****************************************************************/
 
 const action_empty = async () => {
@@ -29,27 +51,25 @@ const action_ignore_with_error = async (text) => {
 };
 
 const action_delete_and_ignore = async (bot, context) => {
-    context.track('basic-action:delete-and-ignore');
-    return remove_message(bot, context.getCallerMessage());
+    return remove_temporarily_ignore_errors_then_do_action(bot, context, () => {
+        context.track('basic-action:ignore');
+        return Promise.resolve([false, undefined]);
+    });
 };
 
 const action_delete_and_ignore_with_error = async (bot, context, text) => {
-    context.track('basic-action:delete-and-ignore-with-error');
-    remove_message(bot, context.getCallerMessage());
-    return Promise.reject(text || 'Something went wrong. Ignoring.');
+    return remove_temporarily_ignore_errors_then_do_action(bot, context, () => {
+        context.track('basic-action:ignore-with-error');
+        return Promise.reject(text || 'Something went wrong. Ignoring.');
+    });
 };
 
 const action_send_message = async (bot, context, text, options, { delete_calls }) => {
     if (delete_calls) {
-        /********
-         * NOTE: if this fails, this error will be caught at a higher level.
-         * Do not catch here, as we want to force the bot to continue with the post,
-         * even the if the deletion fails.
-         ********/
-        context.track('basic-action:delete-caller-msg');
-        await remove_message(bot, context.getCallerMessage());
-        context.track('basic-action:new-post');
-        return send_message(bot, context.getCallerMessage(), text, options);
+        return remove_temporarily_ignore_errors_then_do_action(bot, context, () => {
+            context.track('basic-action:new-post');
+            return send_message(bot, context.getCallerMessage(), text, options);
+        });
     } else {
         context.track('basic-action:edit-post');
         return send_message_as_overwrite(bot, context.getCallerMessage(), text, options);
@@ -61,6 +81,7 @@ const action_send_message = async (bot, context, text, options, { delete_calls }
  ****************************************************************/
 
 module.exports = {
+    remove_temporarily_ignore_errors_then_do_action,
     action_empty,
     action_ignore,
     action_ignore_with_error,
