@@ -2,9 +2,7 @@
  * IMPORTS
  ****************************************************************/
 
-const {
-    action_delete_and_ignore_with_error,
-} = require('./actions_basic.js');
+const { action_delete_and_ignore_with_error } = require('./actions_basic.js');
 const {
     action_on_pin_one_language,
     action_on_pin_all_languages,
