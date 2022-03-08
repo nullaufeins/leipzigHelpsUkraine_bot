@@ -20,11 +20,14 @@ Admins have access to the following commands:
 - Redirect commands:
   - Quick link to telegram-subgroups:
     ```
-    /transport
-    /housing
-    /translations
-    /legal
+    /animals
+    /arrival
     /donations
+    /family
+    /housing
+    /legal
+    /translations
+    /transport
     ```
   - `/homepage` - browser link to webpage.
   - `/feedback` - telegram-link to sub group for technical feedback for bot.
