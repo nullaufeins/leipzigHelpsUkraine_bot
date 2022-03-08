@@ -213,7 +213,7 @@ commands:
       strict:   true
       match:    '^(animal(s)?|pet(s)?)$'
       redirect:
-        group: '@animals_leipzig_ukraine'
+        group:  '@animals_leipzig_ukraine'
     side-menu:
       keyword: animals-desc
     text:
@@ -222,9 +222,20 @@ commands:
       command:  '/arrival'
       rights:   [administrator, creator]
       strict:   true
-      match:    '^(arrival|arrivals)$'
+      match:    '^(arrival(s)?)$'
       redirect:
-        group: '@arrival_leipzig_ukraine'
+        group:  '@arrival_leipzig_ukraine'
+    side-menu:
+      keyword: arrival-desc
+    text:
+      keyword: redirect-message
+  - aspects:
+      command:  '/family'
+      rights:   [administrator, creator]
+      strict:   true
+      match:    '^(family|kid(s)?)$'
+      redirect:
+        group:  '@kids_leipzig_ukraine'
     side-menu:
       keyword: arrival-desc
     text:
