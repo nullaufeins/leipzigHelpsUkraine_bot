@@ -3,10 +3,12 @@
  ****************************************************************/
 
 const { sprintf } = require('sprintf-js');
+const { try_action1_silently_then_perform_action2 } = require('./../core/utils.js');
+
 const {
     SUPPORTED_LANGUAGES,
     get_translation,
-} = require('../setup/config.js');
+} = require('./../setup/config.js');
 const {
     getLanguageByPriorityBasic,
     getLanguageByPriorityInContext,
@@ -36,32 +38,48 @@ const action_on_pin_one_language = async (bot, context, [ lang_arg ], { keyword,
     const responseText = get_translation(lang, keyword);
     const layout_options = get_main_menu_inline(lang);
     // pin menu:
-    await remove_message(bot, context.getCallerMessage());
-    const [_, reply_to_msg] = await send_message(bot, context.getCallerMessage(), responseText, layout_options);
-    return pin_message(bot, reply_to_msg);
+    return try_action1_silently_then_perform_action2(
+    async () => {
+        context.track('basic-action:delete');
+        return remove_message(bot, context.getCallerMessage())
+    },
+    async() => {
+        return send_message(bot, context.getCallerMessage(), responseText, layout_options)
+            .then((value) => {
+                const [_, reply] = value instanceof Array ? value : [];
+                return pin_message(bot, reply);
+            });
+    });
 }
 
 const action_on_pin_all_languages = async (bot, context, { keyword }, options) => {
     context.track('action:pin-all');
-    let index = 0;
-    let P = action_empty();
-    for (const lang of SUPPORTED_LANGUAGES) {
-        const responseText = get_translation(lang, keyword);
-        const layout_options = get_main_menu_inline(lang);
-        if (index == 0) {
-            // post then pin 1st menu:
-            P = P.then(() => send_message(bot, context.getCallerMessage(), responseText, layout_options))
-                .then((value) => {
-                    const [_, reply] = value instanceof Array ? value : [];
-                    return pin_message(bot, reply);
-                });
-        } else {
-            // post all other menus:
-            P = P.then(() => send_message(bot, context.getCallerMessage(), responseText, layout_options));
+    return try_action1_silently_then_perform_action2(
+    async () => {
+        context.track('basic-action:delete');
+        return remove_message(bot, context.getCallerMessage())
+    },
+    async() => {
+        let index = 0;
+        let P = action_empty();
+        for (const lang of SUPPORTED_LANGUAGES) {
+            const responseText = get_translation(lang, keyword);
+            const layout_options = get_main_menu_inline(lang);
+            if (index == 0) {
+                // post then pin 1st menu:
+                P = P.then(() => send_message(bot, context.getCallerMessage(), responseText, layout_options))
+                    .then((value) => {
+                        const [_, reply] = value instanceof Array ? value : [];
+                        return pin_message(bot, reply);
+                    });
+            } else {
+                // post all other menus:
+                P = P.then(() => send_message(bot, context.getCallerMessage(), responseText, layout_options));
+            }
+            index += 1;
         }
-        index += 1;
-    }
-    return P;
+        return P;
+    });
 }
 
 const action_on_hello = async (bot, context, [user, user_replied_to], [ lang_arg ], { keyword, lang }, options) => {
