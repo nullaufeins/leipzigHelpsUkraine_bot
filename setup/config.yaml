@@ -42,7 +42,7 @@ languages:
   uk: '^(uk|ukr|ua)$'
   pl: '^(pl)$'
   ru: '^(ru)$'
-default-language: &ref_default_lang en
+default-language: &ref_default_lang de
 # ------------------------------------------------------------------------------------------------
 # COMMANDS
 # NOTE structure is as follows:
@@ -166,18 +166,6 @@ commands:
       keyword: donations-desc
     text:
       keyword: redirect-message
-  ## Following is NOT in menu:
-  - aspects:
-      command:  '/ethermap'
-      rights:   [administrator, creator]
-      strict:   true
-      match:    '^ethermap$'
-      redirect:
-        url: 'https://getethermap.org/m/leipzig-donation-for-ukraine'
-    side-menu:
-      keyword: donations-map-desc
-    text:
-      keyword: redirect-message-donations-map
   ## 4th row
   - aspects:
       command:  '/homepage'
@@ -207,6 +195,51 @@ commands:
       keyword: feedback-desc
     text:
       keyword: redirect-message
+  ## Following are NOT in menu:
+  - aspects:
+      command:  '/ethermap'
+      rights:   [administrator, creator]
+      strict:   true
+      match:    '^ethermap$'
+      redirect:
+        url: 'https://getethermap.org/m/leipzig-donation-for-ukraine'
+    side-menu:
+      keyword: donations-map-desc
+    text:
+      keyword: redirect-message-donations-map
+  - aspects:
+      command:  '/animals'
+      rights:   [administrator, creator]
+      strict:   true
+      match:    '^(animal(s)?|pet(s)?)$'
+      redirect:
+        group:  '@animals_leipzig_ukraine'
+    side-menu:
+      keyword: animals-desc
+    text:
+      keyword: redirect-message
+  - aspects:
+      command:  '/arrival'
+      rights:   [administrator, creator]
+      strict:   true
+      match:    '^(arrival(s)?|ankunft)$'
+      redirect:
+        group:  '@arrival_leipzig_ukraine'
+    side-menu:
+      keyword: arrival-desc
+    text:
+      keyword: redirect-message
+  - aspects:
+      command:  '/family'
+      rights:   [administrator, creator]
+      strict:   true
+      match:    '^(family|kid(s)?|child(ren)?|familie)$'
+      redirect:
+        group:  '@kids_leipzig_ukraine'
+    side-menu:
+      keyword: family-desc
+    text:
+      keyword: redirect-message
   # END menu commands
   ################################################################
   # START special commands - variants of /pin
@@ -219,14 +252,22 @@ commands:
       lang:    *ref_default_lang
       keyword: pinned-short
     text:
+      lang:    *ref_default_lang
+      keyword: pinned-message
+  - aspects:
+      <<: *ref_command_pin
+      command: '/pin_en'
+      match:   '^pin(ned)?[-_](en)$'
+    side-menu:
+      lang:    en
+      keyword: pinned-short
+    text:
+      lang:    en
       keyword: pinned-message
   - aspects:
       <<: *ref_command_pin
       command: '/pin_de'
       match:   '^pin(ned)?[-_](de|deu)$'
-    side-menu:
-      lang:    de
-      keyword: pinned-short
     text:
       lang:    de
       keyword: pinned-message
