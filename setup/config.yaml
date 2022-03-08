@@ -42,7 +42,7 @@ languages:
   uk: '^(uk|ukr|ua)$'
   pl: '^(pl)$'
   ru: '^(ru)$'
-default-language: &ref_default_lang en
+default-language: &ref_default_lang de
 # ------------------------------------------------------------------------------------------------
 # COMMANDS
 # NOTE structure is as follows:
@@ -252,14 +252,22 @@ commands:
       lang:    *ref_default_lang
       keyword: pinned-short
     text:
+      lang:    *ref_default_lang
+      keyword: pinned-message
+  - aspects:
+      <<: *ref_command_pin
+      command: '/pin_en'
+      match:   '^pin(ned)?[-_](en)$'
+    side-menu:
+      lang:    en
+      keyword: pinned-short
+    text:
+      lang:    en
       keyword: pinned-message
   - aspects:
       <<: *ref_command_pin
       command: '/pin_de'
       match:   '^pin(ned)?[-_](de|deu)$'
-    side-menu:
-      lang:    de
-      keyword: pinned-short
     text:
       lang:    de
       keyword: pinned-message
