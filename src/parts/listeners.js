@@ -32,12 +32,15 @@ const decorate_listener = (listener, bot, options) => {
         const t = Date.now();
         const context = new CallContext(ctx);
         const user = await context.getUserCaller(bot);
+        await context.getGroupInfos(bot); // helps logging
         return listener(bot, context, t, options)
             // !!! logging only in debug mode during local testing !!!
             .then((value) => {
                 if (debug) {
                     [action_taken, _] = value instanceof Array ? value : [];
-                    logDebugListener(context.toCensoredRepr(full_censor), user.toCensoredRepr(full_censor_user), action_taken);
+                    const context_as_str = context instanceof CallContext ? context.toCensoredRepr(full_censor) : '---';
+                    const user_as_str = user instanceof User ? user.toCensoredRepr(full_censor_user) : '---';
+                    logDebugListener(context_as_str, user_as_str, action_taken);
                 }
             })
             // error logging (for live usage):
@@ -64,7 +67,7 @@ const listener_on_callback_query = async (bot, context, t, options) => {
  * See README-TECHNICAL.md.
  ****************/
 const listener_on_text = async (bot, context, t, options) => {
-    if (!(context.isBotCaller() === false)) return action_ignore(context);
+    if (!(context.isBotCaller() === false) && !context.isGroupAdminCaller()) return action_ignore(context);
     const { message_expiry } = options;
 
     if (context.messageTooOldCaller(t, message_expiry)) return action_ignore(context);
@@ -107,7 +110,7 @@ const listener_on_text = async (bot, context, t, options) => {
  * See README-TECHNICAL.md.
  ****************/
 const listener_on_message = async (bot, context, t, options) => {
-    if (!(context.isBotCaller() === false)) return action_ignore(context);
+    if (!(context.isBotCaller() === false) && !context.isGroupAdminCaller()) return action_ignore(context);
 
     const { message_expiry } = options;
     if (context.messageTooOldCaller(t, message_expiry)) return action_ignore(context);

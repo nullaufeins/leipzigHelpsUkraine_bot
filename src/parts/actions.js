@@ -29,7 +29,7 @@ const universal_action = async (bot, context, command_options, arguments, option
     }
     */
 
-    if (user.hasRights(rights)) {
+    if (user.hasRights(rights) || context.isGroupAdminCaller()) {
         if (redirect === undefined) {
             switch (command) {
                 case command.match(/^\/pin(?:|_(.*))$/)?.input:
