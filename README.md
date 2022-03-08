@@ -2,9 +2,7 @@
 
 ## Usage ##
 
-**Enter "`/`" in the message input-box of the telegram group and choose the `/command` from the suggestions.**
-</br>
-**This prevents typing errors!**
+**Enter "`/`" in the message input-box of the telegram group, then choose the `/command` from the suggestions.** This prevents typing errors!
 
 Admins have access to the following commands:
 
@@ -39,9 +37,8 @@ For greater control, admins may also send commands with arguments directly to th
 @<botname> command [args...]
 ```
 
-**Enter "`@`" in the message input-box of the telegram group and select the `@<bot-name>` to autocomplete the first part,**
+**Enter "`@`" in the message input-box of the telegram group, then select the `@<bot-name>` to autocomplete the first part,** then type in the `command [args...]` part.
 </br>
-then type in the `command [args...]` part.
 The following table provides a list of the possibilities:
 
 | Command             | Behaviour    |

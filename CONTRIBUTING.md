@@ -95,7 +95,7 @@ Where:
 - `{branch-from}` = name of branch
 - `{branch-to}` = name of parent branch, to which the branch will be merged at the end of development.
   This is usually **staging**.
-- `{message}` the commit message. This should start with a verb and contain a short description of what was done.
+- `{message}` the commit message. This should contain a short description of what was done.
   Any longer descriptions should be added after a line break.
 
 This **schema** makes reading lots of parallel changes in different branches easier to filter with the eye.
@@ -114,8 +114,8 @@ This **schema** makes reading lots of parallel changes in different branches eas
 
 1. Drag ticket from 'backlog' to 'doing' and assign your face to it.
 2. Create a branch _from_ the staging branch according to the above scheme.
-  </br>
-  Note the name of the Branch in the ticket description.
+    </br>
+    Note the name of the Branch in the ticket description.
 3. When ticket completed (everything in _TODO_ list marked [x]):
     - create a pull request (branch ---> **staging**);
     - add a _How to Review_ checklist;
@@ -156,14 +156,14 @@ Order is **ticket branch** ---> **staging** ---> **main**.
    </br>
    Ensure that live test instance of the app has been successfully [deployed](#deployment-of-live-test-bot).
 3. _Only if_ we want to release the changes properly, create a PR **staging ---> main**.
-  </br>
-  (This should automatically be the case for hotfixes.)
-  </br>
-  Perform [live tests](#live-tests) on the instance of the application before accepting this PR.
-  </br>
-  **Do NOT** delete the staging branch!
-  </br>
-  Ensure that live production instance of the app has been successfully [deployed](#deployment-of-live-production-bot).
+    </br>
+    (This should automatically be the case for hotfixes.)
+    </br>
+    Perform [live tests](#live-tests) on the instance of the application before accepting this PR.
+    </br>
+    **Do NOT** delete the staging branch!
+    </br>
+    Ensure that live production instance of the app has been successfully [deployed](#deployment-of-live-production-bot).
 
 ## Deployment and Logging ##
 
