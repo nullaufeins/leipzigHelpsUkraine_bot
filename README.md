@@ -13,8 +13,8 @@ Admins have access to the following commands:
 
     | Variant    | Output language of post |
     | :--------- | :---------------------- |
-    | `/pin`     | Defaults to English     |
-    | `/pin_de`  | German                  |
+    | `/pin`     | Defaults to German      |
+    | `/pin_en`  | English                 |
     | `/pin_uk`  | Ukrainian               |
 
 - Redirect commands:
@@ -61,6 +61,7 @@ and `xx` can be any of the following language codes:
 
 | Code  | Language   |
 | :---- | :--------- |
+| `de`  | German     |
 | `en`  | English    |
 | `pl`  | Polish     |
 | `ru`  | Russian    |
