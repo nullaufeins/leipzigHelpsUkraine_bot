@@ -233,7 +233,7 @@ commands:
       command:  '/family'
       rights:   [administrator, creator]
       strict:   true
-      match:    '^(family|kid(s)?|familie)$'
+      match:    '^(family|kid(s)?|child(ren)?|familie)$'
       redirect:
         group:  '@kids_leipzig_ukraine'
     side-menu:
