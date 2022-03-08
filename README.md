@@ -29,7 +29,9 @@ Admins have access to the following commands:
   | `/pin_en`  | English                 |
   | `/pin_uk`  | Ukrainian               |
 
-### Advanced ###
+**Note:** If possible, you should post your command as a response to member messages.
+
+## Advanced usage ##
 
 For greater control, admins may also send commands with arguments directly to the bot via:
 
