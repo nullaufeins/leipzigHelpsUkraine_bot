@@ -67,10 +67,10 @@ const censorMessage = (text) => {
  ****************************************************************/
 
 module.exports = {
-    CENSOR_ATTRIBUTE,
-    CENSOR_DIGITS,
-    censorMessage,
     logDebugListener,
     logListenerError,
     logListenerErrorSilently,
+    CENSOR_ATTRIBUTE,
+    CENSOR_DIGITS,
+    censorMessage,
 };
