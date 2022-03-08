@@ -42,7 +42,7 @@ languages:
   uk: '^(uk|ukr|ua)$'
   pl: '^(pl)$'
   ru: '^(ru)$'
-default-language: &ref_default_lang en
+default-language: &ref_default_lang de
 # ------------------------------------------------------------------------------------------------
 # COMMANDS
 # NOTE structure is as follows:
