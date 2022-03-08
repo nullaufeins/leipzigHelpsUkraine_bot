@@ -211,7 +211,7 @@ commands:
       command:  '/animals'
       rights:   [administrator, creator]
       strict:   true
-      match:    '^(animal|animals)$'
+      match:    '^(animal(s)?|pet(s)?)$'
       redirect:
         group: '@animals_leipzig_ukraine'
     side-menu:
