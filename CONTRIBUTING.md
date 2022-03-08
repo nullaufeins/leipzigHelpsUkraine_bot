@@ -38,6 +38,10 @@ In this file we document how developers can organise and contribute to the devel
     - [Ticket in Doing](#ticket-in-doing)
     - [Ticket Review](#ticket-review)
     - [Ticket Merge-Strategie](#ticket-merge-strategie)
+  - [Deployment and Logging](#deployment-and-logging)
+    - [Deployment of live test bot](#deployment-of-live-test-bot)
+    - [Deployment of live production bot](#deployment-of-live-production-bot)
+    - [Logging](#logging)
   - [Development notes](#development-notes)
     - [Basic setup for developers](#basic-setup-for-developers)
     - [Develop new redirect command](#develop-new-redirect-command)
@@ -145,11 +149,49 @@ Order is **ticket branch** ---> **staging** ---> **main**.
 1. Change the Version in [dist/Version](dist/Version) and [package.json](package.json).
     Run `make clean && make build`, to update [package-lock.json](package-lock.json).
 2. Commit this change, and accept the PR.
+   </br>
+   You may delete the branch when done
+   </br>
+   (but _do not_ delete **staging**!).
+   </br>
+   Ensure that live test instance of the app has been successfully [deployed](#deployment-of-live-test-bot).
 3. _Only if_ we want to release the changes properly, create a PR **staging ---> main**.
   </br>
   (This should automatically be the case for hotfixes.)
   </br>
   Perform [live tests](#live-tests) on the instance of the application before accepting this PR.
+  </br>
+  **Do NOT** delete the staging branch!
+  </br>
+  Ensure that live production instance of the app has been successfully [deployed](#deployment-of-live-production-bot).
+
+## Deployment and Logging ##
+
+### Deployment of live test bot ###
+
+- Log in to our deployment tool.
+- Select the app **leipzig-helps-ukraine** (staging).
+- Check the latest activity. If the app is not running:
+  - open the _Deploy_ tab
+  - select 'staging' in both automatic and manual deployment
+  - deploy the branch.
+
+Also check the logs (see below).
+
+### Deployment of live production bot ###
+
+- Log in to our deployment tool.
+- Select the app **leipzig-helps-ukraine** (production).
+- Check the latest activity. If the app is not running:
+  - open the _Deploy_ tab
+  - select 'staging' in both automatic and manual deployment
+  - deploy the branch.
+
+Also check the logs (see below).
+
+### Logging ###
+
+In the deployment tool select _Overview_ then select the logging add-on.
 
 ----
 
@@ -239,6 +281,17 @@ To test:
     make run
     ```
 - Enter the chat group and interact with the bot.
+
+For more explicit logging, set
+```yaml
+options:
+  debug: true
+  full-censor-user: false # optional
+```
+in the [config.yaml](setup/config.yaml) file and restart the bot.
+</br>
+With this option, logging takes place upon every message,
+instead of just relevant messages as per default.
 
 ### Live tests ###
 

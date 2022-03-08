@@ -35,6 +35,10 @@ The bot currently supports 5 languages and decides which language to use based o
 
 5. The default language set in [setup/config.yaml](setup/config.yaml) under `default-language:` (currently `en`).
 
+## Deployment ##
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md#deployment-and-logging).
+
 ## Notes and open issues ##
 
 - It is unclear, whether the stopping proceedure for the bot is correct.
