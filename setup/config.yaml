@@ -237,7 +237,7 @@ commands:
       redirect:
         group:  '@kids_leipzig_ukraine'
     side-menu:
-      keyword: arrival-desc
+      keyword: family-desc
     text:
       keyword: redirect-message
   # END menu commands
