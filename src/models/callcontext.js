@@ -19,8 +19,8 @@ class CallContext {
         this.reply_to_msg = new Message(msg.reply_to_message);
         this.userCaller = undefined;
         this.userReplyTo = undefined;
-        this.groupId = '';
-        this.groupTitle = '';
+        this.groupId = undefined;
+        this.groupTitle = undefined;
     }
 
     track(x) { this.trace.add(x); }
@@ -31,7 +31,6 @@ class CallContext {
             .catch((_) => {return undefined});
         this.groupId = (chat || {}).id; // === chatId
         this.groupTitle = (chat || {}).title;
-        return !(chat === undefined);
     }
 
     getCallerMessage() { return this.caller_msg; }
