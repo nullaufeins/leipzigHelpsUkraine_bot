@@ -67,8 +67,8 @@ const listener_on_callback_query = async (bot, context, t, options) => {
  * See README-TECHNICAL.md.
  ****************/
 const listener_on_text = async (bot, context, t, options) => {
-    const immediately_ignore = !((context.isBotCaller() === false) || (await context.isGroupAdminCaller(bot) === true));
-    if (!immediately_ignore) return action_ignore(context);
+    const let_user_through = (context.isBotCaller() === false) || (await context.isGroupAdminCaller(bot) === true);
+    if (!let_user_through) return action_ignore(context);
     const { message_expiry } = options;
 
     if (context.messageTooOldCaller(t, message_expiry)) return action_ignore(context);
@@ -111,8 +111,8 @@ const listener_on_text = async (bot, context, t, options) => {
  * See README-TECHNICAL.md.
  ****************/
 const listener_on_message = async (bot, context, t, options) => {
-    const immediately_ignore = !((context.isBotCaller() === false) || (await context.isGroupAdminCaller(bot) === true));
-    if (!immediately_ignore) return action_ignore(context);
+    const let_user_through = (context.isBotCaller() === false) || (await context.isGroupAdminCaller(bot) === true);
+    if (!let_user_through) return action_ignore(context);
 
     const { message_expiry } = options;
     if (context.messageTooOldCaller(t, message_expiry)) return action_ignore(context);
