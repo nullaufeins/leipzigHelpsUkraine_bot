@@ -4,6 +4,7 @@
 
 const { Message } = require('./message.js');
 const { Trace } = require('./trace.js');
+const { User } = require('./users.js');
 const { CENSOR_ATTRIBUTE } = require('./../core/logging.js');
 
 /****************************************************************
@@ -82,8 +83,10 @@ class CallContext {
      ********/
     async isGroupAdminCaller(bot) {
         const user = await this.getUserCaller(bot);
-        if (user === undefined) return undefined;
-        return user.getFirstName() === 'Group' && user.getUserName() === 'GroupAnonymousBot';
+        if (user instanceof User) {
+            return user.isBot() === true && user.getFirstName() === 'Group' && user.getUserName() === 'GroupAnonymousBot';
+        }
+        return undefined;
     }
 
     /********
