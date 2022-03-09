@@ -83,6 +83,9 @@ class CallContext {
             && user.getUserName() === 'GroupAnonymousBot';
     }
 
+    /********
+     * Returns User class for caller, if data can be retrieved or else undefined.
+     ********/
     async getUserCaller(bot) {
         if (this.userCaller === undefined) {
             const user = await this.caller_msg.getUser(bot);
@@ -103,7 +106,16 @@ class CallContext {
 
     isBotMessageRepliedTo() { return this.reply_to_msg.isBot(); }
 
-    async getUserMessageRepliedTo(bot) { return this.reply_to_msg.getUser(bot); }
+    /********
+     * Returns User class for message replied to, if data can be retrieved or else undefined.
+     ********/
+    async getUserMessageRepliedTo(bot) {
+        if (this.userReplyTo === undefined) {
+            const user = await this.reply_to_msg.getUser(bot);
+            this.userReplyTo = user;
+        }
+        return this.userReplyTo;
+    }
 
     messageTooOldMessageRepliedTo(t, expiry) { return this.reply_to_msg.messageTooOld(t, expiry); }
 }
