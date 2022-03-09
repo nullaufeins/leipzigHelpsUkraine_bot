@@ -46,9 +46,14 @@ class Message {
 
     isBot() { return this.is_bot; }
 
-    // returns timestamp in ms
+    /********
+     * Returns timestamp in ms
+     ********/
     getTimestamp() { return this.timestamp; }
 
+    /********
+     * Returns User class, if data can be retrieved or else undefined.
+     ********/
     async getUser(bot) {
         return bot.telegram.getChatMember(this.chatId, this.userId)
             .then((data) => new User(data))

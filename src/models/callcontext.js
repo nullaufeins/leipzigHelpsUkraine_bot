@@ -4,6 +4,7 @@
 
 const { Message } = require('./message.js');
 const { Trace } = require('./trace.js');
+const { User } = require('./users.js');
 const { CENSOR_ATTRIBUTE } = require('./../core/logging.js');
 
 /****************************************************************
@@ -19,8 +20,8 @@ class CallContext {
         this.reply_to_msg = new Message(msg.reply_to_message);
         this.userCaller = undefined;
         this.userReplyTo = undefined;
-        this.groupId = '';
-        this.groupTitle = '';
+        this.groupId = undefined;
+        this.groupTitle = undefined;
     }
 
     track(x) { this.trace.add(x); }
@@ -31,7 +32,6 @@ class CallContext {
             .catch((_) => {return undefined});
         this.groupId = (chat || {}).id; // === chatId
         this.groupTitle = (chat || {}).title;
-        return !(chat === undefined);
     }
 
     getCallerMessage() { return this.caller_msg; }
@@ -77,12 +77,21 @@ class CallContext {
 
     isBotCaller() { return this.caller_msg.isBot(); }
 
-    async isGroupAdminCaller() {
-        const user = await this.getUserCaller();
-        return user.getFirstName() === 'Group'
-            && user.getUserName() === 'GroupAnonymousBot';
+    /********
+     * Returns true/false <==> user is/is not anon admin.
+     * If information cannot be obtained, returns undefined.
+     ********/
+    async isGroupAdminCaller(bot) {
+        const user = await this.getUserCaller(bot);
+        if (user instanceof User) {
+            return user.isBot() === true && user.getFirstName() === 'Group' && user.getUserName() === 'GroupAnonymousBot';
+        }
+        return undefined;
     }
 
+    /********
+     * Returns User class for caller, if data can be retrieved or else undefined.
+     ********/
     async getUserCaller(bot) {
         if (this.userCaller === undefined) {
             const user = await this.caller_msg.getUser(bot);
@@ -103,7 +112,16 @@ class CallContext {
 
     isBotMessageRepliedTo() { return this.reply_to_msg.isBot(); }
 
-    async getUserMessageRepliedTo(bot) { return this.reply_to_msg.getUser(bot); }
+    /********
+     * Returns User class for message replied to, if data can be retrieved or else undefined.
+     ********/
+    async getUserMessageRepliedTo(bot) {
+        if (this.userReplyTo === undefined) {
+            const user = await this.reply_to_msg.getUser(bot);
+            this.userReplyTo = user;
+        }
+        return this.userReplyTo;
+    }
 
     messageTooOldMessageRepliedTo(t, expiry) { return this.reply_to_msg.messageTooOld(t, expiry); }
 }
