@@ -77,10 +77,14 @@ class CallContext {
 
     isBotCaller() { return this.caller_msg.isBot(); }
 
-    async isGroupAdminCaller() {
-        const user = await this.getUserCaller();
-        return user.getFirstName() === 'Group'
-            && user.getUserName() === 'GroupAnonymousBot';
+    /********
+     * Returns true/false <==> user is/is not anon admin.
+     * If information cannot be obtained, returns undefined.
+     ********/
+    async isGroupAdminCaller(bot) {
+        const user = await this.getUserCaller(bot);
+        if (user === undefined) return undefined;
+        return user.getFirstName() === 'Group' && user.getUserName() === 'GroupAnonymousBot';
     }
 
     /********
