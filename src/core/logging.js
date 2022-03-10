@@ -12,8 +12,7 @@ const { split_non_empty_parts } = require('./utils');
 const SuccessMessageListener = (context, user) => (sprintf(
 `[INFO]: Call succeeded. Context + Calling User:
 %s
-%s
-...continuing silently.`, context, user));
+%s`, context, user));
 
 const ErrorMessageListener = (context, user, err) => (sprintf(
 `[(non fatal) ERROR]: %s
