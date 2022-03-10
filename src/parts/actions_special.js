@@ -17,6 +17,7 @@ const {
     remove_message,
     send_message,
 } = require('./../models/operations.js');
+const { Message } = require('./../models/message.js');
 const {
     get_main_menu_inline,
     get_message_options_basic,
@@ -85,7 +86,7 @@ const action_on_pin_all_languages = async (bot, context, { keyword }, options) =
 const action_on_hello = async (bot, context, [user, user_replied_to], [ lang_arg ], { keyword, lang }, options) => {
     context.track('action:hello');
     // decide whether to reply to caller or replied-to-user (if exists):
-    const name = user_replied_to === undefined ? user.getFirstName() : user_replied_to.getFirstName();
+    const name = user_replied_to instanceof Message ? user_replied_to.getFirstName() : user.getFirstName();
     lang = getLanguageByPriorityInContext(context, lang, lang_arg);
     // post text:
     const responseText = sprintf(get_translation(lang, keyword), name);
