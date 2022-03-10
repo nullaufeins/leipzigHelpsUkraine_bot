@@ -40,7 +40,7 @@ const logListenerSuccess = (context, user) => (console.log(SuccessMessageListene
 const CENSOR_ATTRIBUTE = '*****';
 const CENSOR_DIGITS = '####';
 
-const censorMessage = (text) => {
+const partiallyCensorMessage = (text) => {
     text = (text || '').trim();
 
     // apply full censorship if text contains more than one line:
@@ -79,5 +79,5 @@ module.exports = {
     logListenerSuccess,
     CENSOR_ATTRIBUTE,
     CENSOR_DIGITS,
-    censorMessage,
+    partiallyCensorMessage,
 };

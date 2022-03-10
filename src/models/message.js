@@ -4,7 +4,7 @@
 
  const {
     CENSOR_ATTRIBUTE,
-    censorMessage,
+    partiallyCensorMessage,
 } = require('./../core/logging.js');
 const { User } = require('./users.js');
 
@@ -86,7 +86,7 @@ class Message {
     toCensoredRepr(full_censor=false) {
         return {
             timestamp: this.timestamp,
-            text:      full_censor === false ? censorMessage(this.text) : CENSOR_ATTRIBUTE,
+            text:      full_censor === false ? partiallyCensorMessage(this.text) : CENSOR_ATTRIBUTE,
             lang:      this.lang,
             is_bot:    this.is_bot,
             messageId: this.messageId,
