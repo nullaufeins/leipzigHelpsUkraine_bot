@@ -59,20 +59,20 @@ const extra_arguments_post = (text) => {
 }
 
 /****************
- * Usage of following commands:
- * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- *  inputs:
- *    text    = raw text input
- *    botname = name of bot to be matched
- *  returns:
- *    text     = cleaned up text (removed any botname mention)
- *    botname  = botname recognised or else undefined
- *    verified = true/false if botname recognised and matches/not, else undefined
+ * @inputs
+ *  - text    = raw text input
+ *  - botname = name of bot to be matched
+ *
+ * @returns
+ * - text     = cleaned up text (removed any botname mention)
+ * - botname  = botname recognised or else undefined
+ * - verified = true/false if botname recognised and matches/not, else undefined
+ *
+ * NOTE: matching of botname is case insensitive.
  ****************/
 const extract_communication_aspects = (extra_arguments, text_, botname_) => {
     let { command, arguments, botname, matches } = extra_arguments(text_);
-
-    const verified = (botname === undefined ? undefined : matches && (botname == botname_));
+    const verified = (botname === undefined) ? undefined : ((matches === true) && ((botname || '').toLowerCase() == (botname_ || '').toLowerCase()));
     return { command, arguments, verified };
 }
 
