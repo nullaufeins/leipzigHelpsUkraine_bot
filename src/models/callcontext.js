@@ -53,18 +53,31 @@ class CallContext {
 
     toString() { return JSON.stringify(this.toRepr()); }
 
+    /********
+     * Provides a censored representation of CallContext.
+     * - censors `message` attributes (fully if `full_censor=true`).
+     * - fully censors `reply_to` message attributes.^
+     *
+     * NOTE: ^forced, as we never want to log text contents of this message.
+     ********/
     toCensoredRepr(full_censor=false) {
         return {
             botname: this.botname,
-            group_id: CENSOR_ATTRIBUTE,
-            group_title: full_censor === false ? this.groupTitle : CENSOR_ATTRIBUTE,
+            group_id: this.groupId,
+            group_title: this.groupTitle,
             message: this.caller_msg.toCensoredRepr(full_censor),
-            // NOTE: fully censor the messaged replied to, regardless:
             reply_to: this.reply_to_msg.toCensoredRepr(true),
             trace: this.trace.toRepr(),
         }
     }
 
+    /********
+     * Provides a censored representation of CallContext.
+     * - censors `message` attributes (fully if `full_censor=true`).
+     * - fully censors `reply_to` message attributes.^
+     *
+     * NOTE: ^forced, as we never want to log text contents of this message.
+     ********/
     toCensoredString(full_censor=false) { return JSON.stringify(this.toCensoredRepr(full_censor)); }
 
     /********
