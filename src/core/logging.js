@@ -9,6 +9,12 @@ const { split_non_empty_parts } = require('./utils');
  * METHODS special error logging
  ****************************************************************/
 
+const SuccessMessageListener = (context, user) => (sprintf(
+`[INFO]: Call succeeded. Context + Calling User:
+%s
+%s
+...continuing silently.`, context, user));
+
 const ErrorMessageListener = (context, user, err) => (sprintf(
 `[(non fatal) ERROR]: %s
 Context + Calling User:
@@ -26,6 +32,7 @@ const logDebugListener = (context, user, action_taken) => {
 
 const logListenerError = (context, user, err) => (console.error(ErrorMessageListener(context, user, err)));
 const logListenerErrorSilently = (context, user, err) => (console.log(ErrorMessageListener(context, user, err)));
+const logListenerSuccess = (context, user) => (console.log(SuccessMessageListener(context, user)));
 
 /****************************************************************
  * METHODS censoring
@@ -70,6 +77,7 @@ module.exports = {
     logDebugListener,
     logListenerError,
     logListenerErrorSilently,
+    logListenerSuccess,
     CENSOR_ATTRIBUTE,
     CENSOR_DIGITS,
     censorMessage,
