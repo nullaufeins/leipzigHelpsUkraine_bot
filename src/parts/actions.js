@@ -2,9 +2,7 @@
  * IMPORTS
  ****************************************************************/
 
-const {
-    action_delete_and_ignore_with_error,
-} = require('./actions_basic.js');
+const { action_delete_and_ignore_with_error } = require('./actions_basic.js');
 const {
     action_on_pin_one_language,
     action_on_pin_all_languages,
@@ -31,7 +29,10 @@ const universal_action = async (bot, context, command_options, arguments, option
     }
     */
 
-    if (user.hasRights(rights)) {
+    // caller has rights <==> status allowed by config of command, or user is anonymous admin:
+    const has_rights = user.hasRights(rights) || (await context.isGroupAdminCaller(bot) === true);
+
+    if (has_rights) {
         if (redirect === undefined) {
             switch (command) {
                 case command.match(/^\/pin(?:|_(.*))$/)?.input:

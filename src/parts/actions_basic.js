@@ -2,14 +2,16 @@
  * IMPORTS
  ****************************************************************/
 
+const { try_action1_silently_then_perform_action2 } = require('./../core/utils.js');
+
 const {
     remove_message,
     send_message,
     send_message_as_overwrite,
-} = require('../models/operations.js');
+} = require('./../models/operations.js');
 
 /****************************************************************
- * METHODS basic and generic actions
+ * METHODS basic actions
  ****************************************************************/
 
 const action_empty = async () => {
@@ -29,27 +31,40 @@ const action_ignore_with_error = async (text) => {
 };
 
 const action_delete_and_ignore = async (bot, context) => {
-    context.track('basic-action:delete-and-ignore');
-    return remove_message(bot, context.getCallerMessage());
+    return try_action1_silently_then_perform_action2(
+    async () => {
+        context.track('basic-action:delete');
+        return remove_message(bot, context.getCallerMessage())
+    },
+    async () => {
+        context.track('basic-action:ignore');
+        return Promise.resolve([false, undefined]);
+    });
 };
 
 const action_delete_and_ignore_with_error = async (bot, context, text) => {
-    context.track('basic-action:delete-and-ignore-with-error');
-    remove_message(bot, context.getCallerMessage());
-    return Promise.reject(text || 'Something went wrong. Ignoring.');
+    return try_action1_silently_then_perform_action2(
+    async () => {
+        context.track('basic-action:delete');
+        return remove_message(bot, context.getCallerMessage())
+    },
+    async () => {
+        context.track('basic-action:ignore-with-error');
+        return Promise.reject(text || 'Something went wrong. Ignoring.');
+    });
 };
 
 const action_send_message = async (bot, context, text, options, { delete_calls }) => {
     if (delete_calls) {
-        /********
-         * NOTE: if this fails, this error will be caught at a higher level.
-         * Do not catch here, as we want to force the bot to continue with the post,
-         * even the if the deletion fails.
-         ********/
-        context.track('basic-action:delete-caller-msg');
-        await remove_message(bot, context.getCallerMessage());
-        context.track('basic-action:new-post');
-        return send_message(bot, context.getCallerMessage(), text, options);
+        return try_action1_silently_then_perform_action2(
+        async () => {
+            context.track('basic-action:delete');
+            return remove_message(bot, context.getCallerMessage())
+        },
+        async () => {
+            context.track('basic-action:new-post');
+            return send_message(bot, context.getCallerMessage(), text, options);
+        });
     } else {
         context.track('basic-action:edit-post');
         return send_message_as_overwrite(bot, context.getCallerMessage(), text, options);

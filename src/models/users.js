@@ -53,17 +53,34 @@ class User {
 
     toString() { return JSON.stringify(this.toRepr()); }
 
+    /********
+     * Provides a censored representation of User.
+     * - censors `first_name`.
+     * - censors `username` <==> `full_censor=true` passed as argument.
+     *
+     * NOTE: `first_name` forcibly censored as we never want to log this.
+     * The `username` is not necessarily sensitive information.
+     ********/
     toCensoredRepr(full_censor=false) {
         return {
-            id:         CENSOR_ATTRIBUTE,
+            id:         this.id,
             user_type:  this.user_type,
             is_bot:     this.is_bot,
             first_name: CENSOR_ATTRIBUTE,
+            // only censor censor if absolutely necessary:
             username:   full_censor === false ? this.getUserName() : CENSOR_ATTRIBUTE,
             lang:       this.lang,
         }
     }
 
+    /********
+     * Provides a censored representation of User.
+     * - censors `first_name`.
+     * - censors `username` <==> `full_censor=true` passed as argument.
+     *
+     * NOTE: `first_name` forcibly censored as we never want to log this.
+     * The `username` is not necessarily sensitive information.
+     ********/
     toCensoredString(full_censor=false) { return JSON.stringify(this.toCensoredRepr(full_censor)); }
 }
 

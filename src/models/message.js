@@ -4,7 +4,7 @@
 
  const {
     CENSOR_ATTRIBUTE,
-    censorMessage,
+    partiallyCensorMessage,
 } = require('./../core/logging.js');
 const { User } = require('./users.js');
 
@@ -46,9 +46,14 @@ class Message {
 
     isBot() { return this.is_bot; }
 
-    // returns timestamp in ms
+    /********
+     * Returns timestamp in ms
+     ********/
     getTimestamp() { return this.timestamp; }
 
+    /********
+     * Returns User class, if data can be retrieved or else undefined.
+     ********/
     async getUser(bot) {
         return bot.telegram.getChatMember(this.chatId, this.userId)
             .then((data) => new User(data))
@@ -73,18 +78,28 @@ class Message {
 
     toString() { return JSON.stringify(this.toRepr()); }
 
+    /********
+     * Provides a censored representation of Message:
+     * - text` content of message partially censored.
+     * - fully censored, if `full_censor=true` passed as argument.
+     ********/
     toCensoredRepr(full_censor=false) {
         return {
             timestamp: this.timestamp,
-            text:      full_censor === false ? censorMessage(this.text) : CENSOR_ATTRIBUTE,
+            text:      full_censor === false ? partiallyCensorMessage(this.text) : CENSOR_ATTRIBUTE,
             lang:      this.lang,
             is_bot:    this.is_bot,
-            messageId: CENSOR_ATTRIBUTE,
-            chatId:    CENSOR_ATTRIBUTE,
-            userId:    CENSOR_ATTRIBUTE,
+            messageId: this.messageId,
+            chatId:    this.chatId,
+            userId:    this.userId,
         }
     }
 
+    /********
+     * Provides a censored representation of Message:
+     * - text` content of message partially censored.
+     * - fully censored, if `full_censor=true` passed as argument.
+     ********/
     toCensoredString(full_censor) { return JSON.stringify(this.toCensoredRepr(full_censor)); }
 }
 

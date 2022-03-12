@@ -11,7 +11,8 @@ const {
 } = require('./../setup/comms.js');
 const {
     logDebugListener,
-    logListenerErrorSilently
+    logListenerErrorSilently,
+    logListenerSuccess,
 } = require('./../core/logging.js');
 const { CallContext } = require('./../models/callcontext.js');
 const { User } = require('./../models/users.js');
@@ -32,19 +33,29 @@ const decorate_listener = (listener, bot, options) => {
         const t = Date.now();
         const context = new CallContext(ctx);
         const user = await context.getUserCaller(bot);
+        await context.getGroupInfos(bot); // helps logging
         return listener(bot, context, t, options)
-            // !!! logging only in debug mode during local testing !!!
             .then((value) => {
+                [action_taken, _] = value instanceof Array ? value : [];
                 if (debug) {
-                    [action_taken, _] = value instanceof Array ? value : [];
-                    logDebugListener(context.toCensoredRepr(full_censor), user.toCensoredRepr(full_censor_user), action_taken);
+                    // !!! only in debug mode during local testing !!!
+                    const context_as_json = context instanceof CallContext ? context.toCensoredRepr(full_censor) : '---';
+                    const user_as_json = user instanceof User ? user.toCensoredRepr(full_censor_user) : '---';
+                    logDebugListener(context_as_json, user_as_json, action_taken);
+                } else {
+                    // live logging of success only if action taken:
+                    if (action_taken === true) {
+                        const context_as_str = context instanceof CallContext ? context.toCensoredString(full_censor) : '---';
+                        const user_as_str = user instanceof User ? user.toCensoredString(full_censor_user) : '---';
+                        logListenerSuccess(context_as_str, user_as_str, full_censor);
+                    }
                 }
             })
-            // error logging (for live usage):
+            // live logging of errors:
             .catch((err) => {
                 const context_as_str = context instanceof CallContext ? context.toCensoredString(full_censor) : '---';
                 const user_as_str = user instanceof User ? user.toCensoredString(full_censor_user) : '---';
-                logListenerErrorSilently(context_as_str, user_as_str, err, full_censor)
+                logListenerErrorSilently(context_as_str, user_as_str, err, full_censor);
             });
     }
 }
@@ -64,7 +75,8 @@ const listener_on_callback_query = async (bot, context, t, options) => {
  * See README-TECHNICAL.md.
  ****************/
 const listener_on_text = async (bot, context, t, options) => {
-    if (!(context.isBotCaller() === false)) return action_ignore(context);
+    const let_user_through = (context.isBotCaller() === false) || (await context.isGroupAdminCaller(bot) === true);
+    if (!let_user_through) return action_ignore(context);
     const { message_expiry } = options;
 
     if (context.messageTooOldCaller(t, message_expiry)) return action_ignore(context);
@@ -107,7 +119,8 @@ const listener_on_text = async (bot, context, t, options) => {
  * See README-TECHNICAL.md.
  ****************/
 const listener_on_message = async (bot, context, t, options) => {
-    if (!(context.isBotCaller() === false)) return action_ignore(context);
+    const let_user_through = (context.isBotCaller() === false) || (await context.isGroupAdminCaller(bot) === true);
+    if (!let_user_through) return action_ignore(context);
 
     const { message_expiry } = options;
     if (context.messageTooOldCaller(t, message_expiry)) return action_ignore(context);
