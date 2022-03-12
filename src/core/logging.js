@@ -9,6 +9,11 @@ const { split_non_empty_parts } = require('./utils');
  * METHODS special error logging
  ****************************************************************/
 
+const SuccessMessageListener = (context, user) => (sprintf(
+`[INFO]: Call succeeded. Context + Calling User:
+%s
+%s`, context, user));
+
 const ErrorMessageListener = (context, user, err) => (sprintf(
 `[(non fatal) ERROR]: %s
 Context + Calling User:
@@ -26,6 +31,7 @@ const logDebugListener = (context, user, action_taken) => {
 
 const logListenerError = (context, user, err) => (console.error(ErrorMessageListener(context, user, err)));
 const logListenerErrorSilently = (context, user, err) => (console.log(ErrorMessageListener(context, user, err)));
+const logListenerSuccess = (context, user) => (console.log(SuccessMessageListener(context, user)));
 
 /****************************************************************
  * METHODS censoring
@@ -34,7 +40,7 @@ const logListenerErrorSilently = (context, user, err) => (console.log(ErrorMessa
 const CENSOR_ATTRIBUTE = '*****';
 const CENSOR_DIGITS = '####';
 
-const censorMessage = (text) => {
+const partiallyCensorMessage = (text) => {
     text = (text || '').trim();
 
     // apply full censorship if text contains more than one line:
@@ -70,7 +76,8 @@ module.exports = {
     logDebugListener,
     logListenerError,
     logListenerErrorSilently,
+    logListenerSuccess,
     CENSOR_ATTRIBUTE,
     CENSOR_DIGITS,
-    censorMessage,
+    partiallyCensorMessage,
 };

@@ -7,9 +7,9 @@ options:
   ################
   # logging messages are censored. With
   # true => complete censoring of any potential data
-  # false => partial censoring, but enough to precent sensitive information from being logged.
-  full-censor: false     # regards context
-  full-censor-user: true # regards user (caller)
+  # false => partial censoring, but enough to prevent sensitive information from being logged.
+  full-censor: false      # regards context
+  full-censor-user: false # regards user (caller)
   ################
   # true => shows suggests when user starts typing /...
   show-side-menu: true

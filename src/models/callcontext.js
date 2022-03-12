@@ -5,7 +5,6 @@
 const { Message } = require('./message.js');
 const { Trace } = require('./trace.js');
 const { User } = require('./users.js');
-const { CENSOR_ATTRIBUTE } = require('./../core/logging.js');
 
 /****************************************************************
  * Class Çall Context
@@ -17,7 +16,8 @@ class CallContext {
         this.botname = ctx.botInfo.username;
         const msg = ctx.update.message;
         this.caller_msg = new Message(msg);
-        this.reply_to_msg = new Message(msg.reply_to_message);
+        const { reply_to_message } = msg;
+        this.reply_to_msg = reply_to_message === undefined ? undefined : new Message(reply_to_message);
         this.userCaller = undefined;
         this.userReplyTo = undefined;
         this.groupId = undefined;
@@ -46,25 +46,38 @@ class CallContext {
             group_id: this.groupId,
             group_title: this.groupTitle,
             message: this.caller_msg.toRepr(),
-            reply_to: this.reply_to_msg.toRepr(),
+            reply_to: this.reply_to_msg instanceof Message ? this.reply_to_msg.toRepr() : undefined,
             trace: this.trace.toRepr(),
         }
     }
 
     toString() { return JSON.stringify(this.toRepr()); }
 
+    /********
+     * Provides a censored representation of CallContext.
+     * - censors `message` attributes (fully if `full_censor=true`).
+     * - fully censors `reply_to` message attributes.^
+     *
+     * NOTE: ^forced, as we never want to log text contents of this message.
+     ********/
     toCensoredRepr(full_censor=false) {
         return {
             botname: this.botname,
-            group_id: CENSOR_ATTRIBUTE,
-            group_title: full_censor === false ? this.groupTitle : CENSOR_ATTRIBUTE,
+            group_id: this.groupId,
+            group_title: this.groupTitle,
             message: this.caller_msg.toCensoredRepr(full_censor),
-            // NOTE: fully censor the messaged replied to, regardless:
-            reply_to: this.reply_to_msg.toCensoredRepr(true),
+            reply_to: this.reply_to_msg instanceof Message ? this.reply_to_msg.toCensoredRepr(true) : undefined,
             trace: this.trace.toRepr(),
         }
     }
 
+    /********
+     * Provides a censored representation of CallContext.
+     * - censors `message` attributes (fully if `full_censor=true`).
+     * - fully censors `reply_to` message attributes.^
+     *
+     * NOTE: ^forced, as we never want to log text contents of this message.
+     ********/
     toCensoredString(full_censor=false) { return JSON.stringify(this.toCensoredRepr(full_censor)); }
 
     /********
@@ -106,24 +119,24 @@ class CallContext {
      * Methods related just to message_replied to
      ********/
 
-    getTextMessageRepliedTo() { return this.reply_to_msg.getText(); }
+    getTextMessageRepliedTo() { return this.reply_to_msg instanceof Message ? this.reply_to_msg.getText() : undefined; }
 
-    getLanguageMessageRepliedTo() { return this.reply_to_msg.getLanguage(); }
+    getLanguageMessageRepliedTo() { return this.reply_to_msg instanceof Message ? this.reply_to_msg.getLanguage() : undefined; }
 
-    isBotMessageRepliedTo() { return this.reply_to_msg.isBot(); }
+    isBotMessageRepliedTo() { return this.reply_to_msg instanceof Message ? this.reply_to_msg.isBot() : undefined; }
 
     /********
      * Returns User class for message replied to, if data can be retrieved or else undefined.
      ********/
     async getUserMessageRepliedTo(bot) {
         if (this.userReplyTo === undefined) {
-            const user = await this.reply_to_msg.getUser(bot);
+            const user = this.reply_to_msg instanceof Message ? await this.reply_to_msg.getUser(bot) : undefined;
             this.userReplyTo = user;
         }
         return this.userReplyTo;
     }
 
-    messageTooOldMessageRepliedTo(t, expiry) { return this.reply_to_msg.messageTooOld(t, expiry); }
+    messageTooOldMessageRepliedTo(t, expiry) { return this.reply_to_msg instanceof Message ? this.reply_to_msg.messageTooOld(t, expiry) : undefined; }
 }
 
 /****************************************************************
