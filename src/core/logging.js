@@ -9,17 +9,11 @@ const { split_non_empty_parts } = require('./utils');
  * METHODS special error logging
  ****************************************************************/
 
-const SuccessMessageListener = (context, user) => (sprintf(
-`[INFO]: Call succeeded. Context + Calling User:
-%s
-%s`, context, user));
+const SuccessMessageListener = (context, user) => (sprintf(`{ "status": "success", "context": %s, "caller": %s }`, context, user));
 
 const ErrorMessageListener = (context, user, err) => (sprintf(
 `[(non fatal) ERROR]: %s
-Context + Calling User:
-%s
-%s
-...continuing silently.`, err, context, user));
+{ "status": "error", "context": %s, "caller": %s }`, err, context, user));
 
 const logDebugListener = (context, user, action_taken) => {
     console.debug(`Context of Call:`);
@@ -30,7 +24,6 @@ const logDebugListener = (context, user, action_taken) => {
 };
 
 const logListenerError = (context, user, err) => (console.error(ErrorMessageListener(context, user, err)));
-const logListenerErrorSilently = (context, user, err) => (console.log(ErrorMessageListener(context, user, err)));
 const logListenerSuccess = (context, user) => (console.log(SuccessMessageListener(context, user)));
 
 /****************************************************************
@@ -75,7 +68,6 @@ const partiallyCensorMessage = (text) => {
 module.exports = {
     logDebugListener,
     logListenerError,
-    logListenerErrorSilently,
     logListenerSuccess,
     CENSOR_ATTRIBUTE,
     CENSOR_DIGITS,
