@@ -11,7 +11,7 @@ const {
 } = require('./../setup/comms.js');
 const {
     logDebugListener,
-    logListenerErrorSilently,
+    logListenerError,
     logListenerSuccess,
 } = require('./../core/logging.js');
 const { CallContext } = require('./../models/callcontext.js');
@@ -55,7 +55,7 @@ const decorate_listener = (listener, bot, options) => {
             .catch((err) => {
                 const context_as_str = context instanceof CallContext ? context.toCensoredString(full_censor) : '---';
                 const user_as_str = user instanceof User ? user.toCensoredString(full_censor_user) : '---';
-                logListenerErrorSilently(context_as_str, user_as_str, err, full_censor);
+                logListenerError(context_as_str, user_as_str, err, full_censor);
             });
     }
 }
