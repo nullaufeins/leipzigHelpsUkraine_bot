@@ -42,18 +42,36 @@ redirect-remark:
   ru: 'Для получения дополнительной информации ознакомьтесь с новостями, помещенными на страницу.'
   uk: 'Для отримання додаткової інформації ознайомтеся з новинами на сторінці.'
 ## channels
+animals:
+  de: Tiere | 🐈 🐕
+  en: Animals | 🐈 🐕
+  pl: Zwierząt | 🐈 🐕
+  ru: животные | 🐈 🐕
+  uk: тварин | 🐈 🐕
 animals-desc:
   de: Hilfe für geflüchtete Menschen mit Tieren
   en: Help for refugees with animals
   pl: Pomoc dla uchodźców ze zwierzętami
   ru: Помощь беженцам c животными
   uk: Допомога біженцям з тваринами
+arrival:
+  de: Ankommen | 👋
+  en: Arrival | 👋
+  pl: Przyjazd | 👋
+  ru: пребытие | 👋
+  uk: прибуття | 👋
 arrival-desc:
   de: Koordination der Freiwilligen am Hauptbahnhof
   en: Coordination of volunteers at the main station
   pl: Koordynacja wolontariuszy na stacji głównej
   ru: Координация волонтеров на главной станции
   uk: Координація роботи волонтерів на головному вокзалі
+family:
+  de: Kinder & Familien | 👶 👪
+  en: Kids & Families | 👶 👪
+  pl: Dzieci i rodziny | 👶 👪
+  ru: Дети и семьи | 👶 👪
+  uk: Діти та сім'ї | 👶 👪
 family-desc:
   de: Hilfe für ukrainische Familien in Leipzig
   en: Help for Ukrainian families in Leipzig

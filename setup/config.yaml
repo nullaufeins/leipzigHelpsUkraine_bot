@@ -96,17 +96,17 @@ commands:
   # START menu commands
   ## 1st row
   - aspects:
-      command:  '/transport'
+      command:  '/arrival'
       rights:   [administrator, creator]
       strict:   true
-      match:    '^(transport|travel).*$'
+      match:    '^(arrival(s)?|ankunft)$'
       redirect:
-        group: '@transport_leipzig_ukraine'
+        group:  '@arrival_leipzig_ukraine'
     menu:
-      keyword: transport
+      keyword: arrival
       new_row: true
     side-menu:
-      keyword: transport-desc
+      keyword: arrival-desc
     text:
       keyword: redirect-message
   - aspects:
@@ -118,12 +118,10 @@ commands:
         group: '@accomodation_leipzig_ukraine'
     menu:
       keyword: housing
-      new_row: true
     side-menu:
       keyword: housing-desc
     text:
       keyword: redirect-message
-  ## 2nd row
   - aspects:
       command:  '/translations'
       rights:   [administrator, creator]
@@ -133,25 +131,11 @@ commands:
         group: '@translators_leipzig_ukraine'
     menu:
       keyword: translations
-      new_row: true
     side-menu:
       keyword: translations-desc
     text:
       keyword: redirect-message
-  - aspects:
-      command:  '/legal'
-      rights :  [administrator, creator]
-      strict:   true
-      redirect:
-        group: '@legal_leipzig_ukraine'
-      match:    '^(legal.*|law|jura|jurist.*|rights)$'
-    menu:
-      keyword: legal
-    side-menu:
-      keyword: legal-desc
-    text:
-      keyword: redirect-message
-  ## 3rd row
+  ## 2nd row
   - aspects:
       command:  '/donations'
       rights:   [administrator, creator]
@@ -166,7 +150,47 @@ commands:
       keyword: donations-desc
     text:
       keyword: redirect-message
-  ## 4th row
+  - aspects:
+      command:  '/family'
+      rights:   [administrator, creator]
+      strict:   true
+      match:    '^(family|kid(s)?|child(ren)?|familie)$'
+      redirect:
+        group:  '@kids_leipzig_ukraine'
+    menu:
+      keyword: family
+    side-menu:
+      keyword: family-desc
+    text:
+      keyword: redirect-message
+  - aspects:
+      command:  '/animals'
+      rights:   [administrator, creator]
+      strict:   true
+      match:    '^(animal(s)?|pet(s)?)$'
+      redirect:
+        group:  '@animals_leipzig_ukraine'
+    menu:
+      keyword: animals
+    side-menu:
+      keyword: animals-desc
+    text:
+      keyword: redirect-message
+  ## 3rd row
+  - aspects:
+      command:  '/legal'
+      rights :  [administrator, creator]
+      strict:   true
+      redirect:
+        group: '@legal_leipzig_ukraine'
+      match:    '^(legal.*|law|jura|jurist.*|rights)$'
+    menu:
+      keyword: legal
+      new_row: true
+    side-menu:
+      keyword: legal-desc
+    text:
+      keyword: redirect-message
   - aspects:
       command:  '/homepage'
       rights:   [administrator, creator]
@@ -175,13 +199,24 @@ commands:
       redirect:
         url: http://leipzig-helps-ukraine.de/
     menu:
-      keyword: homepage
-      new_row: true
+        keyword: homepage
     side-menu:
       keyword: homepage-desc
     text:
       keyword: redirect-message
     new_row:   true
+  ## Following are NOT in menu:
+  - aspects:
+      command:  '/transport'
+      rights:   [administrator, creator]
+      strict:   true
+      match:    '^(transport|travel).*$'
+      redirect:
+        group: '@transport_leipzig_ukraine'
+    side-menu:
+      keyword: transport-desc
+    text:
+      keyword: redirect-message
   - aspects:
       command:  '/feedback'
       rights :  [administrator, creator]
@@ -189,13 +224,10 @@ commands:
       redirect:
         group: '@feedback_leipzig_ukraine'
       match:    '^(feedback|review)$'
-    menu:
-      keyword: feedback
     side-menu:
       keyword: feedback-desc
     text:
       keyword: redirect-message
-  ## Following are NOT in menu:
   - aspects:
       command:  '/ethermap'
       rights:   [administrator, creator]
@@ -207,39 +239,6 @@ commands:
       keyword: donations-map-desc
     text:
       keyword: redirect-message-donations-map
-  - aspects:
-      command:  '/animals'
-      rights:   [administrator, creator]
-      strict:   true
-      match:    '^(animal(s)?|pet(s)?)$'
-      redirect:
-        group:  '@animals_leipzig_ukraine'
-    side-menu:
-      keyword: animals-desc
-    text:
-      keyword: redirect-message
-  - aspects:
-      command:  '/arrival'
-      rights:   [administrator, creator]
-      strict:   true
-      match:    '^(arrival(s)?|ankunft)$'
-      redirect:
-        group:  '@arrival_leipzig_ukraine'
-    side-menu:
-      keyword: arrival-desc
-    text:
-      keyword: redirect-message
-  - aspects:
-      command:  '/family'
-      rights:   [administrator, creator]
-      strict:   true
-      match:    '^(family|kid(s)?|child(ren)?|familie)$'
-      redirect:
-        group:  '@kids_leipzig_ukraine'
-    side-menu:
-      keyword: family-desc
-    text:
-      keyword: redirect-message
   # END menu commands
   ################################################################
   # START special commands - variants of /pin
