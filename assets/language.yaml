@@ -43,11 +43,11 @@ redirect-remark:
   uk: 'Для отримання додаткової інформації ознайомтеся з новинами на сторінці.'
 ## channels
 animals:
-  de: Tiere | 🐈 🐕
-  en: Animals | 🐈 🐕
-  pl: Zwierząt | 🐈 🐕
-  ru: животные | 🐈 🐕
-  uk: тварин | 🐈 🐕
+  de: Tiere | 🐈
+  en: Animals | 🐈
+  pl: Zwierząt | 🐈
+  ru: животные | 🐈
+  uk: тварин | 🐈
 animals-desc:
   de: Hilfe für geflüchtete Menschen mit Tieren
   en: Help for refugees with animals
@@ -67,11 +67,11 @@ arrival-desc:
   ru: Координация волонтеров на главной станции
   uk: Координація роботи волонтерів на головному вокзалі
 family:
-  de: Kinder & Familien | 👶 👪
-  en: Kids & Families | 👶 👪
-  pl: Dzieci i rodziny | 👶 👪
-  ru: Дети и семьи | 👶 👪
-  uk: Діти та сім'ї | 👶 👪
+  de: Familie | 👶
+  en: Family | 👶
+  pl: Rodziny | 👶
+  ru: Семьи | 👶
+  uk: Сім'ї | 👶
 family-desc:
   de: Hilfe für ukrainische Familien in Leipzig
   en: Help for Ukrainian families in Leipzig
@@ -79,11 +79,11 @@ family-desc:
   ru: Помощь украинским семьям в Лейпциге
   uk: Допомога українським родинам у Лейпцигу
 transport:
-  de: Transport | 🚉 ✈️ 🚘
-  en: Transport | 🚉 ✈️ 🚘
-  pl: Transport | 🚉 ✈️ 🚘
-  ru: Транспорт | 🚉 ✈️ 🚘
-  uk: Транспорт | 🚉 ✈️ 🚘
+  de: Transport | 🚉
+  en: Transport | 🚉
+  pl: Transport | 🚉
+  ru: Транспорт | 🚉
+  uk: Транспорт | 🚉
 transport-desc:
   de: Biete/Suche Transportmöglichkeiten
   en: Offer/need transport
@@ -91,11 +91,11 @@ transport-desc:
   ru: Предлагаю транспорт / ищу транспорт
   uk: Пропоную/шукаю опції пересування чи логістики
 donations:
-  de: Spenden | 📦 🪙
-  en: Donations | 📦 🪙
-  pl: Podarować | 📦 🪙
-  ru: Пожертвовать | 📦 🪙
-  uk: Пожертвування | 📦 🪙
+  de: Spenden | 📦
+  en: Donations | 📦
+  pl: Podarować | 📦
+  ru: Пожертвовать | 📦
+  uk: Пожертвування | 📦
 donations-desc:
   de: Finde Sammelstellen und Spendeninfos
   en: Infos about financial and material donations
@@ -139,11 +139,11 @@ housing-desc:
   ru: Предложить/поискать жильё
   uk: Пропоную/шукаю житло
 translations:
-  de: Übersetzungen | 💬🔄
-  en: Translations | 💬🔄
-  pl: Tłumaczenia | 💬🔄
-  ru: Переводы | 💬🔄
-  uk: Переклади | 💬🔄
+  de: Übersetzungen | 💬
+  en: Translations | 💬
+  pl: Tłumaczenia | 💬
+  ru: Переводы | 💬
+  uk: Переклади | 💬
 translations-desc:
   de: Finde ÜbersetzerInnen
   en: Get help from translators
