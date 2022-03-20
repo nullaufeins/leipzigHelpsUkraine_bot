@@ -99,7 +99,7 @@ commands:
       command:  '/arrival'
       rights:   [administrator, creator]
       strict:   true
-      match:    '^(arrival(s)?|ankunft)$'
+      match:    '^(arrivals?|ankunft)$'
       redirect:
         group:  '@arrival_leipzig_ukraine'
     menu:
@@ -154,7 +154,7 @@ commands:
       command:  '/family'
       rights:   [administrator, creator]
       strict:   true
-      match:    '^(family|kid(s)?|child(ren)?|familie)$'
+      match:    '^(family|kids?|child(ren)?|familie)$'
       redirect:
         group:  '@kids_leipzig_ukraine'
     menu:
@@ -167,7 +167,7 @@ commands:
       command:  '/animals'
       rights:   [administrator, creator]
       strict:   true
-      match:    '^(animal(s)?|pet(s)?)$'
+      match:    '^(animals?|pets?)$'
       redirect:
         group:  '@animals_leipzig_ukraine'
     menu:
