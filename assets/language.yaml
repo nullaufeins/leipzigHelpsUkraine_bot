@@ -111,7 +111,7 @@ redirect-message-donations-map:
 donations-map-desc:
   de: 'URL zur Karte für Spenden'
   en: 'URL for map for donations'
-  pl: Link do mapy do punktów zbiórki darowizn'
+  pl: 'Link do mapy do punktów zbiórki darowizn'
   ru: 'Веб-сайт карты для пожертвований'
   ua: 'Веб-сайт для карти для пожертв'
 legal:
