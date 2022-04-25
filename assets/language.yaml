@@ -138,6 +138,12 @@ housing-desc:
   pl: Zaoferuj/wyszukaj nocleg
   ru: Предложить/поискать жильё
   uk: Пропоную/шукаю житло
+jobs-desc:
+  de: Arbeit finden
+  en: Find jobs
+  pl: Znaleźć pracę
+  ru: найти работу
+  uk: знайти роботу
 translations:
   de: Übersetzungen | 💬
   en: Translations | 💬
