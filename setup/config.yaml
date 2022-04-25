@@ -218,6 +218,17 @@ commands:
     text:
       keyword: redirect-message
   - aspects:
+      command:  '/jobs'
+      rights:   [administrator, creator]
+      strict:   true
+      match:    '^(job(s)?)$'
+      redirect:
+        group: '@jobs_leipzig_ukraine'
+    side-menu:
+      keyword: jobs-desc
+    text:
+      keyword: redirect-message
+  - aspects:
       command:  '/feedback'
       rights :  [administrator, creator]
       strict:   true
