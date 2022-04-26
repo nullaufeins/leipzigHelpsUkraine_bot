@@ -6,7 +6,7 @@
 welcome-message: &ref_welcome_message
   de: 'Hej, %s! Wir versuchen, Hilfsangebote und Anfragen zu koordinieren.'
   en: 'Hiya, %s! We want to coordinate offers of help and requests.'
-  pl: 'Cześć, %s! Staramy się koordynować propozycje i prośby o wsparcie.'
+  pl: 'Cześć, %s! Staramy się koordynować oferty i prośby o pomoc.'
   ru: 'Привіт, %s! Мы стараемся координировать предложения и запросы о помощи.'
   uk: 'Привіт, %s! Ми намагаємося координувати пропозиції підтримки та запити.'
 hello-world-message: # only for testing
@@ -20,32 +20,32 @@ pinned-short:
 pinned-message:
   de: '🌻!BITTE LESEN! Wir versuchen, Hilfsangebote und Anfragen zu koordinieren. Bitte eine Option wählen.'
   en: '🌻!Pls README first! We want to coordinate offers of help and requests. Please choose a topic.'
-  pl: '🌻!Proszę najpierw PRZECZYTAĆ! Staramy się koordynować propozycje i prośby o wsparcie. Wybierz temat.'
+  pl: '🌻!PROSIMY PRZECZYTAĆ! Staramy się koordynować oferty i prośby o pomoc. Wybierz temat.'
   ru: '🌻!ПРОЧИТАЙТЕ сначала! Мы стараемся координировать предложения и запросы о помощи. Выберите соответствующую тему.'
   uk: '🌻!ПРОЧИТАЙТЕ спочатку! Ми намагаємося координувати пропозиції підтримки та запити. Будь ласка, оберіть тему.'
 help-message:
   de: '🌻 Wir versuchen, Hilfsangebote und Anfragen zu koordinieren. Bitte eine Option wählen.'
   en: '🌻 We want to coordinate offers of help and requests. Please choose a topic.'
-  pl: '🌻 Staramy się koordynować propozycje i prośby o wsparcie. Wybierz temat.'
+  pl: '🌻 Staramy się koordynować oferty i prośby o pomoc. Wybierz temat.'
   ru: '🌻 Мы стараемся координировать предложения и запросы о помощи. Выберите соответствующую тему.'
   uk: '🌻 Ми намагаємося координувати пропозиції підтримки та запити. Будь ласка, оберіть тему.'
 redirect-message:
   de: Hier entlang bitte!
   en: This way please!
-  pl: Proszę odnieść się do telegramu tego kanału!
+  pl: Proszę przejść do tego kanału!
   ru: Пожалуйста, обращайся к этому телеграмму канала!
   uk: Будь-ласка, звертайся до цього телеграм каналу!
 redirect-remark:
   de: 'Bitte auch in den angehefteten Nachrichten nach weiteren Informationen schauen.'
   en: 'Please take note of the pinned messages for more information.'
-  pl: 'Więcej informacji można znaleźć w zakładce aktualności.'
+  pl: 'Więcej informacji można znaleźć w przypiętych wiadomościach.'
   ru: 'Для получения дополнительной информации ознакомьтесь с новостями, помещенными на страницу.'
   uk: 'Для отримання додаткової інформації ознайомтеся з новинами на сторінці.'
 ## channels
 animals:
   de: Tiere | 🐈
   en: Animals | 🐈
-  pl: Zwierząt | 🐈
+  pl: Zwierzęta | 🐈
   ru: Животные | 🐈
   uk: Тварини | 🐈
 animals-desc:
@@ -63,13 +63,13 @@ arrival:
 arrival-desc:
   de: Koordination der Freiwilligen am Hauptbahnhof
   en: Coordination of volunteers at the main station
-  pl: Koordynacja wolontariuszy na stacji głównej
+  pl: Koordynacja wolontariuszy na dworcu głównym
   ru: Координация волонтеров на главной станции
   uk: Координація роботи волонтерів на головному вокзалі
 family:
   de: Familie | 👶
   en: Family | 👶
-  pl: Rodziny | 👶
+  pl: Rodzina | 👶
   ru: Семьи | 👶
   uk: Сім'ї | 👶
 family-desc:
@@ -93,7 +93,7 @@ transport-desc:
 donations:
   de: Spenden | 📦
   en: Donations | 📦
-  pl: Podarować | 📦
+  pl: Darowizny | 📦
   ru: Пожертвовать | 📦
   uk: Пожертвування | 📦
 donations-desc:
@@ -111,7 +111,7 @@ redirect-message-donations-map:
 donations-map-desc:
   de: 'URL zur Karte für Spenden'
   en: 'URL for map for donations'
-  pl: 'Stronie mapy do darowizn'
+  pl: 'Link do mapy do punktów zbiórki darowizn'
   ru: 'Веб-сайт карты для пожертвований'
   ua: 'Веб-сайт для карти для пожертв'
 legal:
@@ -138,6 +138,12 @@ housing-desc:
   pl: Zaoferuj/wyszukaj nocleg
   ru: Предложить/поискать жильё
   uk: Пропоную/шукаю житло
+jobs-desc:
+  de: Jobangebote
+  en: Job offers
+  pl: Oferty pracy
+  ru: Предложения o работе
+  uk: Пропозиції роботи
 translations:
   de: Übersetzungen | 💬
   en: Translations | 💬
@@ -165,7 +171,7 @@ homepage-desc:
 feedback: &ref_feedback
   de: 'Feedback zum 🤖'
   en: 'Feedback for 🤖'
-  pl: 'Opinie na 🤖'
+  pl: 'Opinie o 🤖'
   ru: 'Отзыв о 🤖'
   uk: 'Відгук про 🤖'
 feedback-desc:

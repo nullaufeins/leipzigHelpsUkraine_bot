@@ -14,6 +14,7 @@ Admins have access to the following commands:
   /donations
   /family
   /housing
+  /jobs
   /legal
   /translations
   /transport
