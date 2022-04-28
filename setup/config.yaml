@@ -178,6 +178,20 @@ commands:
       keyword: redirect-message
   ## 3rd row
   - aspects:
+      command:  '/jobs'
+      rights:   [administrator, creator]
+      strict:   true
+      match:    '^(jobs?|work|employment|arbeit|arbeitss?uche)$'
+      redirect:
+        group: '@jobs_leipzig_ukraine'
+    menu:
+      keyword: jobs
+      new_row: true
+    side-menu:
+      keyword: jobs-desc
+    text:
+      keyword: redirect-message
+  - aspects:
       command:  '/legal'
       rights :  [administrator, creator]
       strict:   true
@@ -186,7 +200,6 @@ commands:
       match:    '^(legal.*|law|jura|jurist.*|rights)$'
     menu:
       keyword: legal
-      new_row: true
     side-menu:
       keyword: legal-desc
     text:
@@ -204,7 +217,6 @@ commands:
       keyword: homepage-desc
     text:
       keyword: redirect-message
-    new_row:   true
   ## Following are NOT in menu:
   - aspects:
       command:  '/transport'
@@ -215,17 +227,6 @@ commands:
         group: '@transport_leipzig_ukraine'
     side-menu:
       keyword: transport-desc
-    text:
-      keyword: redirect-message
-  - aspects:
-      command:  '/jobs'
-      rights:   [administrator, creator]
-      strict:   true
-      match:    '^(job(s)?)$'
-      redirect:
-        group: '@jobs_leipzig_ukraine'
-    side-menu:
-      keyword: jobs-desc
     text:
       keyword: redirect-message
   - aspects:
