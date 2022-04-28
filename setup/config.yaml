@@ -42,7 +42,7 @@ languages:
   uk: '^(uk|ukr|ua)$'
   pl: '^(pl)$'
   ru: '^(ru)$'
-default-language: &ref_default_lang de
+default-language: &ref_default_lang uk # default language is Ukrainian
 # ------------------------------------------------------------------------------------------------
 # COMMANDS
 # NOTE structure is as follows:
