@@ -86,13 +86,18 @@ For example
 prints the help menu in Polish, shows the redirect link to legal issues in Ukrainian,
 _etc._ regardless of the user's language setting.
 
-## Help! How do I ... ? ##
+## Help! ##
 
-### Shut down the bot ###
+### How do I shut down the bot? ###
 
 To shut down the bot, the easiest way is to remove it from the telegram group.
 
 (It can always be added again at a later stage.)
+
+### How does the Bot decide what language to use? ###
+
+The bot decides based on a list of priorities,
+which can be viewed in the [technical notes](./TECHNICAL.md#logical-flow).
 
 ## Technical information for developers ##
 
