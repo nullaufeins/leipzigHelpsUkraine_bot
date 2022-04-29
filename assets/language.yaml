@@ -113,7 +113,7 @@ donations-map-desc:
   en: 'URL for map for donations'
   pl: 'Link do mapy do punktów zbiórki darowizn'
   ru: 'Веб-сайт карты для пожертвований'
-  ua: 'Веб-сайт для карти для пожертв'
+  uk: 'Веб-сайт для карти для пожертв'
 legal:
   de: Rechtsfragen | ⚖️
   en: Legal Requests | ⚖️
@@ -138,6 +138,12 @@ housing-desc:
   pl: Zaoferuj/wyszukaj nocleg
   ru: Предложить/поискать жильё
   uk: Пропоную/шукаю житло
+jobs:
+  de: Arbeit | 💼
+  en: Work | 💼
+  pl: Praca | 💼
+  ru: Работа | 💼
+  uk: Работа | 💼
 jobs-desc:
   de: Jobangebote
   en: Job offers
