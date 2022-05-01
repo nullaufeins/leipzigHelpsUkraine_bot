@@ -33,7 +33,7 @@ The bot currently supports 5 languages and decides which language to use based o
 
 4. ~~Language of the admin who called the command.~~
 
-5. The default language set in [setup/config.yaml](setup/config.yaml) under `default-language:` (currently `de`).
+5. The default language set in [setup/config.yaml](setup/config.yaml) under `default-language:` (currently `uk` --- Ukrainian).
 
 ## Deployment ##
 
