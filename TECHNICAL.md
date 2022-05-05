@@ -9,7 +9,7 @@ For contributes see [here](./CONTRIBUTING.md).
 ### Logical flow ###
 
 The bot listens to all messages, then does the following
-(see [src/parts/listeners.js](src/parts/listeners.js) for more):
+(see files in [src/behaviour/listeners](src/behaviour/listeners) for more):
 
 - ignores posts by bots, regardless of content
 - ignores too old messages, regardless of content
@@ -25,9 +25,9 @@ The bot listens to all messages, then does the following
 
 The bot currently supports 5 languages and decides which language to use based on the following priorities (highest to lowest):
 
-1. Language hard coded into the [setup/config.yaml](setup/config.yaml) file for the command under `lang:`, if set.
+1. Language given as an argument by the admin when using `@<botname> cmd [args…]`, if provided.
 
-2. Language given as an argument by the admin when using `@<botname> cmd [args…]`, if provided.
+2. Language hard coded into the [setup/config.yaml](setup/config.yaml) file for the command under `lang:`, if set.
 
 3. Language of the message to which the admin replied to, if the call occurred this way.
 
