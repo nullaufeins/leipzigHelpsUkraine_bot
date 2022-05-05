@@ -1,0 +1,26 @@
+[project]
+name = "LeipzigHelpsUkraineBot"
+version = "1.3.5"
+description = "Dieser Bot wurde mit viel Liebe von Freiwilligen aus der Stadt Leipzig für Ukrainer/innen 🇺🇦 erstellt. 🤗"
+authors = [ "github.com/Twissi", "github.com/RLogik" ]
+license = "MIT"
+readme = "README.md"
+python = "^3.10"
+homepage = "https://github.com/nullaufeins"
+repository = "https://github.com/nullaufeins/leipzigHelpsUkraine_bot"
+documentation = "https://github.com/nullaufeins/leipzigHelpsUkraine_bot"
+keywords = [
+    "telegram",
+    "bot",
+    "Ukraine",
+    "Leipzig",
+]
+
+[tool.pytest.ini_options]
+minversion = "7.1.1"
+testpaths = [
+    "tests",
+]
+python_files = [
+    "**/test_*.py",
+]
