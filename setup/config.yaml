@@ -34,12 +34,13 @@ options:
   ################
 # ------------------------------------------------------------------------------------------------
 # SUPPORTED LANGUAGES
-# Note: use ISO-639-1 alpha-2 format; e.g. uk (not ua) for Ukrainian.
+# NOTE: use ISO-639-1 alpha-2 format; e.g. uk (not ua) for Ukrainian.
+# NOTE: keep this order!
 # ------------------------------------------------------------------------------------------------
 languages:
-  en: '^(en)$'
-  de: '^(de|deu)$'
   uk: '^(uk|ukr|ua)$'
+  de: '^(de|deu)$'
+  en: '^(en)$'
   pl: '^(pl)$'
   ru: '^(ru)$'
 default-language: &ref_default_lang uk # default language is Ukrainian
@@ -260,27 +261,8 @@ commands:
       strict:  true
       match:   '^pin(ned)?$'
     side-menu:
-      lang:    *ref_default_lang
       keyword: pinned-short
     text:
-      lang:    *ref_default_lang
-      keyword: pinned-message
-  - aspects:
-      <<: *ref_command_pin
-      command: '/pin_en'
-      match:   '^pin(ned)?[-_](en)$'
-    side-menu:
-      lang:    en
-      keyword: pinned-short
-    text:
-      lang:    en
-      keyword: pinned-message
-  - aspects:
-      <<: *ref_command_pin
-      command: '/pin_de'
-      match:   '^pin(ned)?[-_](de|deu)$'
-    text:
-      lang:    de
       keyword: pinned-message
   - aspects:
       <<: *ref_command_pin
@@ -291,6 +273,23 @@ commands:
       keyword: pinned-short
     text:
       lang:    uk
+      keyword: pinned-message
+  - aspects:
+      <<: *ref_command_pin
+      command: '/pin_de'
+      match:   '^pin(ned)?[-_](de|deu)$'
+    text:
+      lang:    de
+      keyword: pinned-message
+  - aspects:
+      <<: *ref_command_pin
+      command: '/pin_en'
+      match:   '^pin(ned)?[-_](en)$'
+    side-menu:
+      lang:    en
+      keyword: pinned-short
+    text:
+      lang:    en
       keyword: pinned-message
   # END variants of /pin
   ################################################################
