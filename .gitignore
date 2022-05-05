@@ -12,25 +12,22 @@
 !/LICENSE
 !/Procfile
 !/package*.json
+!/requirements
+!/pyproject.toml
 
 ################################################################
 # PROJECT FILES
 ################################################################
 
 !/src
-!/src/classes/
-!/src/core/
-!/src/parts/
-!/src/models/
-!/src/setup/
-!/src/setup/*.yaml
-!/src/**/*.js
-!/src/**/*.yaml
-!/index.js
+!/src/**/
+!/src/**/*.py
+!/main.py
 
 !/tests
 !/tests/**/
 !/tests/**/*.test.js
+!/tests/**/test_*.py
 
 !/assets
 !/assets/language.yaml
@@ -53,6 +50,7 @@
 ################################################################
 
 /**/__pycache__
+/**/.pytest_cache
 /**/.DS_Store
 /**/__archive__*
 /**/.glitchdotcom.json
