@@ -47,7 +47,7 @@ def listener_on_text(
     text = context.getTextCaller();
     if is_valid_communication_addess(text):
         context.track('text-listener');
-        result = recognise_command_address(text, context.getBotname());
+        result = recognise_command_address(text=text, botname=context.getBotname());
         cmd = result.command;
         arguments = result.arguments;
         verified = result.verified;

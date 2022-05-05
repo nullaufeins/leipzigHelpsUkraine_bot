@@ -40,11 +40,11 @@ class CallContext:
     groupId:      int;
     groupTitle:   str;
 
-    def __init__(self, ctx: TgMessage, t: datetime, expiry: timedelta):
+    def __init__(self, ctx: TgMessage, botname: str, t: datetime, expiry: timedelta):
         self.t = t;
         self.expiry = expiry;
         self.trace = Trace();
-        self.botname = ''; # FIXME: was ctx.bot_info.username under nodejs api
+        self.botname = botname;
         self.caller_msg = Message(ctx);
         self.reply_to_msg = Some(Message(ctx.reply_to_message)) if isinstance(ctx.reply_to_message, TgMessage) else Nothing();
         self.userCaller = Nothing();

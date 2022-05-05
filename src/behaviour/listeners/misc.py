@@ -40,7 +40,8 @@ def log_listener(bot: TgBot, app_options: AppOptions):
         @wraps(listener)
         @run_safely()
         def wrapped_listener(ctx: TgMessage) -> Result[Nothing, Exception]:
-            context = CallContext(ctx, t=datetime.now(), expiry=app_options.message_expiry);
+            botname = bot.get_me().username;
+            context = CallContext(ctx, botname=botname, t=datetime.now(), expiry=app_options.message_expiry);
             user = context.getUserCaller(bot);
 
             result: Result[CallValue, CallError] = listener(bot=bot, context=context, app_options=app_options);
