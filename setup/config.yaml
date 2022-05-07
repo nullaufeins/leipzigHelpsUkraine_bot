@@ -1,9 +1,13 @@
 info:
-  description: Internal configuration of app.
-options:
+  description: |-
+    Internal configuration of app based on schema defined in models/config.yaml.
+app-options:
   ################
   # only set to true during development. Do NOT commit with 'debug: true'!
   debug: false
+  ################
+  # defines the default language of all commands as a fall back:
+  default-language: uk # NOTE: uk = Ukrainian
   ################
   # logging messages are censored. With
   # true => complete censoring of any potential data
@@ -24,53 +28,34 @@ options:
   ################
   # maximum age of messages in ms.
   # All messages that occur 'too long' ago, will be ignored.
-  message-expiry: 10000
+  message-expiry: 30000
   ################
   # NOTE: The following parameters are no longer in use.
   # Times in ms before bot response (inline resp. menu) are deleted.
   # Use negative (-) values, if no deletion should occur.
-  timeout:       -5000
-  timeout-menu: -10000
+  timeout:       5000
+  timeout-menu: 10000
   ################
 # ------------------------------------------------------------------------------------------------
 # SUPPORTED LANGUAGES
 # NOTE: use ISO-639-1 alpha-2 format; e.g. uk (not ua) for Ukrainian.
 # NOTE: keep this order!
 # ------------------------------------------------------------------------------------------------
-languages:
-  uk: '^(uk|ukr|ua)$'
-  de: '^(de|deu)$'
-  en: '^(en)$'
-  pl: '^(pl)$'
-  ru: '^(ru)$'
-default-language: &ref_default_lang uk # default language is Ukrainian
+language-codes:
+  - code: uk
+    pattern: '^(uk|ukr|ua)$'
+  - code: de
+    pattern: '^(de|deu)$'
+  - code: en
+    pattern: '^(en)$'
+  - code: pl
+    pattern: '^(pl)$'
+  - code: ru
+    pattern: '^(ru)$'
 # ------------------------------------------------------------------------------------------------
 # COMMANDS
-# NOTE structure is as follows:
-#
-#    aspects: # <- defines basic attributes fo command
-#      command:  '/...' # exact form of command to be registered.
-#      rights:   # [ list of user stati who can use this command ]
-#      strict:   # true => only those commands accepted, which address bot with @<botname>
-#      match:    # regex by which bot should recognise user input as command (after removing @ + trimming)
-#    * redirect:
-#      * group: # if included command treated as redirection to @group.
-#      * url: # if included command treated as redirection to website.
-#  * menu: # <- add this, if command should appear as a button in a menu
-#      keyword: # kw for text to appear in menu
-#    * lang:    # forces language of text (missing => use caller's language)
-#    * new_row: # true => button should be placed on new row; default = false.
-#  * side-menu: # <- add this, if command should appear in side-menu (suggestions)
-#      keyword: # kw for text to appear in side-menu
-#    * lang:    # forces language of text (missing => use caller's language)
-#    text: # <- for handling of inline text
-#      keyword: # kw for text to appear inline
-#    * lang:    # forces language of text (missing => use caller's language)
-#
-# (* = optional)
-#
-# Note: each keyword-attribute *must* correspond to a key from assets/translations.yml
-# Note: rights can be any subset of
+# NOTE: each keyword-attribute *must* correspond to a key from assets/translations.yml
+# NOTE: rights can be any subset of
 #  [creator, administrator, member]
 # ------------------------------------------------------------------------------------------------
 commands:
@@ -101,8 +86,8 @@ commands:
       rights:   [administrator, creator]
       strict:   true
       match:    '^(arrivals?|ankunft)$'
-      redirect:
-        group:  '@arrival_leipzig_ukraine'
+    redirect:
+      group:  '@arrival_leipzig_ukraine'
     menu:
       keyword: arrival
       new_row: true
@@ -115,8 +100,8 @@ commands:
       rights:   [administrator, creator]
       strict:   true
       match:    '^(housing|a(c+)o(m+)odation|shelter|obdach)$'
-      redirect:
-        group: '@accomodation_leipzig_ukraine'
+    redirect:
+      group: '@accomodation_leipzig_ukraine'
     menu:
       keyword: housing
     side-menu:
@@ -128,8 +113,8 @@ commands:
       rights:   [administrator, creator]
       strict:   true
       match:    '^(translat.*|language(s?)|dolmetsch.*)$'
-      redirect:
-        group: '@translators_leipzig_ukraine'
+    redirect:
+      group: '@translators_leipzig_ukraine'
     menu:
       keyword: translations
     side-menu:
@@ -142,8 +127,8 @@ commands:
       rights:   [administrator, creator]
       strict:   true
       match:    '^(donation(s?)|charit(y|ies)|spenden|give|giving|gift(s?))$'
-      redirect:
-        group: '@donations_leipzig_ukraine'
+    redirect:
+      group: '@donations_leipzig_ukraine'
     menu:
       keyword: donations
       new_row: true
@@ -156,8 +141,8 @@ commands:
       rights:   [administrator, creator]
       strict:   true
       match:    '^(family|kids?|child(ren)?|familie)$'
-      redirect:
-        group:  '@kids_leipzig_ukraine'
+    redirect:
+      group:  '@kids_leipzig_ukraine'
     menu:
       keyword: family
     side-menu:
@@ -169,8 +154,8 @@ commands:
       rights:   [administrator, creator]
       strict:   true
       match:    '^(animals?|pets?)$'
-      redirect:
-        group:  '@animals_leipzig_ukraine'
+    redirect:
+      group:  '@animals_leipzig_ukraine'
     menu:
       keyword: animals
     side-menu:
@@ -183,8 +168,8 @@ commands:
       rights:   [administrator, creator]
       strict:   true
       match:    '^(jobs?|work|employment|arbeit|arbeitss?uche)$'
-      redirect:
-        group: '@jobs_leipzig_ukraine'
+    redirect:
+      group: '@jobs_leipzig_ukraine'
     menu:
       keyword: jobs
       new_row: true
@@ -196,9 +181,9 @@ commands:
       command:  '/legal'
       rights :  [administrator, creator]
       strict:   true
-      redirect:
-        group: '@legal_leipzig_ukraine'
       match:    '^(legal.*|law|jura|jurist.*|rights)$'
+    redirect:
+      group: '@legal_leipzig_ukraine'
     menu:
       keyword: legal
     side-menu:
@@ -210,8 +195,8 @@ commands:
       rights:   [administrator, creator]
       strict:   true
       match:    '^(homepage|web|website|webpage)$'
-      redirect:
-        url: http://leipzig-helps-ukraine.de/
+    redirect:
+      url: http://leipzig-helps-ukraine.de/
     menu:
         keyword: homepage
     side-menu:
@@ -224,8 +209,8 @@ commands:
       rights:   [administrator, creator]
       strict:   true
       match:    '^(transport|travel).*$'
-      redirect:
-        group: '@transport_leipzig_ukraine'
+    redirect:
+      group: '@transport_leipzig_ukraine'
     side-menu:
       keyword: transport-desc
     text:
@@ -234,9 +219,9 @@ commands:
       command:  '/feedback'
       rights :  [administrator, creator]
       strict:   true
-      redirect:
-        group: '@feedback_leipzig_ukraine'
       match:    '^(feedback|review)$'
+    redirect:
+      group: '@feedback_leipzig_ukraine'
     side-menu:
       keyword: feedback-desc
     text:
@@ -246,8 +231,8 @@ commands:
       rights:   [administrator, creator]
       strict:   true
       match:    '^ethermap$'
-      redirect:
-        url: 'https://getethermap.org/m/leipzig-donation-for-ukraine'
+    redirect:
+      url: 'https://getethermap.org/m/leipzig-donation-for-ukraine'
     side-menu:
       keyword: donations-map-desc
     text:

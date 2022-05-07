@@ -1,0 +1,326 @@
+openapi: 3.0.3
+info:
+  version: 1.0.0
+  title: Schemata for config models
+  description: |-
+    Build using the following command and options:
+
+        datamodel-codegen
+          --input-file-type openapi
+          --encoding "UTF-8"
+          --disable-timestamp
+          --use-schema-description
+          --snake-case-field
+          --strict-nullable
+          --input <path/to/file.yml>
+          --output <path/to/file.py>
+
+    (cf. https://pydantic-docs.helpmanual.io/datamodel_code_generator/).
+    Create config file separately from schema.
+servers: []
+paths: {}
+components:
+  schemas:
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Config
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Config:
+      descripton: |-
+        Data model for all parts of the configuration.
+      type: object
+      required:
+        - app-options
+        - language-codes
+        - commands
+      properties:
+        app-options:
+          description: |-
+            Options pertaining to the rudimentary setup of the app.
+          $ref: "#/components/schemas/AppOptions"
+        language-codes:
+          description: |-
+            An (priority first) ordered list of items to provide pattern recognition to ISO-639-1 alpha-2 language codes.
+          type: array
+          items:
+            $ref: "#/components/schemas/LanguageCode"
+          default: []
+        commands:
+          description: |-
+            List of all available commands for the bot.
+          type: array
+          items:
+            $ref: "#/components/schemas/Command"
+          default: []
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # App options
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    AppOptions:
+      description: |-
+        Options pertaining to the rudimentary setup of the app.
+      type: object
+      required:
+        - default-language
+        - full-censor
+        - full-censor-user
+        - show-side-menu
+        - listen-to-text
+        - delete-calls
+        - message-expiry
+      properties:
+        debug:
+          type: boolean
+          default: false
+          description: |-
+            Only set to true during development.
+            Do NOT commit with 'debug: true'!
+        default-language:
+          type: string
+          description: |-
+            Defines the default language of all commands as a fall back.
+        full-censor:
+          type: boolean
+          default: true
+          description: |-
+            This option regards context.
+            Logging messages are censored. With
+              true => complete censoring of any potential data
+              false => partial censoring, but enough to prevent sensitive information from being logged.
+        full-censor-user:
+          type: boolean
+          default: true
+          description: |-
+            This option regards user (caller).
+            Logging messages are censored. With
+              true => complete censoring of any potential data
+              false => partial censoring, but enough to prevent sensitive information from being logged.
+        show-side-menu:
+          type: boolean
+          default: true
+          description: |-
+            true => shows suggests when user starts typing /...
+        listen-to-text:
+          type: boolean
+          default: false
+          description: |-
+            true => listens to all texts; false => only listens to messages starting with /...
+        delete-calls:
+          type: boolean
+          default: false
+          description: |-
+            true => calls to bot will be deleted before reply
+            false => calls to bot will be retained
+            (NOTE: only use false, if bot can edit messages --- likely not the case!)
+        message-expiry:
+          type: integer
+          default: 10000
+          description: |-
+            Maximum age of messages in milliseconds.
+            All messages that occur 'too long' ago, will be ignored.
+        timeout:
+          type: integer
+          default: 15000
+          description: |-
+            Time in milliseconds before bot inline-response are deleted.
+            NOTE: Currently unused.
+        timeout-menu:
+          type: integer
+          default: 60000
+          description: |-
+            Time in milliseconds before bot menu-response are deleted.
+            NOTE: Currently unused.
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Language codes
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    LanguageCode:
+      description: |-
+        A simple data class which associates pattern recognition to a ISO-639-1 alpha-2 language code.
+
+        ### Example usage ###
+        ```py
+        import re;
+        recog = LanguageCode(code='uk', pattern='^(ua|ukr?)$');
+        m = re.compile(recog.pattern);
+        assert m.match('ukr') is not None;
+        assert m.match('uk') is not None;
+        assert m.match('ua') is not None;
+        assert m.match('en') is None;
+        assert m.match('us') is None;
+        ```
+      type: object
+      required:
+        - code
+        - pattern
+      properties:
+        code:
+          type: string
+          description: |-
+            ISO-639-1 alpha-2 format for language code (compatible with app)
+        pattern:
+          type: string
+          description: |-
+            RegEx-pattern (as string) used to match a language flag provided by user to the correct language code.
+      # uk: '^(uk|ukr|ua)$'
+      # de: '^(de|deu)$'
+      # en: '^(en)$'
+      # pl: '^(pl)$'
+      # ru: '^(ru)$'
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Commands, Command, etc.
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Command:
+      description: |-
+        Structure of `Command` in config-file:
+        - `aspects`   - defines basic attributes fo command.
+        - `redirect`  - if command is used to redirect user.
+        - `menu`      - optional, if command should appear as a button in a menu.
+        - `side_menu` - optional, if command should appear in side-menu (suggestions).
+        - `text`      - for handling of inline text
+      type: object
+      required:
+        - aspects
+      properties:
+        aspects:
+          $ref: "#/components/schemas/CommandAspects"
+        redirect:
+          $ref: "#/components/schemas/CommandRedirect"
+        menu:
+          $ref: "#/components/schemas/CommandMenu"
+        side_menu:
+          $ref: "#/components/schemas/CommandSideMenu"
+        text:
+          $ref: "#/components/schemas/CommandText"
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Command - aspects
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    CommandAspects:
+      description: |-
+        Structure of `Command` > `aspects` in config-file:
+        - `command`  - '/...' # exact form of command to be registered.
+        - `rights`   - [ list of user stati who can use this command ]
+        - `strict`   - true => only those commands accepted, which address bot with @<botname>
+        - `match`    - regex by which bot should recognise user input as command (after removing @ + trimming)
+      type: object
+      required:
+        - command
+      properties:
+        command:
+          type: string
+        # optional fields:
+        rights:
+          type: array
+          items:
+            $ref: "#/components/schemas/Rights"
+          default: []
+        strict:
+          type: boolean
+          default: true
+        match:
+          type: string
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Command - redirect
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    CommandRedirect:
+      description: |-
+        Structure of `Command` > `aspects` > `redirect` in config-file:
+        - `group` - string of form `@...`. If used, then command treated as redirection to @group.
+        - `url` - If used, then command treated as redirection to website.
+      type: object
+      required: []
+      properties:
+        group:
+          type: string
+          description: |-
+            If used, then command treated as redirection to @group.
+        url:
+          type: string
+          description: |-
+            If used, then command treated as redirection to website.
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Command - menu
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    CommandMenu:
+      description: |-
+        Structure of `Command` > `menu` in config-file:
+        - `keyword` - keyword for text to be used from language assets.
+        - `new_row` - (default `false`) whether or not button should appear at the start of a new row.
+        - `lang` - optional hardcoded language of button.
+      type: object
+      required:
+        - keyword
+      properties:
+        keyword:
+          type: string
+        # optional fields:
+        new-row:
+          type: boolean
+          default: false
+        lang:
+          type: string
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Command - side menu
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    CommandSideMenu:
+      description: |-
+        Structure of `Command` > `side-menu` in config-file:
+        - `keyword` - keyword for text to be used from language assets.
+        - `lang` - optional hardcoded language of menu item.
+      type: object
+      required:
+        - keyword
+      properties:
+        keyword:
+          type: string
+        # optional fields:
+        lang:
+          type: string
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Command - text
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    CommandText:
+      description: |-
+        Structure of `Command` > `text` in config-file:
+        - `keyword` - keyword for text to be used from language assets.
+        - `lang` - optional hardcoded language of text in posts.
+      type: object
+      required:
+        - keyword
+      properties:
+        keyword:
+          type: string
+        # optional fields:
+        lang:
+          type: string
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # User type enum
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Rights:
+      description: |-
+        An enumeration of possible user types
+      type: string
+      enum:
+        - creator
+        - administrator
+        - member
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Command - recognition
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    CommandRecognition:
+      description: |-
+        Contains the most important information about a recognised command:
+        - `command`   - string
+        - `verified`  - whether post is syntactically valid + acceptable
+        - `arguments` - flags
+      type: object
+      required:
+        - command
+      properties:
+        command:
+          type: string
+        arguments:
+          type: array
+          items:
+            type: string
+          default: []
+        verified:
+          type: boolean
+          default: false
