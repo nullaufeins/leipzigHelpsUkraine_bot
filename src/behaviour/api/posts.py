@@ -49,7 +49,7 @@ def api_send_message(
     );
     if isinstance(response, TgMessage):
         return Ok(CallValue(action_taken=True, message=Message(msg=response)));
-    return Err(CallError(err='Api call to send message completed in failure.'));
+    return Err(CallError(tag='api-send-message', err='Api call to send message completed in failure.'));
 
 @run_safely(error_message='Api call to edit message did not complete.')
 def api_send_message_as_overwrite(
@@ -73,7 +73,7 @@ def api_send_message_as_overwrite(
     );
     if isinstance(response, TgMessage) or (isinstance(response, bool) and response is True):
         return Ok(CallValue(action_taken=True));
-    return Err(CallError(err='Api call to edit message completed in failure.'));
+    return Err(CallError(tag='api-send-message-as-overwrite', err='Api call to edit message completed in failure.'));
 
 @run_safely(error_message='Api call to pin message did not complete.')
 def api_pin_message(
@@ -90,7 +90,7 @@ def api_pin_message(
     );
     if success:
         return Ok(CallValue(action_taken=True));
-    return Err(CallError(err='Api call to pin message completed in failure.'));
+    return Err(CallError(tag='api-pin-message', err='Api call to pin message completed in failure.'));
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # METHODS posting - complex
@@ -126,4 +126,4 @@ def api_remove_message(bot: TgBot, msg: Message) -> Result[CallValue, CallError]
     );
     if success:
         return Ok(CallValue(action_taken=True));
-    return Err(CallError(err='Api call to delete message completed in failure.'));
+    return Err(CallError(tag='api-remove-message', err='Api call to delete message completed in failure.'));

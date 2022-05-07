@@ -10,8 +10,10 @@ from src.thirdparty.code import *;
 from src.thirdparty.misc import *;
 from src.thirdparty.types import *;
 
+from src.core.utils import *;
 from src.setup.config import *;
 from src.models.telegram import *;
+from src.behaviour.recognition import *;
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # EXPORTS
@@ -22,6 +24,13 @@ __all__ = [
     'get_menu_hidden',
     'get_message_options_basic',
 ];
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# CONSTANTS
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+PATTERN_GROUP = r'^\@(.*)$';
+REPLACE_PATTERN_URL_GROUP = r'https://t.me/\1';
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # METHODS
@@ -40,7 +49,7 @@ def get_menu_inline(
         reply_markup = reply_markup,
         disable_notification = True,
         parse_mode = PARSE_MODE.NONE,
-        reply_to_message_id = Result.of(lambda: reply_to_msg.unwrap().getMessageId()).unwrap_or(None),
+        reply_to_message_id = unwrap_or_none(lambda: reply_to_msg.unwrap().getMessageId()),
     );
 
 def get_menu_hidden(
@@ -55,7 +64,7 @@ def get_menu_hidden(
         reply_markup = reply_markup,
         disable_notification = True,
         parse_mode = PARSE_MODE.NONE,
-        reply_to_message_id = Result.of(lambda: reply_to_msg.unwrap().getMessageId()).unwrap_or(None),
+        reply_to_message_id = unwrap_or_none(lambda: reply_to_msg.unwrap().getMessageId()),
     );
 
 def get_message_options_basic(
@@ -64,7 +73,7 @@ def get_message_options_basic(
     return MessageLayout(
         disable_notification = True,
         parse_mode = PARSE_MODE.NONE,
-        reply_to_message_id = Result.of(lambda: reply_to_msg.unwrap().getMessageId()).unwrap_or(None),
+        reply_to_message_id = unwrap_or_none(lambda: reply_to_msg.unwrap().getMessageId()),
     );
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -76,14 +85,14 @@ def create_rows(lang: str) -> List[List[dict]]:
     count = 0;
     current_row = [];
     for command in COMMANDS:
-        if isinstance(command.menu, Nothing) or isinstance(command.aspects.redirect, Nothing):
+        if (command.menu is None) or (command.redirect is None):
             continue;
-        menu = command.menu.unwrap();
-        redirect = command.aspects.redirect.unwrap();
-        if isinstance(redirect.group, Some):
-            url = create_url_from_group_link(redirect.group.unwrap());
-        elif isinstance(redirect.url, Some):
-            url = redirect.url.unwrap();
+        menu = command.menu;
+        redirect = command.redirect;
+        if not(redirect.group is None):
+            url = create_url_from_group_link(redirect.group);
+        elif not(redirect.url is None):
+            url = redirect.url;
         else:
             continue;
         if menu.new_row and count > 0:
@@ -96,4 +105,4 @@ def create_rows(lang: str) -> List[List[dict]]:
     return rows;
 
 def create_url_from_group_link(text: str) -> str:
-    return re.sub(r'^\@(.*)$', repl=r'https://t.me/\1', string=text);
+    return re.sub(PATTERN_GROUP, repl=REPLACE_PATTERN_URL_GROUP, string=text);

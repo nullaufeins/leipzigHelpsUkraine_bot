@@ -12,6 +12,8 @@ from src.core.log import *;
 from src.models.config import *;
 from src.models.telegram import *;
 from src.behaviour.listeners import *;
+from src.behaviour.recognition import *;
+from src.setup.config import *;
 from src.setup.env import *;
 from src.setup.config import *;
 
@@ -53,22 +55,22 @@ class MyApp():
         return;
 
     def setup_sidemenu(self):
-        commands_with_side_menu = list(filter(lambda command: isinstance(command.side_menu, Some), COMMANDS));
+        commands_with_side_menu = list(filter(lambda command: not(command.side_menu is None), COMMANDS));
         for lang in SUPPORTED_LANGUAGES:
             commands = [
                 TgBotCommand(
                     command     = command.aspects.command,
                     # NOTE: description must be at least 3 characters long!
                     description = get_translation(
-                        keyword = command.side_menu.unwrap().keyword,
-                        lang    = command.side_menu.unwrap().lang.unwrap_or(lang),
+                        keyword = command.side_menu.keyword,
+                        lang    = command.side_menu.lang or lang,
                     ),
                 )
                 for command in commands_with_side_menu
             ];
             if self.options.debug:
                 commands.append({ 'command': r'/hello', 'description': 'Hello world' });
-            self.bot.set_my_commands(commands, language_code=lang)
+            self.bot.set_my_commands(commands, language_code=lang);
         return;
 
     def setup_listeners(self):

@@ -58,7 +58,9 @@ def universal_action(
         or (context.isGroupAdminCaller(bot) is Some(True))
     );
     cmd = command.aspects.command;
-    lang_flag = Result.of(lambda: Some(arguments[0])).unwrap_or_else(Nothing);
+    lang_flag = None;
+    if len(arguments) > 0:
+        lang_flag = arguments[0];
 
     if not has_rights:
         return action_delete_and_ignore_with_error(
@@ -66,21 +68,20 @@ def universal_action(
             context = context,
             text    = 'Caller has insufficient rights!'
         );
-    elif isinstance(command.text, Some):
-        command_text = command.text.unwrap();
-        if isinstance(command.aspects.redirect, Some):
-            redirect = command.aspects.redirect.unwrap();
+    elif not(command.text is None):
+        command_text = command.text;
+        if not(command.redirect is None):
             return action_on_redirect(
                 bot          = bot,
                 context      = context,
-                redirect     = redirect,
+                redirect     = command.redirect,
                 command_text = command_text,
                 lang_flag    = lang_flag,
                 app_options  = app_options
             );
         else:
             if re.match(r'^\/pin(?:|_(.*))$', string=cmd):
-                if lang_flag == Some('all'):
+                if lang_flag == 'all':
                     return action_on_pin_all_languages(
                         bot          = bot,
                         context      = context,

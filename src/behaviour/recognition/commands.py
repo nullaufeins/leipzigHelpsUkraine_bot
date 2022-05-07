@@ -22,7 +22,7 @@ __all__ = [
     'is_valid_communication_sidemenu',
     'recognise_command_address',
     'recognise_command_sidemenu',
-    'filter_commands',
+    'recognise_commands',
 ];
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -114,7 +114,5 @@ def recognise_command_sidemenu(text: str, botname: str) -> CommandRecognition:
 # METHODS - command filtration
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-def filter_commands(text: str) -> List[Command]:
-    def filt(command: Command):
-        return command.aspects.match_command(text);
-    return list(filter(filt, COMMANDS));
+def recognise_commands(text: str) -> Option[Command]:
+    return COMMANDS.recognise(text);

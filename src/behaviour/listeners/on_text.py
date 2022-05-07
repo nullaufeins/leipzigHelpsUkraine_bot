@@ -57,15 +57,15 @@ def listener_on_text(
             return action_ignore(context);
 
         # if command not recognised - delete
-        commands = filter_commands(cmd);
-        if len(commands) == 0:
+        commands_recognised = recognise_commands(cmd);
+        if isinstance(commands_recognised, Nothing):
             return action_delete_and_ignore_with_error(
                 bot     = bot,
                 context = context,
                 text    = f'Command \'@<botname> {cmd} ...\' addressed to bot but not recognised!',
             );
 
-        command = commands[0];
+        command = commands_recognised.unwrap();
         # if command not addressed to bot AND command is strict, then ignore it:
         if not (verified is True) and command.aspects.strict:
             return action_ignore(context);

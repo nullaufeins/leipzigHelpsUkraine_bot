@@ -13,6 +13,7 @@ os.chdir(os.path.dirname(__file__));
 sys.path.insert(0, os.getcwd());
 
 from src.core.log import *;
+from src.models.config import *;
 from src.setup.config import *;
 from src.setup.env import *;
 from src.app import *;
@@ -23,7 +24,7 @@ from src.app import *;
 
 async def enter():
     options = OPTIONS;
-    configure_logging(DEBUG if options.debug else INFO);
+    configure_logging(log_level(options));
 
     log_info('Setup app...');
     secret = Secret();

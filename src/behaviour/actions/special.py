@@ -7,6 +7,7 @@
 
 from src.thirdparty.api import *;
 from src.thirdparty.code import *;
+from src.thirdparty.types import *;
 
 from src.core.calls import *;
 from src.core.utils import *;
@@ -39,7 +40,7 @@ def action_on_pin_one_language(
     bot:          TgBot,
     context:      CallContext,
     command_text: CommandText,
-    lang_flag:    Option[str],
+    lang_flag:    Optional[str],
 ) -> Result[CallValue, CallError]:
     context.track('action:pin');
 
@@ -119,8 +120,8 @@ def action_on_hello(
     context:         CallContext,
     user:            Option[User],
     user_replied_to: Option[User],
-    lang_flag:       Option[str],
     command_text:    CommandText,
+    lang_flag:       Optional[str],
     app_options:     AppOptions,
 ) -> Result[CallValue, CallError]:
     context.track('action:hello');
@@ -155,8 +156,8 @@ def action_on_hello(
 def action_on_help(
     bot:          TgBot,
     context:      CallContext,
-    lang_flag:    Option[str],
     command_text: CommandText,
+    lang_flag:    Optional[str],
     app_options:  AppOptions,
 ) -> Result[CallValue, CallError]:
     context.track('action:help');
@@ -181,8 +182,8 @@ def action_on_help(
 def action_on_redirect(
     bot:          TgBot,
     context:      CallContext,
-    lang_flag:    Option[str],
     command_text: CommandText,
+    lang_flag:    Optional[str],
     redirect:     CommandRedirect,
     app_options:  AppOptions,
 ) -> Result[CallValue, CallError]:
@@ -195,11 +196,11 @@ def action_on_redirect(
         lang_flag   = lang_flag
     );
     message = get_translation(keyword=command_text.keyword, lang=lang);
-    if isinstance(redirect.group, Some):
+    if not (redirect.group is None):
         remark = get_translation(keyword='redirect-remark', lang=lang);
-        text = f'{message}: {redirect.group.unwrap()}\n\n{remark}';
-    elif isinstance(redirect.url, Some):
-        text = f'{message}: {redirect.url.unwrap()}';
+        text = f'{message}: {redirect.group}\n\n{remark}';
+    elif not (redirect.url is None):
+        text = f'{message}: {redirect.url}';
     else:
         raise Exception('Command missing group/url attribute. Check config.');
 
