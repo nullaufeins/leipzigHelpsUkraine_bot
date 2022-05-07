@@ -5,12 +5,13 @@
 # IMPORTS
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-from __future__ import annotations;
+from __future__ import annotations
+from typing import Optional;
 
 from src.thirdparty.code import *;
+from src.thirdparty.misc import *;
 from src.thirdparty.types import *;
 
-from src.core.dataclasses import *;
 from src.models.telegram import *;
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -37,15 +38,29 @@ ARGS = ParamSpec('ARGS');
 # CLASS Trace for debugging only!
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-@paramdataclass
 class CallValue():
-    action_taken: bool       = field(default=False);
-    message: Option[Message] = optionalparamfield();
+    '''
+    A auxiliary class which keeps track of the latest return value during calls.
+    '''
+    action_taken: bool = False;
+    message: Option[Message] = Nothing();
+
+    def __init__(self, action_taken: bool = False, message: Optional[Message] = None):
+        self.action_taken = action_taken;
+        if not (message is None):
+            self.message = Some(message);
 
 class CallError(list):
+    '''
+    An auxiliary class which keeps track of potentially multiple errors during calls.
+    '''
+    timestamp: str;
+    tag: str;
     errors: List[str];
 
-    def __init__(self, err: Any):
+    def __init__(self, tag: str, err: Any = Nothing()):
+        self.timestamp = str(datetime.now());
+        self.tag = tag;
         self.errors = [];
         if isinstance(err, list):
             for e in err:
@@ -57,15 +72,17 @@ class CallError(list):
         return len(self.errors);
 
     def append(self, e: Any):
+        if isinstance(e, Nothing):
+            return;
+        if isinstance(e, Some):
+            e = e.unwrap();
         self.errors.append(str(e));
 
     def extend(self, E: CallError):
         self.errors.extend(E.errors);
 
     def __repr__(self) -> str:
-        return 'CallError([{}])'.format(
-            ', '.join(self.errors)
-        );
+        return f'CallError(tag=\'{self.tag}\', errors={self.errors})';
 
     def __str__(self) -> str:
         return self.__repr__();
@@ -119,13 +136,42 @@ def post_process_results(states: Tuple[State]) -> Result[V, E]:
 # DECORATOR - forces methods to run safely
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-def run_safely(error_message: Union[str, None] = None):
+def run_safely(tag: Union[str, None] = None, error_message: Union[str, None] = None):
     '''
     Creates a decorator for an action to perform it safely.
 
     @inputs (parameters)
-    - `error_message` - optional string. If an execption is caught,
-      then this overwrites the error message in the case of caught exceptions.
+    - `tag` - optional string to aid error tracking.
+    - `error_message` - optional string for an error message.
+
+    ### Example usage ###
+    ```py
+    @run_safely(tag='recognise int', error_message='unrecognise string')
+    def action1(x: str) -> Result[int, CallError]:
+        return Ok(int(x));
+
+    assert action1('5') == Ok(5);
+    result = action1('not a number');
+    assert isinstance(result, Err);
+    err = result.unwrap_err();
+    assert isinstance(err, CallError);
+    assert err.tag == 'recognise int';
+    assert err.errors == ['unrecognise string'];
+
+    @run_safely('recognise int')
+    def action2(x: str) -> Result[int, CallError]:
+        return Ok(int(x));
+
+    assert action2('5') == Ok(5);
+    result = action2('not a number');
+    assert isinstance(result, Err);
+    err = result.unwrap_err();
+    assert isinstance(err, CallError);
+    assert err.tag == 'recognise int';
+    assert len(err.errors) == 1;
+    ```
+    NOTE: in the second example, err.errors is a list containing
+    the stringified Exception generated when calling `int('not a number')`.
     '''
     def dec(action: Callable[ARGS, Result[V, CallError]]) -> Callable[ARGS, Result[V, CallError]]:
         '''
@@ -135,8 +181,14 @@ def run_safely(error_message: Union[str, None] = None):
         '''
         @wraps(action)
         def wrapped_action(*_, **__) -> Result[V, CallError]:
+            # NOTE: intercept Exceptions first, then flatten:
             return Result.of(lambda: action(*_, **__)) \
-                .and_then(lambda res: res) \
-                .or_else(lambda err: Err(CallError(error_message or err)));
+                .or_else(
+                    lambda err: Err(CallError(
+                        tag = tag or action.__name__,
+                        err = error_message or err
+                    ))
+                ) \
+                .and_then(lambda V: V);
         return wrapped_action;
     return dec;

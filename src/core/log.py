@@ -5,11 +5,7 @@
 # IMPORTS
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
-import logging;
-from logging import DEBUG;
-from logging import INFO;
-
+from src.thirdparty.log import *;
 from src.thirdparty.types import *;
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -17,24 +13,34 @@ from src.thirdparty.types import *;
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 __all__ = [
+    'LOG_LEVELS',
     'configure_logging',
-    'DEBUG',
-    'INFO',
     'log_info',
     'log_debug',
     'log_warn',
     'log_error',
     'log_fatal',
+    'log_dev',
 ];
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# CONSTANTS
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+_LOGGING_DEBUG_FILE: str = 'logs/debug.log';
+
+class LOG_LEVELS(Enum):
+    INFO  = logging.INFO;
+    DEBUG = logging.DEBUG;
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # METHODS
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-def configure_logging(level: Enum):
+def configure_logging(level: LOG_LEVELS):
     logging.basicConfig(
-        format='[\x1b[1m%(levelname)s\x1b[0m] %(message)s',
-        level=level,
+        format = '[\x1b[1m%(levelname)s\x1b[0m] %(message)s',
+        level  = level.value,
     );
     return;
 
@@ -53,3 +59,11 @@ def log_error(*messages: Any):
 def log_fatal(*messages: Any):
     logging.fatal(*messages);
     exit(1);
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# DEBUG LOGGING FOR DEVELOPMENT
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+def log_dev(*messages: Any):
+    with open(_LOGGING_DEBUG_FILE, 'a') as fp:
+        print(*messages, file=fp);

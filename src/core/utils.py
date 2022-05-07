@@ -14,10 +14,12 @@ from src.thirdparty.types import *;
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 __all__ = [
-    'CombineErrors',
+    'int_to_milliseconds',
     'split_non_empty_parts',
     'yaml_to_js_dictionary',
     'wrap_output_as_option',
+    'unwrap_or_none',
+    'unwrap_or_string',
 ];
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -39,11 +41,18 @@ def split_non_empty_parts(text: str):
     return re.split(r'\s+', string=text);
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# METHODS errors
+# EXPORTS
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-def CombineErrors(err1: Exception, err2: Exception):
-    return Exception(f'{err1} {err2}');
+def int_to_milliseconds(dt: int) -> timedelta:
+    '''
+    @inputs
+    - `dt` in milliseconds
+
+    @returns
+    - `timedelta`-object with `dt` in milliseconds
+    '''
+    return timedelta(milliseconds=dt);
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # METHODS - dict
@@ -107,3 +116,13 @@ def wrap_output_as_option(func: Callable[ARGS, T]) -> Callable[ARGS, Option[T]]:
     def wrapped_func(*_, **__) -> Option[T]:
         return Result.of(lambda: Some(func(*_, **__))).unwrap_or_else(Nothing);
     return wrapped_func;
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# METHODS - unwrapping
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+def unwrap_or_none(wrapped: Callable[[], T]) -> Optional[T]:
+    return Result.of(wrapped).unwrap_or(None);
+
+def unwrap_or_string(wrapped: Callable[[], str], default: str) -> str:
+    return Result.of(wrapped).unwrap_or(default);
