@@ -7,25 +7,29 @@
 
 from src.models.config.app import *;
 from src.models.config.commands import *;
-from src.models.config.config import *;
 from src.models.config.languages import *;
+from models.config import *;
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # EXPORTS
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 __all__ = [
+    'log_level',
+    'options_expiry',
+    'TranslatedTexts',
+    'LanguagePatterns',
+    # from generated models:
     'AppOptions',
+    'LanguageCode',
+    'Config',
+    'Commands',
+    'Command',
+    'CommandAspects',
+    'CommandRedirect',
     'CommandMenu',
     'CommandSideMenu',
     'CommandText',
-    'CommandRedirect',
-    'CommandAspectsRaw',
-    'CommandAspects',
-    'Command',
     'CommandRecognition',
-    'Config',
-    'TranslatedTexts',
-    'LanguagePatterns',
-    'FactoryLanguagePatterns',
+    'Rights',
 ];

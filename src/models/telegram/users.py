@@ -11,6 +11,7 @@ from src.thirdparty.config import *;
 from src.thirdparty.types import *;
 
 from src.core.log_special import *;
+from models.config import Rights;
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # EXPORTS
@@ -62,8 +63,8 @@ class User():
     def getUserType(self) -> str:
         return self.user_type;
 
-    def hasRights(self, rights) -> bool:
-        return self.user_type in rights;
+    def hasRights(self, rights: List[Rights]) -> bool:
+        return any( self.user_type == r.value for r in rights );
 
     def toRepr(self) -> Dict[str, Any]:
         return {

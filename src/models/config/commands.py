@@ -5,125 +5,53 @@
 # IMPORTS
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-from __future__ import annotations;
-
-from src.thirdparty.code import *;
 from src.thirdparty.misc import *;
+from src.thirdparty.code import *;
 from src.thirdparty.types import *;
-from src.core.dataclasses import *;
+
+from src.core.utils import *;
+from models.config import Command;
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# IMPORTS
+# EXPORTS
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 __all__ = [
-    'CommandMenu',
-    'CommandSideMenu',
-    'CommandText',
-    'CommandRedirect',
-    'CommandAspectsRaw',
-    'CommandAspects',
-    'Command',
-    'CommandRecognition',
+    'Commands',
 ];
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# CLASS Command, CommandAspects
+# CLASS Commands
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-@paramdataclass
-class CommandMenu():
-    # necessary fields:
-    keyword: str = field();
-    # optional fields:
-    new_row: bool = field(default=False);
-    # optional fields - can be empty:
-    lang: Option[str] = optionalparamfield();
+class Commands(List[Command]):
+    _tests: Option[List[Callable[[str], bool]]] = Nothing();
 
-@paramdataclass
-class CommandSideMenu():
-    # necessary fields:
-    keyword: str = field();
-    # optional fields - can be empty:
-    lang: Option[str] = optionalparamfield();
-
-@paramdataclass
-class CommandText():
-    # necessary fields:
-    keyword: str = field();
-    # optional fields - can be empty:
-    lang: Option[str] = optionalparamfield();
-
-@paramdataclass
-class CommandRedirect():
-    '''
-    Structure of `Command` > `aspects` > `redirect` in config-file:
-
-    - `group` - if included, command treated as redirection to @group.
-    - `url`   - if included, command treated as redirection to website.
-    '''
-    group: Option[str] = optionalparamfield();
-    url:   Option[str] = optionalparamfield();
-
-@paramdataclass
-class CommandAspectsRaw():
-    '''
-    Structure of `Command` > `aspects` in config-file:
-
-    - `command`  - '/...' # exact form of command to be registered.
-    - `rights`   - [ list of user stati who can use this command ]
-    - `strict`   - true => only those commands accepted, which address bot with @<botname>
-    - `match`    - regex by which bot should recognise user input as command (after removing @ + trimming)
-    - `redirect` - if command is used to redirect user
-    '''
-    # necessary fields:
-    command: str = field();
-    # optional fields:
-    rights: List[str] = field(default_factory=list);
-    strict: bool      = field(default=True);
-    # optional fields - can be empty:
-    match: Option[str] = optionalparamfield();
-    redirect: Option[CommandRedirect] = optionalparamfield(kind='nested', param_factory=CommandRedirect);
-
-class CommandAspects(CommandAspectsRaw):
-    def match_command(self, text: str):
+    @wrap_output_as_option
+    def recognise(self, text: str) -> Command:
         '''
-        If `match` is set, then matches text against regex.
-        Otherwise checks if text coincides with `command` (stripped of preliminary `/`).
+        Goes through each command:
+
+        - If `match` is set, then matches text against regex.
+        - Otherwise checks if text coincides with `command` (stripped of preliminary `/`).
+
+        @returns
+        If a match is found, Some(command) is returned.
+        Otherwise Nothing() is returned.
         '''
-        if isinstance(self.match, Some):
-            return not (re.match(self.match.unwrap(), text) is None);
-        return text == self.command.lstrip(r'\/+');
+        if isinstance(self._tests, Some):
+            tests = self._tests.unwrap();
+        else:
+            tests = [create_matcher(command) for command in self];
+            self._tests = Some(tests);
+        return next(command for command, test in zip(self, tests) if test(text));
 
-@paramdataclass
-class Command():
-    '''
-    Structure of `Command` in config-file:
-
-    - `aspects`   - defines basic attributes fo command;
-    - `menu`      - optional, if command should appear as a button in a menu.
-    - `side_menu` - optional, if command should appear in side-menu (suggestions).
-    - `text`      - for handling of inline text
-    '''
-    # necessary fields:
-    aspects: CommandAspects = paramfield(kind='nested', param_factory=CommandAspects);
-    # optional fields - can be empty:
-    menu:      Option[CommandMenu]     = optionalparamfield(kind='nested', param_factory=CommandMenu);
-    side_menu: Option[CommandSideMenu] = optionalparamfield(kind='nested', param_factory=CommandSideMenu);
-    text:      Option[CommandText]     = optionalparamfield(kind='nested', param_factory=CommandText);
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# CLASS CommandRecognition
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-@dataclass
-class CommandRecognition():
-    '''
-    Contains the most important information about a recognised command:
-    - `command`   - string
-    - `verified`  - whether post is syntactically valid + acceptable
-    - `arguments` - flags
-    '''
-    command: str = field();
-    arguments: List[str] = field(default_factory = []);
-    verified: bool = field(default=False);
+# Auxiliary function, creates wrapper:
+def create_matcher(command: Command) -> Callable[[str], bool]:
+    m = command.aspects.match
+    if not(m is None):
+        matcher = re.compile(m);
+        return lambda text: not (matcher.match(text) is None);
+    else:
+        cmd = command.aspects.command
+        return lambda text: text == cmd;

@@ -30,7 +30,7 @@ __all__ = [
 
 class CallContext:
     trace:        Trace
-    t:            datetime;
+    timestamp:    datetime; # NOTE: time point at which command is processed!
     expiry:       timedelta;
     botname:      str;
     caller_msg:   Message;
@@ -40,8 +40,8 @@ class CallContext:
     groupId:      int;
     groupTitle:   str;
 
-    def __init__(self, ctx: TgMessage, botname: str, t: datetime, expiry: timedelta):
-        self.t = t;
+    def __init__(self, ctx: TgMessage, botname: str, timestamp: datetime, expiry: timedelta):
+        self.timestamp = timestamp;
         self.expiry = expiry;
         self.trace = Trace();
         self.botname = botname;
@@ -157,7 +157,7 @@ class CallContext:
         return self.caller_msg.isBot();
 
     def messageTooOldCaller(self) -> bool:
-        return self.caller_msg.messageTooOld(self.t, self.expiry);
+        return self.caller_msg.messageTooOld(self.timestamp, self.expiry);
 
     def getUserCaller(self, bot: TgBot) -> Option[User]:
         '''
@@ -186,7 +186,7 @@ class CallContext:
 
     @wrap_output_as_option
     def messageTooOldMessageRepliedTo(self) -> bool:
-        return self.reply_to_msg.unwrap().messageTooOld(self.t, self.expiry);
+        return self.reply_to_msg.unwrap().messageTooOld(self.timestamp, self.expiry);
 
     def getUserMessageRepliedTo(self, bot: TgBot) -> Option[User]:
         '''

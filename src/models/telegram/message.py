@@ -11,6 +11,7 @@ from src.thirdparty.config import *;
 from src.thirdparty.misc import *;
 from src.thirdparty.types import *;
 
+from src.core.utils import *;
 from src.core.log_special import *;
 from src.models.telegram.users import *;
 
@@ -69,17 +70,25 @@ class Message():
         '''
         return self.timestamp;
 
-    def getUser(self, bot: TgBot) -> Option[User]:
+    @wrap_output_as_option
+    def getUser(self, bot: TgBot) -> User:
         '''
         Returns User class,
         if data can be retrieved or else undefined.
         '''
-        return Result.of(
-            lambda: Some(User(bot.get_chat_member(chat_id=self.chatId, user_id=self.userId)))
-        ).unwrap_or_else(Nothing);
+        return User(bot.get_chat_member(chat_id=self.chatId, user_id=self.userId));
 
-    def messageTooOld(self, t: datetime, expiry: timedelta) -> bool:
-        return self.timestamp + expiry < t;
+    def messageTooOld(self, now: datetime, expiry: timedelta) -> bool:
+        '''
+        NOTE:
+        - `self.timestamp` = time at which message was posted.
+        - `now` = time at which command is processed
+
+        @returns
+        True if and only if `now` is later than 'expiration' of post
+        (computed as `self.timestamp + expiry`).
+        '''
+        return self.timestamp + expiry < now;
 
     def toRepr(self) -> Dict[str, Any]:
         return {

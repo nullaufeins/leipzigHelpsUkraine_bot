@@ -9,9 +9,8 @@ from src.thirdparty.code import *;
 from src.thirdparty.misc import *;
 from src.thirdparty.types import *;
 
-from src.core.dataclasses import *;
-from src.core.log import *;
 from src.core.utils import *;
+from models.config import LanguageCode;
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # EXPORTS
@@ -20,11 +19,10 @@ from src.core.utils import *;
 __all__ = [
     'TranslatedTexts',
     'LanguagePatterns',
-    'FactoryLanguagePatterns',
 ];
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# CLASSES TranslatedText
+# CLASSES TranslatedText, TranslatedTexts
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 class TranslatedText():
@@ -35,46 +33,79 @@ class TranslatedText():
 
     @wrap_output_as_option
     def value(self, lang: str, default: str) -> str:
+        '''
+        @inputs
+        - `lang` - language code to use when extracting the text from the dictionary.
+        - `default` - (optional) language code to use, if no translation for `lang` can be found.
+
+        @returns
+        The appropriate asset in the desired (or else deafult) language code.
+        Returns safely wrapped as an Option[str].
+        '''
         if not(lang in self.texts):
             lang = default;
         return self.texts[lang];
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# CLASSES TranslatedTexts
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+class TranslatedTexts():
+    assets: Dict[str, TranslatedText];
+    default: str;
+    on_missing: str;
 
-@paramdataclass
-class TranslatedTextsRaw():
-    assets: Dict[str, TranslatedText] = paramfield(
-        kind = 'nested-dict',
-        default_factory = dict,
-        param_factory = TranslatedText,
-    );
+    def __init__(
+        self,
+        assets:     Dict[str, Dict[str, str]],
+        on_missing: str,
+        default:    str
+    ):
+        self.assets = {
+            keyword: TranslatedText(**phrases)
+            for keyword, phrases in assets.items()
+        };
+        self.default = default;
+        self.on_missing = on_missing;
 
-class TranslatedTexts(TranslatedTextsRaw):
-    @wrap_output_as_option
-    def value(self, keyword: str, lang: str, default: str) -> str:
-        return self.assets[keyword].value(lang, default).unwrap();
+    def value(
+        self,
+        keyword: str,
+        lang:    str,
+        missing: Optional[str] = None,
+        default: Optional[str] = None,
+    ) -> str:
+        '''
+        @inputs
+        - `keyword` - keyword of asset to translate.
+        - `lang` - language code to use when extracting the text from tha assets file.
+        - `default` - (optional) language code to use, if no translation for `lang` can be found.
+        - `missing` - (optional) value to return if translation fails.
+
+        @returns
+        The appropriate asset in the desired (or else deafult) language code,
+        otherwise returns the 'missing' value.
+        '''
+        return self.assets[keyword] \
+            .value(lang=lang, default=default or self.default) \
+            .unwrap_or(missing or self.on_missing);
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # CLASS LanguagePatterns
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-@paramdataclass
-class LanguagePatternsRaw():
-    patterns: Dict[str, re.Pattern] = paramfield(
-        kind = 'nested',
-        default_factory = dict,
-        param_factory = lambda **patterns: { key: re.compile(value) for key, value in patterns.items() },
-    );
+class LanguagePatterns(List[LanguageCode]):
+    _tests: Option[List[Callable[[str], bool]]] = Nothing();
 
-class LanguagePatterns(LanguagePatternsRaw):
     def keys(self) -> List[str]:
-        return self.patterns.keys();
+        return [obj.code for obj in self];
 
     @wrap_output_as_option
-    def recognise(self, code: str) -> str:
-        return next(code_ for code_, pattern in self.patterns.items() if pattern.match(code));
+    def recognise(self, text: str) -> str:
+        if isinstance(self._tests, Some):
+            tests = self._tests.unwrap();
+        else:
+            tests = [ create_matcher(obj) for obj in self ];
+            self._tests = Some(tests);
+        return next(obj.code for obj, test in zip(self, tests) if test(text));
 
-def FactoryLanguagePatterns(**patterns: str):
-    return LanguagePatterns(patterns=patterns);
+# Auxiliary function, creates wrapper:
+def create_matcher(obj: LanguageCode) -> Callable[[str], bool]:
+    r = re.compile(obj.pattern); # compile once!
+    return lambda text: not (r.match(text) is None);
