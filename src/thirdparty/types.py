@@ -13,6 +13,7 @@ from typing import Dict;
 from typing import Generator;
 from typing import Generic;
 from typing import List;
+from typing import Optional;
 from typing import Tuple;
 from typing import Type;
 from typing import TypeVar;
@@ -33,6 +34,7 @@ __all__ = [
     'Generator',
     'Generic',
     'List',
+    'Optional',
     'Tuple',
     'Type',
     'TypeVar',
