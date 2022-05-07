@@ -11,8 +11,9 @@ include .env
 
 PYTHON:=python3
 ifeq ($(OS),Windows_NT)
-PYTHON=py -3
+	PYTHON:=py -3
 endif
+GEN_MODELS:=datamodel-codegen
 
 ################################
 # Macros
@@ -36,37 +37,76 @@ define clean_all_folders
 	@find . -type d -name "$(1)" -exec rm -rf {} \; 2> /dev/null
 endef
 
+define generate_models
+	@${GEN_MODELS} \
+		--input-file-type openapi \
+		--encoding "UTF-8" \
+		--disable-timestamp \
+		--use-schema-description \
+		--allow-population-by-field-name \
+		--snake-case-field \
+		--strict-nullable \
+		--input $(1)/$(2).yaml \
+		--output $(1)/$(2).py
+endef
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # TARGETS
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ################################
-# BASIC TARGETS: setup, build, run
+# TARGETS: setup
 ################################
-setup: setup-py
-setup-node:
-	@echo "Call \x1b[93;1mnpm init\x1b[0m in order to set up src/package.json, if it does not exist."
-	@npm upgrade
-setup-py:
+setup: system-py setup-js
+system-py:
+	@echo "system-py not implemented"
+setup-js:
+	@npm init
+################################
+# TARGETS: build
+################################
+build: build-py
+build-skip-requirements: build-py-skip-requirements
+build-js: build-js-requirements build-js-models build-misc
+build-js-skip-requirements: build-js-models build-misc
+build-js-requrements:
+	@npm install --package-lock
+build-js-models:
+	@echo "\x1b[1mbuild-js-model\x1b[0m not implemented."
+build-py: build-py-requirements build-py-models build-misc
+build-py-skip-requirements: build-py-models build-misc
+build-py-requirements:
 	@${PYTHON} -m pip install -r requirements
-build:
+build-py-models: check-system-requirements build-py-models-nochecks
+build-py-models-nochecks:
+	@$(call generate_models,models,config)
+build-misc:
 	@# create database if not exists:
 	@if ! [ -d data ]; then mkdir data; fi
 	@touch data/queue.db
-	@npm install --package-lock
-run:
-	@#node index.js &
+################################
+# TARGETS: run
+################################
+run: run-py
+run-js:
+	@node index.js
+run-py:
 	@${PYTHON} main.py
-all: setup build run
 ################################
-# TESTING
+# TARGETS: tests
 ################################
-tests: unit-tests-py
-unit-tests-js:
+tests: tests-logging tests-py
+tests-logging:
+	@# create logs folder if not exists:
+	@if ! [ -d logs ]; then mkdir logs; fi
+	@touch logs/debug.log
+tests-js: tests-js-unit
+tests-js-unit:
 	mocha \
 		--require babel-core/register \
 		--watch-extensions js "tests/**/*.test.js"
-unit-tests-py:
+tests-py: tests-py-unit
+tests-py-unit:
 	@# For logging purposes (since stdout is rechanneled):
 	@$(call delete_if_file_exists,logs/debug.log)
 	@$(call create_folder_if_not_exists,logs)
@@ -86,3 +126,11 @@ clean:
 	@$(call delete_if_file_exists,package-lock.json)
 	@$(call delete_if_folder_exists,node_modules)
 	@exit 0
+################################
+# TARGETS: misc
+################################
+check-system-requirements:
+	@if ! ( ${GEN_MODELS} --help >> /dev/null 2> /dev/null ); then \
+		echo "Command '${GEN_MODELS}' did not work. Ensure that the installation of 'datamodel-code-generator' worked and that system paths are set." \
+		exit 1; \
+	fi
