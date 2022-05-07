@@ -5,8 +5,6 @@
 # IMPORTS
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-from __future__ import annotations;
-
 from src.thirdparty.misc import *;
 from src.thirdparty.config import *;
 from src.thirdparty.code import *;
@@ -23,45 +21,37 @@ __all__ = [
     'OPTIONS',
     'COMMANDS',
     'DEFAULT_LANGUAGE',
-    'LANGUAGE_PATTERNS',
+    'LANGUAGE_CODES',
     'SUPPORTED_LANGUAGES',
-    'get_translation',
+    'TRANSLATIONS',
 ];
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # CONSTANTS
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-MISSING_TRANSLATION: str = '<missing>';
+ON_MISSING: str = '<missing>';
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # CONSTANTS - extract from data assets + app configuration
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-CONFIG: Config;
-TRANSLATIONS: TranslatedTexts;
-
 with open('assets/language.yaml', 'r') as fp:
-    TRANSLATIONS = TranslatedTexts(assets=yaml_load(fp, Loader=yaml_FullLoader) or {});
+    _TEXTS = yaml_load(fp, Loader=yaml_FullLoader);
+    assert isinstance(_TEXTS, dict);
 
 with open('setup/config.yaml', 'r') as fp:
-    CONFIG = Config(**yaml_to_js_dictionary(yaml_load(fp, Loader=yaml_FullLoader), deep=True));
+    _SPEC = yaml_to_js_dictionary(yaml_load(fp, Loader=yaml_FullLoader), deep=True);
+    assert isinstance(_SPEC, dict);
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# CONSTANTS - computed
+# CONSTANTS - derived
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-OPTIONS = CONFIG.options;
-COMMANDS = CONFIG.commands;
-
-DEFAULT_LANGUAGE = CONFIG.default_language;
-LANGUAGE_PATTERNS = CONFIG.languages;
-SUPPORTED_LANGUAGES = LANGUAGE_PATTERNS.keys();
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# METHODS
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-def get_translation(keyword: str, lang: str, missing: str = MISSING_TRANSLATION) -> str:
-    return TRANSLATIONS.value(keyword=keyword, lang=lang, default=DEFAULT_LANGUAGE) \
-        .unwrap_or(missing);
+CONFIG = Config(**_SPEC);
+OPTIONS = CONFIG.app_options;
+COMMANDS = Commands(CONFIG.commands);
+LANGUAGE_CODES = LanguagePatterns(CONFIG.language_codes);
+SUPPORTED_LANGUAGES = LANGUAGE_CODES.keys();
+DEFAULT_LANGUAGE = OPTIONS.default_language;
+TRANSLATIONS = TranslatedTexts(assets=_TEXTS, on_missing=ON_MISSING, default=DEFAULT_LANGUAGE);
