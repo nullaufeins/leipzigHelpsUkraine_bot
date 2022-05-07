@@ -24,6 +24,11 @@
 !/src/**/*.py
 !/main.py
 
+# NOTE: models are created as part of the build process:
+!/models
+!/models/*.yaml
+/models/*.py
+
 !/tests
 !/tests/**/
 !/tests/**/*.test.js
