@@ -16,20 +16,20 @@ from src.models.telegram import *;
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 __all__ = [
-    'api_pin_message',
-    'api_send_and_pin_message',
-    'api_send_message',
-    'api_send_message_as_overwrite',
-    'api_remove_message',
+    'pin_message',
+    'send_and_pin_message',
+    'send_message',
+    'send_message_as_overwrite',
+    'remove_message',
 ];
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # METHODS posting
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-@run_safely(error_message='Api call to send message did not complete.')
-def api_send_message(
-    bot:    TgBot,
+@run_safely()
+def send_message(
+    bot:    MyBot,
     msg:    Message,
     text:   str,
     layout: MessageLayout,
@@ -47,13 +47,13 @@ def api_send_message(
         protect_content             = True,
         allow_sending_without_reply = True,
     );
-    if isinstance(response, TgMessage):
-        return Ok(CallValue(action_taken=True, message=Message(msg=response)));
-    return Err(CallError(tag='api-send-message', err='Api call to send message completed in failure.'));
+    assert isinstance(response, TgMessage), \
+        'Api call to send message completed in failure.';
+    return Ok(CallValue(action_taken=True, message=Message(msg=response)));
 
-@run_safely(error_message='Api call to edit message did not complete.')
-def api_send_message_as_overwrite(
-    bot:    TgBot,
+@run_safely()
+def send_message_as_overwrite(
+    bot:    MyBot,
     msg:    Message,
     text:   str,
     layout: MessageLayout,
@@ -71,13 +71,13 @@ def api_send_message_as_overwrite(
         reply_to_message_id         = layout.reply_to_message_id,
         allow_sending_without_reply = True,
     );
-    if isinstance(response, TgMessage) or (isinstance(response, bool) and response is True):
-        return Ok(CallValue(action_taken=True));
-    return Err(CallError(tag='api-send-message-as-overwrite', err='Api call to edit message completed in failure.'));
+    assert isinstance(response, TgMessage) or (isinstance(response, bool) and response is True), \
+        'Api call to edit message completed in failure.';
+    return Ok(CallValue(action_taken=True));
 
-@run_safely(error_message='Api call to pin message did not complete.')
-def api_pin_message(
-    bot:    TgBot,
+@run_safely()
+def pin_message(
+    bot:    MyBot,
     msg:    Message,
 ) -> Result[CallValue, CallError]:
     '''
@@ -88,17 +88,17 @@ def api_pin_message(
         message_id           = msg.getMessageId(),
         disable_notification = False,
     );
-    if success:
-        return Ok(CallValue(action_taken=True));
-    return Err(CallError(tag='api-pin-message', err='Api call to pin message completed in failure.'));
+    assert isinstance(success, bool) and success is True, \
+        'Api call to pin message completed in failure.';
+    return Ok(CallValue(action_taken=True));
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # METHODS posting - complex
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 @run_safely(error_message='Api call to send+pin message did not complete.')
-def api_send_and_pin_message(
-    bot:    TgBot,
+def send_and_pin_message(
+    bot:    MyBot,
     msg:    Message,
     text:   str,
     layout: MessageLayout,
@@ -106,17 +106,17 @@ def api_send_and_pin_message(
     '''
     Calls Telegram API to to send message then pin it.
     '''
-    return api_send_message(bot=bot, msg=msg, text=text, layout=layout) \
+    return send_message(bot=bot, msg=msg, text=text, layout=layout) \
         .and_then(
-            lambda V: api_pin_message(bot=bot, msg=V.message.unwrap())
+            lambda V: pin_message(bot=bot, msg=V.message.unwrap())
         );
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # METHODS deletion
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-@run_safely(error_message='Api call to delete message did not complete.')
-def api_remove_message(bot: TgBot, msg: Message) -> Result[CallValue, CallError]:
+@run_safely()
+def remove_message(bot: MyBot, msg: Message) -> Result[CallValue, CallError]:
     '''
     Calls Telegram API to to delete an existing message.
     '''
@@ -124,6 +124,6 @@ def api_remove_message(bot: TgBot, msg: Message) -> Result[CallValue, CallError]
         chat_id    = msg.getChatId(),
         message_id = msg.getMessageId(),
     );
-    if success:
-        return Ok(CallValue(action_taken=True));
-    return Err(CallError(tag='api-remove-message', err='Api call to delete message completed in failure.'));
+    assert isinstance(success, bool) and success is True, \
+        'Api call to delete message completed in failure.';
+    return Ok(CallValue(action_taken=True));

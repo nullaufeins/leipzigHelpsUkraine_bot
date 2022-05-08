@@ -7,8 +7,10 @@
 
 from enum import Enum;
 from typing import Any;
+from typing import Awaitable;
 from typing import Callable;
 from typing import ClassVar;
+from typing import Coroutine;
 from typing import Dict;
 from typing import Generator;
 from typing import Generic;
@@ -26,10 +28,12 @@ from typing_extensions import ParamSpec;
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 __all__ = [
+    'Awaitable',
     'Enum',
     'Any',
     'Callable',
     'ClassVar',
+    'Coroutine',
     'Dict',
     'Generator',
     'Generic',

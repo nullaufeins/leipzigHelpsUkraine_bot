@@ -13,6 +13,7 @@ from src.thirdparty.types import *;
 
 from src.core.utils import *;
 from src.core.log_special import *;
+from src.models.telegram.bot import *;
 from src.models.telegram.users import *;
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -71,7 +72,7 @@ class Message():
         return self.timestamp;
 
     @wrap_output_as_option
-    def getUser(self, bot: TgBot) -> User:
+    def getUser(self, bot: MyBot) -> User:
         '''
         Returns User class,
         if data can be retrieved or else undefined.

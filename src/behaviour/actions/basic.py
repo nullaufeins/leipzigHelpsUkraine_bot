@@ -5,14 +5,13 @@
 # IMPORTS
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-from src.thirdparty.api import *;
 from src.thirdparty.code import *;
 
 from src.core.calls import *;
 from src.core.utils import *;
+from src.api import posts;
 from src.models.config import *;
 from src.models.telegram import *;
-from src.behaviour.api import *;
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # EXPORTS
@@ -53,11 +52,11 @@ def action_ignore_with_error(context: CallContext, text: str) -> Result[CallValu
 
 @run_safely()
 def action_delete(
-    bot:     TgBot,
+    bot:     MyBot,
     context: CallContext,
 ) -> Result[CallValue, CallError]:
     context.track('basic-action:delete');
-    return api_remove_message(bot=bot, msg=context.getCallerMessage());
+    return posts.remove_message(bot=bot, msg=context.getCallerMessage());
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # METHODS actions consisting of a combination of basic actions
@@ -65,7 +64,7 @@ def action_delete(
 
 @run_safely()
 def action_delete_and_ignore(
-    bot:     TgBot,
+    bot:     MyBot,
     context: CallContext,
 ) -> Result[CallValue, CallError]:
     return keep_calm_and_carry_on(
@@ -75,7 +74,7 @@ def action_delete_and_ignore(
 
 @run_safely()
 def action_delete_and_ignore_with_error(
-    bot:     TgBot,
+    bot:     MyBot,
     context: CallContext,
     text:    str,
 ) -> Result[CallValue, CallError]:
@@ -86,7 +85,7 @@ def action_delete_and_ignore_with_error(
 
 @run_safely()
 def action_delete_and_reply(
-    bot:     TgBot,
+    bot:     MyBot,
     context: CallContext,
     text:         str,
     layout:       MessageLayout,
@@ -94,13 +93,13 @@ def action_delete_and_reply(
     return keep_calm_and_carry_on(
         lambda: action_delete(bot=bot, context=context),
         context.track_function(message='basic-action:new-post')(
-            lambda: api_send_message(bot=bot, msg=context.getCallerMessage(), text=text, layout=layout)
+            lambda: posts.send_message(bot=bot, msg=context.getCallerMessage(), text=text, layout=layout)
         ),
     );
 
 @run_safely()
 def action_send_message(
-    bot:          TgBot,
+    bot:          MyBot,
     context:      CallContext,
     text:         str,
     layout:       MessageLayout,
@@ -110,4 +109,4 @@ def action_send_message(
         return action_delete_and_reply(bot=bot, context=context, text=text, layout=layout);
     else:
         context.track('basic-action:edit-post');
-        return api_send_message_as_overwrite(bot=bot, msg=context.getCallerMessage(), text=text, layout=layout);
+        return posts.send_message_as_overwrite(bot=bot, msg=context.getCallerMessage(), text=text, layout=layout);

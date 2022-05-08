@@ -13,6 +13,7 @@ from src.thirdparty.types import *;
 
 from src.core.utils import *;
 from src.core.trace import *;
+from src.models.telegram.bot import *;
 from src.models.telegram.message import *;
 from src.models.telegram.users import *;
 
@@ -136,7 +137,7 @@ class CallContext:
     '''
 
     @wrap_output_as_option
-    def isGroupAdminCaller(self, bot: TgBot) -> bool:
+    def isGroupAdminCaller(self, bot: MyBot) -> bool:
         '''
         Returns true/false <==> user is/is not anon admin.
         If information cannot be obtained, returns None.
@@ -159,7 +160,7 @@ class CallContext:
     def messageTooOldCaller(self) -> bool:
         return self.caller_msg.messageTooOld(self.timestamp, self.expiry);
 
-    def getUserCaller(self, bot: TgBot) -> Option[User]:
+    def getUserCaller(self, bot: MyBot) -> Option[User]:
         '''
         Returns User class for caller, if data can be retrieved or else undefined.
         '''
@@ -188,7 +189,7 @@ class CallContext:
     def messageTooOldMessageRepliedTo(self) -> bool:
         return self.reply_to_msg.unwrap().messageTooOld(self.timestamp, self.expiry);
 
-    def getUserMessageRepliedTo(self, bot: TgBot) -> Option[User]:
+    def getUserMessageRepliedTo(self, bot: MyBot) -> Option[User]:
         '''
         Returns User class for message replied to, if data can be retrieved or else undefined.
         '''

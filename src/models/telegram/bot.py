@@ -5,11 +5,11 @@
 # IMPORTS
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-from src.models.telegram.bot import *;
-from src.models.telegram.callcontext import *;
-from src.models.telegram.layout import *;
-from src.models.telegram.message import *;
-from src.models.telegram.users import *;
+from src.thirdparty.api import *;
+from src.thirdparty.code import *;
+from src.thirdparty.config import *;
+from src.thirdparty.misc import *;
+from src.thirdparty.types import *;
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # EXPORTS
@@ -17,9 +17,11 @@ from src.models.telegram.users import *;
 
 __all__ = [
     'MyBot',
-    'CallContext',
-    'MessageLayout',
-    'PARSE_MODE',
-    'Message',
-    'User',
 ];
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# CLASS bot
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+class MyBot(TgBot):
+    pass;

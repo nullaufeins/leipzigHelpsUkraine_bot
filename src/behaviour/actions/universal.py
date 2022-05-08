@@ -5,7 +5,6 @@
 # IMPORTS
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-from src.thirdparty.api import *;
 from src.thirdparty.code import *;
 from src.thirdparty.misc import *;
 from src.thirdparty.types import *;
@@ -30,7 +29,7 @@ __all__ = [
 
 @run_safely()
 def universal_action(
-    bot:         TgBot,
+    bot:         MyBot,
     context:     CallContext,
     command:     Command,
     arguments:   List[str],

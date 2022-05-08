@@ -6,7 +6,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 from telebot import TeleBot as TgBot;
-from telebot.async_telebot import AsyncTeleBot as AsyncTgBot;
+# from telebot.async_telebot import AsyncTeleBot as AsyncTgBot;
 from telebot.types import Message as TgMessage;
 from telebot.types import BotCommand as TgBotCommand;
 from telebot.types import ReplyKeyboardMarkup as TgReplyKeyboardMarkup;
@@ -22,7 +22,7 @@ from telebot.types import ChatMember as TgChatMember;
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 __all__ = [
-    'AsyncTgBot',
+    # 'AsyncTgBot',
     'TgBot',
     'TgBotCommand',
     'TgChat',

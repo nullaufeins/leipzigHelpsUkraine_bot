@@ -28,15 +28,15 @@ __all__ = [
 # DECORATOR - for listeners
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-def log_listener(bot: TgBot, app_options: AppOptions):
+def log_listener(bot: MyBot, app_options: AppOptions):
     '''
-    Creates a decorator which adds logging in the post-processing of the action performed by a listener
+    Creates a decorator which adds logging in the post-processing of the action performed by a listener.
     '''
     def dec(
-        listener: Callable[[TgBot, CallContext, AppOptions], Result[CallValue, CallError]]
+        listener: Callable[[MyBot, CallContext, AppOptions], Result[CallValue, CallError]]
     ) -> Callable[[TgMessage], Result[Nothing, Exception]]:
         '''
-        Adds logging in the post-processing of the action performed by a listener
+        Adds logging in the post-processing of the action performed by a listener.
         '''
         @wraps(listener)
         @run_safely(tag='listener + post-processing')

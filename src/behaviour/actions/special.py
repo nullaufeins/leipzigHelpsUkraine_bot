@@ -5,17 +5,16 @@
 # IMPORTS
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-from src.thirdparty.api import *;
 from src.thirdparty.code import *;
 from src.thirdparty.types import *;
 
 from src.core.calls import *;
 from src.core.utils import *;
 from src.setup.config import *;
+from src.api import *;
 from src.models.config import *;
 from src.models.telegram import *;
 from src.behaviour.recognition import *;
-from src.behaviour.api import *;
 from src.behaviour.layout.menus import *;
 from src.behaviour.actions.basic import *;
 
@@ -37,7 +36,7 @@ __all__ = [
 
 @run_safely()
 def action_on_pin_one_language(
-    bot:          TgBot,
+    bot:          MyBot,
     context:      CallContext,
     command_text: CommandText,
     lang_flag:    Optional[str],
@@ -56,9 +55,9 @@ def action_on_pin_one_language(
     msg = context.getCallerMessage();
     return keep_calm_and_carry_on(
         context.track_function('basic-action:delete') (
-            lambda: api_remove_message(bot=bot, msg=msg)
+            lambda: posts.remove_message(bot=bot, msg=msg)
         ),
-        lambda: api_send_and_pin_message(bot=bot, msg=msg, text=text, layout=layout)
+        lambda: posts.send_and_pin_message(bot=bot, msg=msg, text=text, layout=layout)
     );
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -67,7 +66,7 @@ def action_on_pin_one_language(
 
 @run_safely()
 def action_on_pin_all_languages(
-    bot:          TgBot,
+    bot:          MyBot,
     context:      CallContext,
     command_text: CommandText,
 ) -> Result[CallValue, CallError]:
@@ -75,7 +74,7 @@ def action_on_pin_all_languages(
     msg = context.getCallerMessage();
     return keep_calm_and_carry_on(
         context.track_function('basic-action:delete')(
-            lambda: api_remove_message(bot=bot, msg=msg)
+            lambda: posts.remove_message(bot=bot, msg=msg)
         ),
         ################
         # NOTE: This has to be done via wrappers (current implementation) otherwise
@@ -95,7 +94,7 @@ def action_on_pin_all_languages(
 
 # the following wraps the individually created actions:
 def each_action_for_pin_all(
-    bot:     TgBot,
+    bot:     MyBot,
     msg:     Message,
     keyword: str,
     index:   int,
@@ -105,10 +104,10 @@ def each_action_for_pin_all(
     layout = get_menu_inline(lang=lang);
     if index == 0:
         # post then pin 1st menu:
-        return lambda: api_send_and_pin_message(bot=bot, msg=msg, text=text, layout=layout);
+        return lambda: posts.send_and_pin_message(bot=bot, msg=msg, text=text, layout=layout);
     else:
         # post 2nd, 3rd, etc. menus without pinning:
-        return lambda: api_send_message(bot=bot, msg=msg, text=text, layout=layout);
+        return lambda: posts.send_message(bot=bot, msg=msg, text=text, layout=layout);
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # ACTION greet user
@@ -116,7 +115,7 @@ def each_action_for_pin_all(
 
 @run_safely()
 def action_on_hello(
-    bot:             TgBot,
+    bot:             MyBot,
     context:         CallContext,
     user:            Option[User],
     user_replied_to: Option[User],
@@ -154,7 +153,7 @@ def action_on_hello(
 
 @run_safely()
 def action_on_help(
-    bot:          TgBot,
+    bot:          MyBot,
     context:      CallContext,
     command_text: CommandText,
     lang_flag:    Optional[str],
@@ -180,7 +179,7 @@ def action_on_help(
 
 @run_safely()
 def action_on_redirect(
-    bot:          TgBot,
+    bot:          MyBot,
     context:      CallContext,
     command_text: CommandText,
     lang_flag:    Optional[str],

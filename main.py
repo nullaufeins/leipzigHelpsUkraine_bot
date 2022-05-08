@@ -7,10 +7,11 @@
 
 import os;
 import sys;
-import asyncio;
 
 os.chdir(os.path.dirname(__file__));
 sys.path.insert(0, os.getcwd());
+
+from src.thirdparty.run import *;
 
 from src.core.log import *;
 from src.models.config import *;
@@ -22,7 +23,7 @@ from src.app import *;
 # MAIN
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-async def enter():
+async def enter(event_loop: asyncio.AbstractEventLoop):
     options = OPTIONS;
     configure_logging(log_level(options));
 
@@ -30,8 +31,20 @@ async def enter():
     secret = Secret();
     app = MyApp(options=OPTIONS, secret=secret);
     app.setup();
+    await asyncio.gather(
+        event_listen(event_loop, app=app),
+        event_process_queue(event_loop, app=app),
+        return_exceptions=True,
+    );
+    return;
+
+async def event_listen(event_loop: asyncio.AbstractEventLoop, app: MyApp):
     log_info('Listening to user input...');
-    app.start();
+    await app.start();
+    return;
+
+async def event_process_queue(event_loop: asyncio.AbstractEventLoop, app: MyApp):
+    # NOTE: Not yet implemented
     return;
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -39,4 +52,5 @@ async def enter():
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 if __name__ == '__main__':
-    asyncio.run(enter());
+    event_loop = asyncio.new_event_loop();
+    event_loop.run_until_complete(enter(event_loop));

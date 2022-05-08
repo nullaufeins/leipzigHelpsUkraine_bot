@@ -5,8 +5,7 @@
 # IMPORTS
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-from __future__ import annotations
-from typing import Optional;
+from __future__ import annotations;
 
 from src.thirdparty.code import *;
 from src.thirdparty.misc import *;

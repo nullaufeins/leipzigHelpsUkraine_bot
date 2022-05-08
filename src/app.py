@@ -35,7 +35,7 @@ class MyApp():
     See https://github.com/eternnoir/pyTelegramBotAPI for details on the API.
     '''
     options: AppOptions;
-    bot: TgBot;
+    bot: MyBot;
 
     def __init__(
         self,
@@ -43,7 +43,7 @@ class MyApp():
         secret: Secret,
     ):
         self.options = options;
-        self.bot = TgBot(secret.token, parse_mode=PARSE_MODE.NONE.value);
+        self.bot = MyBot(secret.token, parse_mode=PARSE_MODE.NONE.value);
         return;
 
     def setup(self):
@@ -70,7 +70,10 @@ class MyApp():
             ];
             if self.options.debug:
                 commands.append({ 'command': r'/hello', 'description': 'Hello world' });
-            self.bot.set_my_commands(commands, language_code=lang);
+            self.bot.set_my_commands(
+                commands = commands,
+                language_code=lang
+            );
         return;
 
     def setup_listeners(self):
@@ -80,21 +83,21 @@ class MyApp():
         if self.options.listen_to_text:
             @self.bot.message_handler(content_types=['text'])
             @log_listener(bot=self.bot, app_options=self.options)
-            def listener(bot: TgBot, context: CallContext, app_options=self.options):
+            def listener(bot: MyBot, context: CallContext, app_options=self.options):
                 return listener_on_text(bot=bot, context=context, app_options=app_options);
         else:
             @self.bot.message_handler(content_types=['text'])
             @log_listener(bot=self.bot, app_options=self.options)
-            def listener(bot: TgBot, context: CallContext, app_options=self.options):
+            def listener(bot: MyBot, context: CallContext, app_options=self.options):
                 return listener_on_message(bot=bot, context=context, app_options=app_options);
         return;
 
     def start(self):
-        self.bot.polling()
+        self.bot.polling();
         return;
 
     def __del__(self):
-        # self.bot.stop_poll();
-        self.bot.stop_bot();
+        # await self.bot.stop_poll(); # NOTE: this only works for specific chats.
+        self.bot.stop_bot(); # NOTE: only for non-synch version.
         del self.bot;
         return;

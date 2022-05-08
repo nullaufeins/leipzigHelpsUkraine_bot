@@ -5,7 +5,6 @@
 # IMPORTS
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-from src.thirdparty.api import *;
 from src.thirdparty.code import *;
 
 from src.core.calls import *;
@@ -30,7 +29,7 @@ __all__ = [
 
 @run_safely()
 def listener_on_text(
-    bot:         TgBot,
+    bot:         MyBot,
     context:     CallContext,
     app_options: AppOptions,
 ) -> Result[CallValue, CallError]:
