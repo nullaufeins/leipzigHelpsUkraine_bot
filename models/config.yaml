@@ -2,21 +2,6 @@ openapi: 3.0.3
 info:
   version: 1.0.0
   title: Schemata for config models
-  description: |-
-    Build using the following command and options:
-
-        datamodel-codegen
-          --input-file-type openapi
-          --encoding "UTF-8"
-          --disable-timestamp
-          --use-schema-description
-          --snake-case-field
-          --strict-nullable
-          --input <path/to/file.yml>
-          --output <path/to/file.py>
-
-    (cf. https://pydantic-docs.helpmanual.io/datamodel_code_generator/).
-    Create config file separately from schema.
 servers: []
 paths: {}
 components:

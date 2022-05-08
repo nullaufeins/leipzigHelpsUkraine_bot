@@ -28,6 +28,7 @@
 !/models
 !/models/*.yaml
 /models/*.py
+!/models/README.md
 
 !/tests
 !/tests/**/
