@@ -9,6 +9,7 @@ from __future__ import annotations;
 
 from src.thirdparty.code import *;
 from src.thirdparty.misc import *;
+from src.thirdparty.run import *;
 from src.thirdparty.types import *;
 
 from src.models.telegram import *;
@@ -22,6 +23,7 @@ __all__ = [
     'CallError',
     'keep_calm_and_carry_on',
     'run_safely',
+    'to_async',
 ];
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -29,6 +31,7 @@ __all__ = [
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # local usage only
+T = TypeVar('T');
 V = TypeVar('V');
 E = TypeVar('E', bound=list);
 ARGS = ParamSpec('ARGS');
@@ -190,4 +193,25 @@ def run_safely(tag: Union[str, None] = None, error_message: Union[str, None] = N
                 ) \
                 .and_then(lambda V: V);
         return wrapped_action;
+    return dec;
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# DECORATOR - converts to async method
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+def to_async(executor: Optional[Any] = None):
+    '''
+    Creates a decorator for a synchronous function to perform it asynchronously.
+    '''
+    def dec(routine: Callable[ARGS, T]) -> Callable[Concatenate[AbstractEventLoop, ARGS], Awaitable[T]]:
+        '''
+        Decoratos a synchronous function to perform it asynchronously.
+        '''
+        @wraps(routine)
+        def wrapped_method(*_: ARGS.args, loop: AbstractEventLoop, **__: ARGS.kwargs) -> T:
+            return loop.run_in_executor(
+                executor = executor,
+                func     = lambda: routine(*_, **__),
+            );
+        return wrapped_method;
     return dec;
