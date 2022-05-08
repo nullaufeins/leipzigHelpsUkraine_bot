@@ -17,6 +17,7 @@ __all__ = [
     'int_to_milliseconds',
     'split_non_empty_parts',
     'yaml_to_js_dictionary',
+    'flatten',
     'wrap_output_as_option',
     'unwrap_or_none',
     'unwrap_or_string',
@@ -41,7 +42,7 @@ def split_non_empty_parts(text: str):
     return re.split(r'\s+', string=text);
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# EXPORTS
+# METHODS - numerical
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 def int_to_milliseconds(dt: int) -> timedelta:
@@ -55,7 +56,7 @@ def int_to_milliseconds(dt: int) -> timedelta:
     return timedelta(milliseconds=dt);
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# METHODS - dict
+# METHODS - yaml
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 def yaml_key_to_js_key(key: str):
@@ -81,7 +82,7 @@ def yaml_to_js_dictionary(data: Any, deep: bool = False):
 # METHODS - lists
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-def flatten(X: List[List[T]]) -> List[T]:
+def flatten(*X: List[T]) -> List[T]:
     result: List[T] = []
     for x in X:
         result.extend(x);
