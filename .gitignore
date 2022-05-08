@@ -32,8 +32,7 @@
 
 !/tests
 !/tests/**/
-!/tests/**/*.test.js
-!/tests/**/test_*.py
+!/tests/**/*.py
 
 !/assets
 !/assets/language.yaml
