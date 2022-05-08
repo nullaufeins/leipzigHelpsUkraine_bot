@@ -19,6 +19,14 @@ GEN_MODELS:=datamodel-codegen
 # Macros
 ################################
 
+define create_file_if_not_exists
+	@touch "$(1)";
+endef
+
+define create_folder_if_not_exists
+	if ! [ -d "$(1)" ]; then mkdir "$(1)"; fi
+endef
+
 define delete_if_file_exists
 	@if [ -f "$(1)" ]; then rm "$(1)"; fi
 endef
@@ -95,11 +103,8 @@ run-py:
 ################################
 # TARGETS: tests
 ################################
-tests: tests-logging tests-py
-tests-logging:
-	@# create logs folder if not exists:
-	@if ! [ -d logs ]; then mkdir logs; fi
-	@touch logs/debug.log
+tests: tests-py
+tests-logs: create-logs tests display-logs
 tests-js: tests-js-unit
 tests-js-unit:
 	mocha \
@@ -107,27 +112,39 @@ tests-js-unit:
 		--watch-extensions js "tests/**/*.test.js"
 tests-py: tests-py-unit
 tests-py-unit:
-	@# For logging purposes (since stdout is rechanneled):
-	@$(call delete_if_file_exists,logs/debug.log)
-	@$(call create_folder_if_not_exists,logs)
-	@$(call create_file_if_not_exists,logs/debug.log)
-	@# for python unit tests:
 	@${PYTHON} -m pytest tests --cache-clear --verbose -k test_
-	@cat logs/debug.log
 ################################
 # TARGETS: clean
 ################################
 clean:
 	@echo "All system artefacts will be force removed."
 	@$(call clean_all_files,.DS_Store)
+	@echo "All test artefacts will be force removed."
+	@$(call clean_all_folders,.pytest_cache)
+	@$(call delete_if_folder_exists,logs)
 	@echo "All build artefacts will be force removed."
 	@$(call clean_all_folders,__pycache__)
-	@$(call clean_all_folders,.pytest_cache)
 	@$(call delete_if_file_exists,package-lock.json)
 	@$(call delete_if_folder_exists,node_modules)
 	@exit 0
 ################################
-# TARGETS: misc
+# TARGETS: logging
+################################
+create-logs:
+	@# For logging purposes (since stdout is rechanneled):
+	@$(call delete_if_file_exists,logs/debug.log)
+	@$(call create_folder_if_not_exists,logs)
+	@$(call create_file_if_not_exists,logs/debug.log)
+display-logs:
+	@echo ""
+	@echo "Content of logs/debug.log:"
+	@echo "----------------"
+	@echo ""
+	@cat logs/debug.log
+	@echo ""
+	@echo "----------------"
+################################
+# TARGETS: requirements
 ################################
 check-system-requirements:
 	@if ! ( ${GEN_MODELS} --help >> /dev/null 2> /dev/null ); then \
