@@ -5,10 +5,10 @@
 # IMPORTS
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-from tests.thirdparty.tests import *;
+from thirdparty.tests import *;
 
-from src.thirdparty.code import *;
-from src.thirdparty.types import *;
+from thirdparty.code import *;
+from thirdparty.types import *;
 from src.core.utils import *;
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

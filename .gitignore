@@ -24,6 +24,10 @@
 !/src/**/*.py
 !/main.py
 
+# NOTE: thirdparty imports are accessed by src+tests
+!/thirdparty
+!/thirdparty/*.py
+
 # NOTE: models are created as part of the build process:
 !/models
 !/models/*.yaml
