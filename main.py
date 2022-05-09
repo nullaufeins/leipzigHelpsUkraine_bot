@@ -11,7 +11,7 @@ import sys;
 os.chdir(os.path.dirname(__file__));
 sys.path.insert(0, os.getcwd());
 
-from src.thirdparty.run import *;
+from thirdparty.run import *;
 
 from src.core.calls import *;
 from src.core.log import *;

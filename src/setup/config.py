@@ -5,10 +5,10 @@
 # IMPORTS
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-from src.thirdparty.misc import *;
-from src.thirdparty.config import *;
-from src.thirdparty.code import *;
-from src.thirdparty.types import *;
+from thirdparty.misc import *;
+from thirdparty.config import *;
+from thirdparty.code import *;
+from thirdparty.types import *;
 
 from src.models.config import *;
 from src.core.utils import *;

@@ -7,10 +7,10 @@
 
 from __future__ import annotations;
 
-from src.thirdparty.code import *;
-from src.thirdparty.misc import *;
-from src.thirdparty.run import *;
-from src.thirdparty.types import *;
+from thirdparty.code import *;
+from thirdparty.misc import *;
+from thirdparty.run import *;
+from thirdparty.types import *;
 
 from src.models.telegram import *;
 

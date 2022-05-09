@@ -5,11 +5,11 @@
 # IMPORTS
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-from src.thirdparty.api import *;
-from src.thirdparty.code import *;
-from src.thirdparty.config import *;
-from src.thirdparty.misc import *;
-from src.thirdparty.types import *;
+from thirdparty.api import *;
+from thirdparty.code import *;
+from thirdparty.config import *;
+from thirdparty.misc import *;
+from thirdparty.types import *;
 
 from src.core.utils import *;
 from src.core.trace import *;

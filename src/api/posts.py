@@ -5,8 +5,8 @@
 # IMPORTS
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-from src.thirdparty.api import *;
-from src.thirdparty.code import *;
+from thirdparty.api import *;
+from thirdparty.code import *;
 
 from src.core.calls import *;
 from src.models.telegram import *;
