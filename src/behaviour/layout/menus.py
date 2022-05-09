@@ -41,10 +41,13 @@ def get_menu_inline(
     lang: str,
     reply_to_msg: Option[Message] = Nothing()
 ) -> MessageLayout:
-    rows = create_rows(lang=lang);
-    reply_markup = TgInlineKeyboardMarkup(row_width=3);
-    for row in rows:
-        reply_markup.row(*[TgInlineKeyboardButton(**button) for button in row]);
+    row_width = 3;
+    reply_markup = TgInlineKeyboardMarkup(row_width=row_width);
+    for row in create_rows_of_button_parameters(lang=lang, row_width=row_width):
+        reply_markup.row(*[TgInlineKeyboardButton(
+            text=button.text,
+            url=button.url,
+        ) for button in row]);
     return MessageLayout(
         reply_markup = reply_markup,
         disable_notification = True,
@@ -56,10 +59,16 @@ def get_menu_hidden(
     lang: str,
     reply_to_msg: Option[Message] = Nothing()
 ) -> MessageLayout:
-    reply_markup = TgReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True, row_width=3);
-    rows = create_rows(lang=lang);
-    for row in rows:
-        reply_markup.row(*[TgKeyboardButton(**button) for button in row]);
+    row_width = 3;
+    reply_markup = TgReplyKeyboardMarkup(
+        resize_keyboard   = True,
+        one_time_keyboard = True,
+        row_width         = row_width,
+    );
+    for row in create_rows_of_button_parameters(lang=lang, row_width=row_width):
+        reply_markup.row(*[TgKeyboardButton(
+            text=button.text,
+        ) for button in row]);
     return MessageLayout(
         reply_markup = reply_markup,
         disable_notification = True,
@@ -80,29 +89,36 @@ def get_message_options_basic(
 # AUXILIARY METHODS
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-def create_rows(lang: str) -> List[List[dict]]:
-    rows = [];
-    count = 0;
-    current_row = [];
+@dataclass
+class ButtonParameters():
+    text: str = field(default='');
+    url: str = field(default='');
+
+def create_rows_of_button_parameters(lang: str, row_width: int) -> Generator[List[ButtonParameters], None, None]:
+    first = True;
+    row = [];
     for command in COMMANDS:
         if (command.menu is None) or (command.redirect is None):
             continue;
         menu = command.menu;
-        redirect = command.redirect;
-        if not(redirect.group is None):
-            url = create_url_from_group_link(redirect.group);
-        elif not(redirect.url is None):
-            url = redirect.url;
-        else:
+        group = command.redirect.group;
+        url = command.redirect.url
+        # ensure that either menu or redirect command set
+        if not(group is None):
+            url = create_url_from_group_link(group);
+        if url is None:
             continue;
-        if menu.new_row and count > 0:
-            rows.append(current_row[:]);
-            current_row = [];
-        text = get_translation(keyword=menu.keyword, lang=lang);
-        current_row.append(dict(text=text, url=url));
-        count += 1;
-    rows.append(current_row[:]);
-    return rows;
+        # check if a new row is either needed or demanded:
+        if not first and ((len(row) >= row_width) or menu.new_row):
+            yield row;
+            row = [];
+        # add button parameters
+        row.append(ButtonParameters(
+            text = get_translation(keyword=menu.keyword, lang=lang),
+            url  = url,
+        ));
+        first = False;
+    yield row;
 
 def create_url_from_group_link(text: str) -> str:
     return re.sub(PATTERN_GROUP, repl=REPLACE_PATTERN_URL_GROUP, string=text);
