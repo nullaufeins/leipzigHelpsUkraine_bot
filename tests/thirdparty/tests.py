@@ -7,7 +7,7 @@
 
 from contextlib import nullcontext as does_not_raise;
 from pytest import fixture;
-from pytest import lazy_fixture;
+from pytest_lazyfixture import lazy_fixture;
 from pytest import mark;
 from pytest import raises as assert_raises;
 from unittest import TestCase;
