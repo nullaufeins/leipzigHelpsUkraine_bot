@@ -206,17 +206,6 @@ commands:
       keyword: redirect-message
   ## Following are NOT in menu:
   - aspects:
-      command:  '/arrival'
-      rights:   [administrator, creator]
-      strict:   true
-      match:    '^(arrivals?|ankunft)$'
-      redirect:
-        group:  '@arrival_leipzig_ukraine'
-    side-menu:
-      keyword: arrival-desc
-    text:
-      keyword: redirect-message
-  - aspects:
       command:  '/transport'
       rights:   [administrator, creator]
       strict:   true
