@@ -1,0 +1,43 @@
+openapi: 3.0.3
+info:
+  version: 1.0.0
+  title: Schemata for config models
+servers: []
+paths: {}
+components:
+  schemas:
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Credentials
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Credentials:
+      description: |-
+        Data model for credentials for client session during integration tests.
+      type: object
+      properties:
+        api-name:
+          type: string
+        api-id:
+          type: integer
+        api-hash:
+          type: string
+        session:
+          type: string
+        token:
+          type: string
+    Chat:
+      description: |-
+        Data model for chat, bot, user during integration tests.
+      type: object
+      properties:
+        chat-id:
+          type: integer
+        botname:
+          type: string
+        bot-id:
+          type: integer
+        username:
+          type: string
+        user-id:
+          type: integer
+        user-phone-number:
+          type: string
