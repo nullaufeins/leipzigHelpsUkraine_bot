@@ -1,1 +1,1 @@
-bot: node index.js
+bot: python3 main.py
