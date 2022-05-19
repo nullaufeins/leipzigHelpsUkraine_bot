@@ -96,20 +96,6 @@ commands:
   # START menu commands
   ## 1st row
   - aspects:
-      command:  '/arrival'
-      rights:   [administrator, creator]
-      strict:   true
-      match:    '^(arrivals?|ankunft)$'
-      redirect:
-        group:  '@arrival_leipzig_ukraine'
-    menu:
-      keyword: arrival
-      new_row: true
-    side-menu:
-      keyword: arrival-desc
-    text:
-      keyword: redirect-message
-  - aspects:
       command:  '/accomodation'
       rights:   [administrator, creator]
       strict:   true
@@ -117,25 +103,12 @@ commands:
       redirect:
         group: '@accomodation_leipzig_ukraine'
     menu:
+      new_row: true
       keyword: housing
     side-menu:
       keyword: housing-desc
     text:
       keyword: redirect-message
-  - aspects:
-      command:  '/translations'
-      rights:   [administrator, creator]
-      strict:   true
-      match:    '^(translat.*|language(s?)|dolmetsch.*)$'
-      redirect:
-        group: '@translators_leipzig_ukraine'
-    menu:
-      keyword: translations
-    side-menu:
-      keyword: translations-desc
-    text:
-      keyword: redirect-message
-  ## 2nd row
   - aspects:
       command:  '/donations'
       rights:   [administrator, creator]
@@ -145,11 +118,11 @@ commands:
         group: '@donations_leipzig_ukraine'
     menu:
       keyword: donations
-      new_row: true
     side-menu:
       keyword: donations-desc
     text:
       keyword: redirect-message
+  ## 2nd row
   - aspects:
       command:  '/family'
       rights:   [administrator, creator]
@@ -158,6 +131,7 @@ commands:
       redirect:
         group:  '@kids_leipzig_ukraine'
     menu:
+      new_row: true
       keyword: family
     side-menu:
       keyword: family-desc
@@ -176,7 +150,6 @@ commands:
       keyword: animals-desc
     text:
       keyword: redirect-message
-  ## 3rd row
   - aspects:
       command:  '/jobs'
       rights:   [administrator, creator]
@@ -186,9 +159,23 @@ commands:
         group: '@jobs_leipzig_ukraine'
     menu:
       keyword: jobs
-      new_row: true
     side-menu:
       keyword: jobs-desc
+    text:
+      keyword: redirect-message
+  ## 3rd row
+  - aspects:
+      command:  '/translations'
+      rights:   [administrator, creator]
+      strict:   true
+      match:    '^(translat.*|language(s?)|dolmetsch.*)$'
+      redirect:
+        group: '@translators_leipzig_ukraine'
+    menu:
+      new_row: true
+      keyword: translations
+    side-menu:
+      keyword: translations-desc
     text:
       keyword: redirect-message
   - aspects:
