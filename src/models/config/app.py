@@ -11,7 +11,7 @@ from thirdparty.types import *;
 
 from src.core.log import *;
 from src.core.utils import *;
-from models.config import AppOptions;
+from models.generated.config import AppOptions;
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # EXPORTS

@@ -6,8 +6,11 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 from thirdparty.code import *;
-from thirdparty.system import *;
 from thirdparty.config import *;
+from thirdparty.system import *;
+from thirdparty.types import *;
+
+from src.core.env import *;
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # EXPORTS
@@ -18,12 +21,6 @@ __all__ = [
 ];
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# CONSTANTS
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-_PATH_ENV: str = '.env';
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # CLASSES Secret
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -32,18 +29,9 @@ class SecretDefault():
     token: str = field(default='', repr=False);
 
 class Secret(SecretDefault):
-    def __init__(self, path: str = _PATH_ENV):
+    def __init__(self, path: Optional[str] = None, fname: str = '.env'):
         super().__init__();
-        self.token = get_secret('token', path=path, default='');
+        load_dotenv(dotenv_path=path or os.getcwd());
+        env = dotenv_values(fname);
+        self.token = get_env_string(env, key='token');
         return;
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# AUXILIARY METHODS
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-def get_secret(key: str, path: str, default: str = '') -> str:
-    load_dotenv(path);
-    try:
-        return os.environ.get(key);
-    except:
-        return default;

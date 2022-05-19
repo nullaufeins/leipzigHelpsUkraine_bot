@@ -8,7 +8,8 @@
 from src.models.config.app import *;
 from src.models.config.commands import *;
 from src.models.config.languages import *;
-from models.config import *;
+from src.models.config.secrets import *;
+from models.generated.config import *;
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # EXPORTS
@@ -19,6 +20,7 @@ __all__ = [
     'options_expiry',
     'TranslatedTexts',
     'LanguagePatterns',
+    'Secret',
     # from generated models:
     'AppOptions',
     'LanguageCode',

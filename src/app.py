@@ -8,13 +8,12 @@
 from thirdparty.api import *;
 from thirdparty.code import *;
 
+from src.core.env import *;
 from src.core.log import *;
 from src.models.config import *;
 from src.models.telegram import *;
 from src.behaviour.listeners import *;
 from src.behaviour.recognition import *;
-from src.setup.config import *;
-from src.setup.env import *;
 from src.setup.config import *;
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

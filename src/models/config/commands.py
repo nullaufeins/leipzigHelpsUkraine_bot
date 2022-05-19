@@ -10,7 +10,7 @@ from thirdparty.code import *;
 from thirdparty.types import *;
 
 from src.core.utils import *;
-from models.config import Command;
+from models.generated.config import Command;
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # EXPORTS

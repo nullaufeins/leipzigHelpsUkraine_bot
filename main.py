@@ -11,13 +11,15 @@ import sys;
 os.chdir(os.path.dirname(__file__));
 sys.path.insert(0, os.getcwd());
 
+from thirdparty.code import *;
 from thirdparty.run import *;
+from thirdparty.types import *;
 
 from src.core.calls import *;
 from src.core.log import *;
 from src.models.config import *;
 from src.setup.config import *;
-from src.setup.env import *;
+from src.core.env import *;
 from src.app import *;
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -33,17 +35,28 @@ async def enter(loop: AbstractEventLoop):
     app = MyApp(options=OPTIONS, secret=secret);
     app.setup();
 
-    result = await asyncio_gather(
+    results = await asyncio_gather(*[
         event_listen(loop=loop, app=app),
         event_process_queue(loop=loop, app=app),
-        return_exceptions = True,
-    );
+    ], return_exceptions = True);
 
-    return result;
+    # # FIXME: does not cancel tasks signal properly:
+    # for sig in [SIGINT, SIGTERM]:
+    #     loop.add_signal_handler(sig, partial(event_exit_programme, sig, loop, results));
+
+    return;
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # SUBROUTINES
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# # FIXME: does not cancel tasks properly:
+# def event_exit_programme(sig: Signals, loop: AbstractEventLoop, pending):
+#     log_info(f'Recieved signal {sig}: exit');
+#     for task in pending:
+#         task.cancel();
+#     loop.stop();
+#     return;
 
 @to_async(executor=None)
 def event_listen(app: MyApp):

@@ -11,7 +11,7 @@ from thirdparty.config import *;
 from thirdparty.types import *;
 
 from src.core.log_special import *;
-from models.config import Rights;
+from models.generated.config import Rights;
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # EXPORTS

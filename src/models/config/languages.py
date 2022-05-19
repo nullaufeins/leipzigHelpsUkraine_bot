@@ -10,7 +10,7 @@ from thirdparty.misc import *;
 from thirdparty.types import *;
 
 from src.core.utils import *;
-from models.config import LanguageCode;
+from models.generated.config import LanguageCode;
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # EXPORTS
