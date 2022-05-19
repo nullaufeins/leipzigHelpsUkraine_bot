@@ -5,10 +5,10 @@
 # IMPORTS
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-from thirdparty.tests import *;
-
 from thirdparty.code import *;
+from thirdparty.tests import *;
 from thirdparty.types import *;
+
 from src.core.utils import *;
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -21,7 +21,6 @@ from src.core.utils import *;
 # Test strings
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-@mark.usefixtures('test')
 def test_split_non_empty_parts(test: TestCase):
     result = split_non_empty_parts('   ');
     test.assertEqual(result, []);
@@ -30,7 +29,6 @@ def test_split_non_empty_parts(test: TestCase):
 # Test numerical
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-@mark.usefixtures('test')
 def test_int_to_milliseconds(test: TestCase):
     result = int_to_milliseconds(78);
     test.assertEqual(result.seconds, 0);
@@ -42,14 +40,14 @@ def test_int_to_milliseconds(test: TestCase):
 # METHODS - yaml
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-@mark.usefixtures('test', 'yaml', 'yaml_deep')
+@mark.usefixtures('yaml', 'yaml_deep')
 def test_yaml_to_js_dictionary__shallow(test: TestCase, yaml: dict, yaml_shallow: dict):
     test.assertDictEqual(
         yaml_to_js_dictionary(yaml, deep=False),
         yaml_shallow
     );
 
-@mark.usefixtures('test', 'yaml', 'yaml_deep')
+@mark.usefixtures('yaml', 'yaml_deep')
 def test_yaml_to_js_dictionary__shallow(test: TestCase, yaml: dict, yaml_deep: dict):
     test.assertDictEqual(
         yaml_to_js_dictionary(yaml, deep=True),
@@ -60,7 +58,6 @@ def test_yaml_to_js_dictionary__shallow(test: TestCase, yaml: dict, yaml_deep: d
 # METHODS - lists
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-@mark.usefixtures('test')
 def test_flatten(test: TestCase):
     test.assertListEqual(flatten(), []);
     test.assertListEqual(flatten([]), []);
@@ -81,7 +78,7 @@ def test_flatten(test: TestCase):
 # TESTS something, nothing
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-@mark.usefixtures('test', 'func1')
+@mark.usefixtures('func1')
 def test_wrap_output_as_option(test: TestCase, func1: Callable[[str], int]):
     # create decorated function:
     @wrap_output_as_option
@@ -105,7 +102,7 @@ def test_wrap_output_as_option(test: TestCase, func1: Callable[[str], int]):
 # TESTS unwrapping
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-@mark.usefixtures('test', 'func2a', 'func2b')
+@mark.usefixtures('func2a', 'func2b')
 def test_unwrap_or_none(test: TestCase, func2a: Callable[[], float], func2b:  Callable[[], float]):
     # check that func set up to fail/succeed:
     with assert_raises(Exception):
@@ -116,7 +113,7 @@ def test_unwrap_or_none(test: TestCase, func2a: Callable[[], float], func2b:  Ca
     test.assertIsNone(unwrap_or_none(func2a));
     test.assertEqual(unwrap_or_none(func2b), 789.14);
 
-@mark.usefixtures('test', 'func3a', 'func3b')
+@mark.usefixtures('func3a', 'func3b')
 def test_unwrap_or_string(test: TestCase, func3a: Callable[[], str], func3b:  Callable[[], str]):
     # check that func set up to fail/succeed:
     with assert_raises(Exception):
