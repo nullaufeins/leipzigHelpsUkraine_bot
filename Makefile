@@ -1,3 +1,4 @@
+SHELL:=/usr/bin/env bash
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Makefile
 # NOTE: Do not change the contents of this file!
@@ -9,8 +10,15 @@ include .env
 # VARIABLES
 ################################
 
+os:=$(OS)
+ifeq (${os},Windows_NT)
+	os:=Windows
+else
+	os:=$(shell uname)
+endif
+
 PYTHON:=python3
-ifeq ($(OS),Windows_NT)
+ifeq (${os},Windows)
 	PYTHON:=py -3
 endif
 GEN_MODELS:=datamodel-codegen
@@ -36,12 +44,12 @@ define delete_if_folder_exists
 endef
 
 define clean_all_files
-	@find . -type f -name "$(1)" -exec basename {} \;
+	@find . -type f -name "$(1)" -exec basename {} \; 2> /dev/null
 	@find . -type f -name "$(1)" -exec rm {} \; 2> /dev/null
 endef
 
 define clean_all_folders
-	@find . -type d -name "$(1)" -exec basename {} \;
+	@find . -type d -name "$(1)" -exec basename {} \; 2> /dev/null
 	@find . -type d -name "$(1)" -exec rm -rf {} \; 2> /dev/null
 endef
 
@@ -54,8 +62,8 @@ define generate_models
 		--allow-population-by-field-name \
 		--snake-case-field \
 		--strict-nullable \
-		--input $(1)/$(2).yaml \
-		--output $(1)/$(2).py
+		--input $(1)/$(2)-schema.yaml \
+		--output $(1)/generated/$(2).py
 endef
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -65,8 +73,8 @@ endef
 ################################
 # TARGETS: setup
 ################################
-setup: system-py setup-js
-system-py:
+setup: setup-py setup-js
+setup-py:
 	@echo "system-py not implemented"
 setup-js:
 	@npm init
@@ -88,6 +96,7 @@ build-py-requirements:
 build-py-models: check-system-requirements build-py-models-nochecks
 build-py-models-nochecks:
 	@$(call generate_models,models,config)
+	@$(call generate_models,models,tests)
 build-misc:
 	@# create database if not exists:
 	@if ! [ -d data ]; then mkdir data; fi
@@ -103,16 +112,27 @@ run-py:
 ################################
 # TARGETS: tests
 ################################
-tests: tests-py
+tests: create-session tests-py
 tests-logs: create-logs tests display-logs
 tests-js: tests-js-unit
 tests-js-unit:
 	mocha \
 		--require babel-core/register \
-		--watch-extensions js "tests/**/*.test.js"
-tests-py: tests-py-unit
+		--watch-extensions js "tests/**/*.test.js" \
+		2> /dev/null
+tests-py: tests-py-unit tests-py-integration
 tests-py-unit:
-	@${PYTHON} -m pytest tests --cache-clear --verbose -k test_
+	@${PYTHON} -m pytest tests \
+		--cache-clear \
+		--verbose \
+		-k test_ \
+		2> /dev/null
+tests-py-integration:
+	@${PYTHON} -m pytest tests_integration \
+		--cache-clear \
+		--verbose \
+		-k test_ \
+		2> /dev/null
 ################################
 # TARGETS: clean
 ################################
@@ -120,6 +140,8 @@ clean:
 	@echo "All system artefacts will be force removed."
 	@$(call clean_all_files,.DS_Store)
 	@echo "All test artefacts will be force removed."
+	@$(call clean_all_files,*.session)
+	@$(call clean_all_files,*.session-journal)
 	@$(call clean_all_folders,.pytest_cache)
 	@$(call delete_if_folder_exists,logs)
 	@echo "All build artefacts will be force removed."
@@ -128,7 +150,7 @@ clean:
 	@$(call delete_if_folder_exists,node_modules)
 	@exit 0
 ################################
-# TARGETS: logging
+# TARGETS: logging, session
 ################################
 create-logs:
 	@# For logging purposes (since stdout is rechanneled):
@@ -143,9 +165,14 @@ display-logs:
 	@cat logs/debug.log
 	@echo ""
 	@echo "----------------"
+create-session:
+	@${PYTHON} tests_integration/intialise.py
 ################################
 # TARGETS: requirements
 ################################
+check-system:
+	@echo "Operating System detected: ${os}."
+	@echo "Python command used: ${PYTHON}."
 check-system-requirements:
 	@if ! ( ${GEN_MODELS} --help >> /dev/null 2> /dev/null ); then \
 		echo "Command '${GEN_MODELS}' did not work. Ensure that the installation of 'datamodel-code-generator' worked and that system paths are set." \
