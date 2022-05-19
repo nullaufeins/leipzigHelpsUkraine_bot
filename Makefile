@@ -112,7 +112,7 @@ run-py:
 ################################
 # TARGETS: tests
 ################################
-tests: create-session tests-py
+tests: tests-py
 tests-logs: create-logs tests display-logs
 tests-js: tests-js-unit
 tests-js-unit:
@@ -127,7 +127,8 @@ tests-py-unit:
 		--verbose \
 		-k test_ \
 		2> /dev/null
-tests-py-integration:
+tests-py-integration: create-session tests-py-integration-skip-session
+tests-py-integration-skip-session:
 	@${PYTHON} -m pytest tests_integration \
 		--cache-clear \
 		--verbose \
