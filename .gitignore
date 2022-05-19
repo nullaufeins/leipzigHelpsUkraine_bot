@@ -38,6 +38,10 @@
 !/tests/**/
 !/tests/**/*.py
 
+!/tests_integration
+!/tests_integration/**/
+!/tests_integration/**/*.py
+
 !/assets
 !/assets/language.yaml
 
