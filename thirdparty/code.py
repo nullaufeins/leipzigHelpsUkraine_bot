@@ -6,6 +6,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 from functools import wraps;
+from functools import partial;
 from dataclasses import dataclass;
 from dataclasses import field;
 from dataclasses import Field;
@@ -24,6 +25,7 @@ from safetywrap import Some;
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 __all__ = [
+    'partial',
     'wraps',
     'asdict',
     'dataclass',
