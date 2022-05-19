@@ -1,9 +1,16 @@
 pip>=22.0.4
 wheel>=0.37.1
 
+# running
+anyio>=3.5.0
+aiohttp>=3.8.1
+asyncio>=3.4.3
+codetiming>=1.3.0
+
 # testing
 pytest>=7.1.1
 pytest-lazy-fixture>=0.6.3
+pytest-asyncio>=0.18.3
 
 # config
 python-dotenv>=0.2.0
@@ -15,12 +22,12 @@ datamodel-code-generator>=0.12.0
 # misc
 safetywrap>=1.5.0
 typing>=3.7.4.3
-typing_extensions>=4.2.0
-
-# running
-codetiming>=1.3.0
-aiohttp>=3.8.1
-asyncio>=3.4.3
+typing_extensions==3.10.0.2 # <- need this instead of >= 4.2.0 for compatibility with tgintegration
 
 # telegram api
 pytelegrambotapi==4.5.1
+# these are needed for integration tests:
+telethon==1.24.0
+tgintegration>=1.2.0
+pyrogram==1.4.16 # <- need this instead of >=2.0.24 for compatibility with tgintegration
+tgcrypto>=1.2.3
