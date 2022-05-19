@@ -41,6 +41,7 @@
 !/tests_integration
 !/tests_integration/**/
 !/tests_integration/**/*.py
+!/tests_integration/README.md
 
 !/assets
 !/assets/language.yaml
