@@ -24,3 +24,9 @@ testpaths = [
 python_files = [
     "**/test_*.py",
 ]
+asyncio_mode = "auto"
+filterwarnings = [
+    "error",
+    "ignore::UserWarning",
+    "ignore::DeprecationWarning",
+]
