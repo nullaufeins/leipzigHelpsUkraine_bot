@@ -4,8 +4,6 @@ SHELL:=/usr/bin/env bash
 # NOTE: Do not change the contents of this file!
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-include .env
-
 ################################
 # VARIABLES
 ################################
@@ -95,6 +93,7 @@ build-py-requirements:
 	@${PYTHON} -m pip install -r requirements
 build-py-models: check-system-requirements build-py-models-nochecks
 build-py-models-nochecks:
+	@$(call create_folder_if_not_exists,models/generated)
 	@$(call generate_models,models,config)
 	@$(call generate_models,models,tests)
 build-misc:
@@ -125,11 +124,12 @@ tests-py-unit:
 	@${PYTHON} -m pytest tests \
 		--cache-clear \
 		--verbose \
+		--ignore=tests/integration \
 		-k test_ \
 		2> /dev/null
 tests-py-integration: create-session tests-py-integration-skip-session
 tests-py-integration-skip-session:
-	@${PYTHON} -m pytest tests_integration \
+	@${PYTHON} -m pytest tests/integration \
 		--cache-clear \
 		--verbose \
 		-k test_ \
@@ -167,7 +167,7 @@ display-logs:
 	@echo ""
 	@echo "----------------"
 create-session:
-	@${PYTHON} tests_integration/intialise.py
+	@${PYTHON} tests/intialise.py
 ################################
 # TARGETS: requirements
 ################################
