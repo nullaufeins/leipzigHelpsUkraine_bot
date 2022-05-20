@@ -5,15 +5,15 @@
 # IMPORTS
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-from thirdparty.system import *;
-from thirdparty.config import *;
-from thirdparty.types import *;
-from thirdparty.code import *;
-from thirdparty.tests_integration import *;
+from src.thirdparty.system import *;
+from src.thirdparty.config import *;
+from src.thirdparty.types import *;
+from src.thirdparty.code import *;
+from tests.thirdparty.integration import *;
 
 from src.core.env import *;
-from tests_integration.models.client import *;
-from tests_integration.models.controller import *;
+from tests.integration.models.client import *;
+from tests.integration.models.controller import *;
 from models.generated.tests import Credentials as ModelCredentials;
 from models.generated.tests import Chat as ModelChat;
 
@@ -29,8 +29,8 @@ __all__ = [
 # CONSTANTS
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-PATH_SESSION = 'tests_integration/.session';
-PATH_INTEGRATION_TESTS = 'tests_integration';
+PATH_SESSION = 'tests/.session';
+PATH_TESTS = 'tests';
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # CLASS Environment
@@ -60,7 +60,7 @@ class Environment(ModelCredentials, ModelChat, ModelClient, ModelController):
         if self.client is None:
             client = TelegramClient(
                 session_name = 'tests',
-                workdir = PATH_INTEGRATION_TESTS,
+                workdir = PATH_TESTS,
                 api_id = self.api_id,
                 api_hash = self.api_hash,
                 # bot_token = self.token,

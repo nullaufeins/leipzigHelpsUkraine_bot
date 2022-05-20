@@ -5,15 +5,15 @@
 # IMPORTS
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-from thirdparty.api import *;
-from thirdparty.code import *;
-from thirdparty.tests import *;
-from thirdparty.tests_integration import *;
-from thirdparty.types import *;
+from src.thirdparty.api import *;
+from src.thirdparty.code import *;
+from src.thirdparty.types import *;
+from tests.thirdparty.unit import *;
+from tests.thirdparty.integration import *;
 
 from src.core.utils import *;
-from tests_integration.setup.environment import *;
-from tests_integration.conftest import START_MESSAGE;
+from tests.integration.setup.environment import *;
+from tests.integration.conftest import START_MESSAGE;
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Test strings
@@ -43,7 +43,7 @@ async def test_basic(debug, test: TestCase, environment: Environment, client:Tel
     history = await client.get_history(chat_id=environment.chat_id, offset_id=start_message_id, limit=10, reverse=True);
     test.assertGreaterEqual(len(history), 2);
     message = history[0];
-    test.assertEqual(message.text, START_MESSAGE);
+    test.assertTrue(message.text.startswith(START_MESSAGE));
     message = history[1];
     test.assertEqual(message.from_user.username.lstrip('@'), environment.botname.lstrip('@'));
     return;

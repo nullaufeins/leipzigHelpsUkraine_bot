@@ -5,10 +5,10 @@
 # IMPORTS
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-from thirdparty.code import *;
-from thirdparty.config import *;
-from thirdparty.system import *;
-from thirdparty.types import *;
+from src.thirdparty.code import *;
+from src.thirdparty.config import *;
+from src.thirdparty.system import *;
+from src.thirdparty.types import *;
 
 from src.core.env import *;
 

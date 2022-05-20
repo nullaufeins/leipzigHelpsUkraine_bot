@@ -5,22 +5,23 @@
 # IMPORTS
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-from thirdparty.api import *;
-from thirdparty.config import *;
-from thirdparty.run import *;
-from thirdparty.system import *;
-from thirdparty.tests import *;
-from thirdparty.tests_integration import *;
-from thirdparty.types import *;
+from src.thirdparty.api import *;
+from src.thirdparty.config import *;
+from src.thirdparty.run import *;
+from src.thirdparty.system import *;
+from src.thirdparty.types import *;
+from src.thirdparty.misc import *;
+from tests.thirdparty.unit import *;
+from tests.thirdparty.integration import *;
 
 from src.core.log import log_dev;
-from tests_integration.setup.environment import *;
+from tests.integration.setup.environment import *;
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # CONSTANTS
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-PATH_SESSION = 'tests_integration/.session';
+PATH_SESSION = 'tests/.session';
 LOOP: Optional[AbstractEventLoop] = None;
 START_MESSAGE = 'start-of-test';
 
@@ -71,5 +72,8 @@ async def controller(event_loop: AbstractEventLoop, environment: Environment) ->
 
 @fixture(scope='function')
 async def start_message_id(environment: Environment, client: TelegramClient) -> int:
-    sent = await client.send_message(chat_id = environment.chat_id, text = START_MESSAGE);
+    sent = await client.send_message(
+        chat_id = environment.chat_id,
+        text    = f'{START_MESSAGE}\ntimestamp: {datetime.now()}',
+    );
     return sent.message_id;

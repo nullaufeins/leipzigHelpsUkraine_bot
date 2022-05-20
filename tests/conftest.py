@@ -5,8 +5,8 @@
 # IMPORTS
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-from thirdparty.tests import *;
-from thirdparty.types import *;
+from src.thirdparty.types import *;
+from tests.thirdparty.unit import *;
 
 from src.core.log import log_dev;
 

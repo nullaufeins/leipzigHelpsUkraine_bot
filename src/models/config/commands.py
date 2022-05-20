@@ -5,9 +5,9 @@
 # IMPORTS
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-from thirdparty.misc import *;
-from thirdparty.code import *;
-from thirdparty.types import *;
+from src.thirdparty.misc import *;
+from src.thirdparty.code import *;
+from src.thirdparty.types import *;
 
 from src.core.utils import *;
 from models.generated.config import Command;
