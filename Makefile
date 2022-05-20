@@ -149,6 +149,7 @@ clean:
 	@$(call clean_all_folders,__pycache__)
 	@$(call delete_if_file_exists,package-lock.json)
 	@$(call delete_if_folder_exists,node_modules)
+	@$(call delete_if_folder_exists,models/generated)
 	@exit 0
 ################################
 # TARGETS: logging, session
