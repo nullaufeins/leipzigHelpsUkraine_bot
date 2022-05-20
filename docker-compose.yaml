@@ -1,0 +1,95 @@
+version: "3"
+networks:
+  default:
+    driver: bridge
+services:
+  #---------------------------------------------------------#
+  # SERVICE: run (for production)
+  # NOTE:
+  # - env varianbles (credentials) copied to image!
+  # - no mounting, as needs to work in production!
+  #---------------------------------------------------------#
+  prod:
+    image: bot:prod
+    env_file: .env
+    build: &ref_aspects_build
+      context: .
+      dockerfile: Dockerfile
+      target: stage-build
+      args: &ref_aspects_args
+        PROJECT: "${docker_project}"
+        USER:    "${docker_user}"
+        WORKDIR: "${docker_workdir}"
+        TOKEN:   "${token_prod}"
+    command:
+      [ "make", "run" ]
+  #---------------------------------------------------------#
+  # SERVICE: run (for staging)
+  # NOTE:
+  # - env varianbles (credentials) copied to image!
+  # - no mounting, as needs to work in production!
+  #---------------------------------------------------------#
+  staging:
+    image: bot:prod
+    env_file: .env
+    build:
+      <<: *ref_aspects_build
+      args:
+        <<: *ref_aspects_args
+        TOKEN: "${token_test}"
+    command:
+      [ "make", "run" ]
+  #---------------------------------------------------------#
+  # SERVICE: run (for production) with debug
+  # NOTE: env varianbles (credentials) NOT copied to image!
+  #---------------------------------------------------------#
+  local:
+    image: bot:local
+    env_file: .env
+    build: &ref_aspects_local
+      <<: *ref_aspects_build
+      target: stage-build-no-env
+      args:
+        <<: *ref_aspects_args
+        TOKEN: "${token}"
+    volumes:
+      - ./.env:${docker_workdir}/.env:ro
+      - ./data:${docker_workdir}/data:rw
+      - ./logs:${docker_workdir}/logs:rw
+    command:
+      [ "make", "run" ]
+  #---------------------------------------------------------#
+  # SERVICE: unit tests
+  #---------------------------------------------------------#
+  tests-unit:
+    image: bot:tests-unit
+    env_file: .env
+    build: *ref_aspects_local
+    volumes:
+      - ./.env:${docker_workdir}/.env:ro
+      - ./data:${docker_workdir}/data:rw
+      - ./logs:${docker_workdir}/logs:ro
+    command:
+      [ "make", "tests-unit" ]
+  # FIXME: interactive mode for creating session does not work
+  # #---------------------------------------------------------#
+  # # SERVICE: integration tests
+  # #---------------------------------------------------------#
+  # tests-integration:
+  #   image: bot:tests-integration
+  #   env_file: .env
+  #   depends_on:
+  #     local:
+  #       condition: service_started
+  #   build:
+  #     <<: *ref_aspects_local
+  #     target: stage-build-and-session-no-env
+  #   volumes:
+  #     - ./.env:${docker_workdir}/.env:ro
+  #     - ./tests/*.session:${docker_workdir}/tests/*.session:ro
+  #     - ./data:${docker_workdir}/data:rw
+  #     - ./logs:${docker_workdir}/logs:ro
+  #   stdin_open: true
+  #   tty: true
+  #   command:
+  #     [ "make", "tests-integration" ]
