@@ -12,9 +12,9 @@
 !/LICENSE
 !/Procfile
 !/package*.json
+!/pyproject.toml
 !/requirements*
 !/runtime*
-!/pyproject.toml
 
 ################################################################
 # PROJECT FILES
