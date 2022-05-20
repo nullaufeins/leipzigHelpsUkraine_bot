@@ -90,7 +90,7 @@ build-js-models:
 build-py: build-py-requirements build-py-models build-misc
 build-py-skip-requirements: build-py-models build-misc
 build-py-requirements:
-	@${PYTHON} -m pip install -r requirements
+	@${PYTHON} -m pip install -r requirements.txt
 build-py-models: check-system-requirements build-py-models-nochecks
 build-py-models-nochecks:
 	@$(call create_folder_if_not_exists,models/generated)

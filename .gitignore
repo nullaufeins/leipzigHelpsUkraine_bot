@@ -12,7 +12,8 @@
 !/LICENSE
 !/Procfile
 !/package*.json
-!/requirements
+!/requirements*
+!/runtime*
 !/pyproject.toml
 
 ################################################################
