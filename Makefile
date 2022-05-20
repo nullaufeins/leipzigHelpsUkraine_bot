@@ -71,28 +71,17 @@ endef
 ################################
 # TARGETS: setup
 ################################
-setup: setup-py setup-js
-setup-py:
+setup:
 	@echo "system-py not implemented"
-setup-js:
-	@npm init
 ################################
 # TARGETS: build
 ################################
-build: build-py
-build-skip-requirements: build-py-skip-requirements
-build-js: build-js-requirements build-js-models build-misc
-build-js-skip-requirements: build-js-models build-misc
-build-js-requrements:
-	@npm install --package-lock
-build-js-models:
-	@echo "\x1b[1mbuild-js-model\x1b[0m not implemented."
-build-py: build-py-requirements build-py-models build-misc
-build-py-skip-requirements: build-py-models build-misc
-build-py-requirements:
+build: build-requirements build-skip-requirements
+build-skip-requirements: build-models build-misc
+build-requirements:
 	@${PYTHON} -m pip install -r requirements.txt
-build-py-models: check-system-requirements build-py-models-nochecks
-build-py-models-nochecks:
+build-models: check-system-requirements build-models-nochecks
+build-models-nochecks:
 	@$(call create_folder_if_not_exists,models/generated)
 	@$(call generate_models,models,config)
 	@$(call generate_models,models,tests)
@@ -103,32 +92,22 @@ build-misc:
 ################################
 # TARGETS: run
 ################################
-run: run-py
-run-js:
-	@node index.js
-run-py:
+run:
 	@${PYTHON} main.py
 ################################
 # TARGETS: tests
 ################################
-tests: tests-py
+tests: tests-unit tests-integration
 tests-logs: create-logs tests display-logs
-tests-js: tests-js-unit
-tests-js-unit:
-	mocha \
-		--require babel-core/register \
-		--watch-extensions js "tests/**/*.test.js" \
-		2> /dev/null
-tests-py: tests-py-unit tests-py-integration
-tests-py-unit:
+tests-unit:
 	@${PYTHON} -m pytest tests \
 		--cache-clear \
 		--verbose \
 		--ignore=tests/integration \
 		-k test_ \
 		2> /dev/null
-tests-py-integration: create-session tests-py-integration-skip-session
-tests-py-integration-skip-session:
+tests-integration: create-session tests-integration-skip-session
+tests-integration-skip-session:
 	@${PYTHON} -m pytest tests/integration \
 		--cache-clear \
 		--verbose \
@@ -147,8 +126,6 @@ clean:
 	@$(call delete_if_folder_exists,logs)
 	@echo "All build artefacts will be force removed."
 	@$(call clean_all_folders,__pycache__)
-	@$(call delete_if_file_exists,package-lock.json)
-	@$(call delete_if_folder_exists,node_modules)
 	@$(call delete_if_folder_exists,models/generated)
 	@exit 0
 ################################

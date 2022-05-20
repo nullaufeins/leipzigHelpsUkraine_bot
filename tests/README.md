@@ -21,12 +21,12 @@ Ensure that all the requirements are met. If not, call `make build`.
 To run integration tests, open two bash terminals.
 
 - In one, call `make run`. This will start app and keep it alive.
-- In the other call `make tests-py-integration` (or `make tests` which runs the unit tests too).
+- In the other call `make tests-integration` (or `make tests` which runs the unit tests too).
 
 Alternatively, one can call
 ```bash
 make run &
-make tests-py-integration
+make tests-integration
 ```
 which keeps the app alive and runs the integration tests.
 

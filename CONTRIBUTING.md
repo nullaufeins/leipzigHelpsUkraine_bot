@@ -164,8 +164,7 @@ See the [testing section](#testing-notes) below for information about local/live
 
 Order is **ticket branch** ---> **staging** ---> **main**.
 
-1. Change the Version in [dist/Version](dist/Version) and [package.json](package.json).
-    Run `make clean && make build`, to update [package-lock.json](package-lock.json).
+1. Change the Version in [dist/Version](dist/Version) and [pyproject.toml](pyproject.toml).
 2. Commit this change, and accept the PR.
    </br>
    You may delete the branch when done
@@ -230,8 +229,8 @@ The following commands can be used to build, test, run, clean:
 ```bash
 make build
 make tests
-make tests-py-unit # just unit tests
-make tests-py-integration # just integration tests
+make tests-unit # just unit tests
+make tests-integration # just integration tests
 make run
 make clean # to remove all artefacts for a fresh start
 ```
@@ -307,9 +306,9 @@ the following parts have to be changed:
 
 - [setup/config.yaml](setup/config.yaml) -> add a command.
 - [assets/language.yaml](assets/language.yaml) -> if necessary add translations for new keyword.
-- [src/parts/actions.js](src/parts/actions.js) -> „ergänze“ `universal_action` to cater for new case.
+- [behaviour ---> actions](src/behaviour/actions/universal.py) -> „ergänze“ `universal_action` to cater for new case.
   </br>
-  One can also if necessary follow the logic backwards from there (`actions.js` <- `listeners.js` <- `app.js`),
+  One can also if necessary follow the logic backwards from there (`actions` <- `listeners` <- `app.py` <- `main.py`),
   and adjust things that happen 'higher up'.
 
 ## Testing notes ##
@@ -320,12 +319,12 @@ Currently this is parcelled out into automatic tests, local testing, live testin
 
 Call any of the following:
 ```bash
-make tests-py-unit # just unit tests
-make run & make tests-py-integration # just integration tests
+make tests-unit # just unit tests
+make run & make tests-integration # just integration tests
 make run & make tests # all tests
 ```
 Alternatively, open two terminals, call `make run` in one
-and `make tests` or `make tests-py-integration` in the other.
+and `make tests` or `make tests-integration` in the other.
 
 For information about integration tests, _cf._ [tests/README.md](tests/README.md).
 
