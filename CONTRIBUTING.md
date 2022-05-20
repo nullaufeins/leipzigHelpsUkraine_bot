@@ -21,6 +21,9 @@ ____. (root)
     |    |
     |    |_ ... # schemata for data models
     |
+    |____ /templates
+    |    |_ ... # contains templates for private files to be defined by developer
+    |
     |____ /tests
     |    |_ /integration
     |    | |_ ... # integration tests
@@ -203,12 +206,14 @@ Do this once:
 
 ### Environment File ###
 
-Create a `.env` file with (at least) the following contents:
+Create a **.env**-file in the root directory with (at least) the following contents:
 ```.env
 token={your API Token}
 ```
 where the token is either the token of your local bot or
 (for deployment purposes) the staging/production bots.
+
+See [templates/.env](templates/.env) for full template containing all necessary attributes.
 
 ### System requirements ###
 
@@ -321,6 +326,8 @@ make run & make tests # all tests
 ```
 Alternatively, open two terminals, call `make run` in one
 and `make tests` or `make tests-py-integration` in the other.
+
+For information about integration tests, _cf._ [tests/README.md](tests/README.md).
 
 ### Live testing (local) ###
 
