@@ -1,0 +1,63 @@
+version: "3"
+networks:
+  default:
+    driver: bridge
+services:
+  #---------------------------------------------------------#
+  # SERVICE: basic
+  #---------------------------------------------------------#
+  basic:
+    image: bot:basic
+    env_file: .env
+    build: &ref_aspects_build
+      context: .
+      dockerfile: Dockerfile
+      args:
+        PROJECT: "${docker_project}"
+        USER:    "${docker_user}"
+        WORKDIR: "${docker_workdir}"
+        TOKEN:   "${token}"
+    volumes:
+      - ./.env:${docker_workdir}/.env:ro
+    command:
+      [ "make", "build" ]
+  #---------------------------------------------------------#
+  # SERVICE: run
+  #---------------------------------------------------------#
+  run:
+    image: bot:latest
+    depends_on:
+      - basic
+    env_file: .env
+    volumes:
+      - ./.env:${docker_workdir}/.env:ro
+    command:
+      [ "make", "run" ]
+  #---------------------------------------------------------#
+  # SERVICE: run with debug
+  #---------------------------------------------------------#
+  run-debug:
+    image: bot:latest
+    depends_on:
+      - basic
+    env_file: .env
+    volumes:
+      - ./.env:${docker_workdir}/.env:ro
+      - ./data:${docker_workdir}/data:rw
+      - ./logs:${docker_workdir}/logs:rw
+    command:
+      [ "make", "run" ]
+  #---------------------------------------------------------#
+  # SERVICE: tests
+  #---------------------------------------------------------#
+  tests:
+    image: bot:latest
+    depends_on:
+      - basic
+    env_file: .env
+    volumes:
+      - ./.env:${docker_workdir}/.env:ro
+      - ./data:${docker_workdir}/data:rw
+      - ./logs:${docker_workdir}/logs:ro
+    command:
+      [ "make", "tests" ]
