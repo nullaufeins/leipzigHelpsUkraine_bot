@@ -7,7 +7,7 @@ services:
   # SERVICE: run (for production)
   # NOTE:
   # - env variables (credentials) copied to image!
-  # - no mounting, as needs to work in production!
+  # - only mount persistent data!
   #---------------------------------------------------------#
   prod:
     image: bot:prod
@@ -23,13 +23,15 @@ services:
         USER:    "${docker_user}"
         WORKDIR: "${docker_workdir}"
         TOKEN:   "${token_prod}"
+    volumes:
+      - ./data:${docker_workdir}/data:rw
     command:
       [ "make", "run" ]
   #---------------------------------------------------------#
   # SERVICE: run (for staging)
   # NOTE:
   # - env variables (credentials) copied to image!
-  # - no mounting, as needs to work in production!
+  # - only mount persistent data!
   #---------------------------------------------------------#
   staging:
     image: bot:staging
@@ -40,6 +42,8 @@ services:
       args:
         <<: *args_deploy
         TOKEN:   "${token_test}"
+    volumes:
+      - ./data:${docker_workdir}/data:rw
     command:
       [ "make", "run" ]
   #---------------------------------------------------------#
