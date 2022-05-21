@@ -30,7 +30,6 @@ __all__ = [
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 PATH_SECRETS = 'secrets';
-PATH_SESSION = f'{PATH_SECRETS}/.session';
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # CLASS Environment
@@ -69,9 +68,6 @@ class Environment(ModelCredentials, ModelChat, ModelClient, ModelController):
             await client.start();
             self.session = await client.export_session_string();
             self.client = client;
-            with open(PATH_SESSION, 'w') as fp:
-                fp.write(self.session);
-                fp.write('\n');
         return self.client;
 
     async def getController(self):

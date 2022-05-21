@@ -28,7 +28,9 @@ from tests.integration.conftest import START_MESSAGE;
 # @mark.usefixtures()
 @mark.asyncio
 async def test_basic(debug, test: TestCase, environment: Environment, client:TelegramClient, controller: TelegramController, start_message_id: int):
-    # simulate basic interaction
+    '''
+    Simulate basic interaction.
+    '''
     async with controller.collect(
         filters = TelegramFilters.chat(environment.username),
         count    = 1,
