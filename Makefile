@@ -78,9 +78,9 @@ docker-staging:
 docker-local:
 	@docker-compose up -d local && docker-compose logs -f local
 docker-tests: docker-tests-unit docker-tests-integration
-docker-tests-unit:
+docker-utests:
 	@docker-compose up -d utests && docker-compose logs -f utests
-docker-tests-integration:
+docker-itests:
 	@docker-compose up -d itests && docker attach bot_itests
 ################################
 # TARGETS: build
