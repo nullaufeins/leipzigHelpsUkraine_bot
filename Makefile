@@ -128,18 +128,19 @@ tests-integration-skip-session:
 ################################
 # TARGETS: clean
 ################################
-clean:
+clean: clean-basic clean-sessions
+clean-sessions:
+	@echo "All sessions will be force removed."
+	@$(call delete_if_folder_exists,secrets)
+clean-basic:
 	@echo "All system artefacts will be force removed."
 	@$(call clean_all_files,.DS_Store)
 	@echo "All test artefacts will be force removed."
-	@$(call clean_all_files,*.session)
-	@$(call clean_all_files,*.session-journal)
 	@$(call clean_all_folders,.pytest_cache)
 	@$(call delete_if_folder_exists,logs)
 	@echo "All build artefacts will be force removed."
 	@$(call clean_all_folders,__pycache__)
 	@$(call delete_if_folder_exists,models/generated)
-	@exit 0
 ################################
 # TARGETS: logging, session
 ################################
