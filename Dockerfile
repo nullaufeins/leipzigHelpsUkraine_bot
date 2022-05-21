@@ -15,7 +15,6 @@ ARG SERVICE
 
 LABEL org.project.bot=${PROJECT}
 LABEL org.mode.bot=${MODE}
-LABEL org.service.bot=${SERVICE}}
 
 ################################################
 # INSTALL BASICS FOR SYSTEM

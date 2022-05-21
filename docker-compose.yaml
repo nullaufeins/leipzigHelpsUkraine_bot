@@ -20,7 +20,6 @@ services:
       args: &args_deploy
         PROJECT: "${docker_project}"
         MODE:    "deploy"
-        SERVICE: "prod"
         USER:    "${docker_user}"
         WORKDIR: "${docker_workdir}"
         TOKEN:   "${token_prod}"
@@ -40,7 +39,6 @@ services:
       <<: *build_deploy
       args:
         <<: *args_deploy
-        SERVICE: "staging"
         TOKEN:   "${token_test}"
     command:
       [ "make", "run" ]
@@ -55,10 +53,9 @@ services:
     build: &build_local
       <<: *build_deploy
       target: stage-build-no-env
-      args: &args_local
+      args:
         <<:      *args_deploy
         MODE:    "local"
-        SERVICE: "local"
         TOKEN:   "${token}"
     volumes:
       - ./.env:${docker_workdir}/.env:ro
@@ -73,11 +70,7 @@ services:
     image: bot:utests
     container_name: bot_utests
     env_file: .env
-    build:
-      <<: *build_local
-      args:
-        <<: *args_local
-        SERVICE: "utests"
+    build: *build_local
     volumes:
       - ./logs:${docker_workdir}/logs:ro
     command:
@@ -94,11 +87,7 @@ services:
     depends_on:
       local:
         condition: service_started
-    build:
-      <<: *build_local
-      args:
-        <<: *args_local
-        SERVICE: "utests"
+    build: *build_local
     volumes:
       - ./.env:${docker_workdir}/.env:ro
       - ./secrets:${docker_workdir}/secrets:rw
