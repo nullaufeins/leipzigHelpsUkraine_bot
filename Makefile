@@ -72,16 +72,16 @@ endef
 # TARGETS: docker
 ################################
 docker-prod:
-	@docker-compose up -d prod && docker-compose logs -f prod
+	@docker compose up -d prod && docker compose logs -f prod
 docker-staging:
-	@docker-compose up -d staging && docker-compose logs -f staging
+	@docker compose --verbose up -d staging && docker compose logs -f staging
 docker-local:
-	@docker-compose up -d local && docker-compose logs -f local
+	@docker compose up -d local && docker compose logs -f local
 docker-tests: docker-utests docker-itests
 docker-utests:
-	@docker-compose up -d utests && docker-compose logs -f utests
+	@docker compose up -d utests && docker compose logs -f utests
 docker-itests:
-	@docker-compose up -d itests && docker attach bot_itests
+	@docker compose up -d itests && docker attach bot_itests
 ################################
 # TARGETS: build
 ################################
@@ -103,7 +103,7 @@ build-misc:
 # TARGETS: run
 ################################
 run:
-	@${PYTHON} main.py
+	@${PYTHON} main.py ${token}
 ################################
 # TARGETS: tests
 ################################

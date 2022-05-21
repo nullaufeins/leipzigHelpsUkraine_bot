@@ -6,15 +6,8 @@ FROM python:3.10-slim AS stage-basic
 ################################################
 # ARGUMENTS
 ################################################
-ARG PROJECT
 ARG USER
-ARG TOKEN
 ARG WORKDIR
-ARG MODE
-ARG SERVICE
-
-LABEL org.project.bot=${PROJECT}
-LABEL org.mode.bot=${MODE}
 
 ################################################
 # INSTALL BASICS FOR SYSTEM
@@ -43,22 +36,7 @@ USER ${USER}
 WORKDIR ${WORKDIR}
 
 ################################################################
-# BUILD STAGE 1a
+# BUILD STAGE 1
 ################################################################
 FROM stage-basic AS stage-build
-
-ARG TOKEN
-ARG WORKDIR
-
-RUN [ "bash", "-c", "echo \"token=${TOKEN}\" >| ${WORKDIR}/.env" ]
-RUN make build
-
-################################################################
-# BUILD STAGE 1b
-################################################################
-FROM stage-basic AS stage-build-no-env
-
-ARG TOKEN
-ARG WORKDIR
-
 RUN make build

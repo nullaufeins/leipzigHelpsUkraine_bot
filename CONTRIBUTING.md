@@ -98,9 +98,9 @@ and correspond to the live production and test applications respectively.
 
 In each ticket a branch (off **staging**) should be created with a appropriate name according to the scheme:
 
-- `dev-xxxx` where xxxx is in snake case, for ordinary development tickets
-- `bug-xxxx` where xxxx is in snake case, for bug tickets.
-- `hotfix-xxxx` where xxxx is in snake case, for hotfix tickets (thes are like bug tickets but have special priority).
+- `tbot-n` where `n` is in ticket number.
+- `bug-xxxx` where `xxxx` is in snake case, for bug tickets.
+- `hotfix-xxxx` where `xxxx` is in snake case, for hotfix tickets (these are like bug tickets but have special priority).
 
 ### Commits ###
 

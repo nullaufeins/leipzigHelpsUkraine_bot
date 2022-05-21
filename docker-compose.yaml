@@ -12,17 +12,15 @@ services:
   prod:
     image: bot:prod
     container_name: bot_prod
-    env_file: .env
+    environment:
+      TOKEN: "${TOKEN_PROD}"
     build: &build_deploy
       context: .
       dockerfile: Dockerfile
       target: stage-build
       args: &args_deploy
-        PROJECT: "${docker_project}"
-        MODE:    "deploy"
         USER:    "${docker_user}"
         WORKDIR: "${docker_workdir}"
-        TOKEN:   "${token_prod}"
     volumes:
       - ./data:${docker_workdir}/data:rw
     command:
@@ -36,12 +34,9 @@ services:
   staging:
     image: bot:staging
     container_name: bot_staging
-    env_file: .env
-    build:
-      <<: *build_deploy
-      args:
-        <<: *args_deploy
-        TOKEN:   "${token_test}"
+    environment:
+      TOKEN: "${TOKEN_TEST}"
+    build: *build_deploy
     volumes:
       - ./data:${docker_workdir}/data:rw
     command:
@@ -56,11 +51,6 @@ services:
     env_file: .env
     build: &build_local
       <<: *build_deploy
-      target: stage-build-no-env
-      args:
-        <<:      *args_deploy
-        MODE:    "local"
-        TOKEN:   "${token}"
     volumes:
       - ./.env:${docker_workdir}/.env:ro
       - ./data:${docker_workdir}/data:rw
