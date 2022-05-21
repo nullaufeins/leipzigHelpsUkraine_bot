@@ -77,7 +77,7 @@ docker-staging:
 	@docker-compose up -d staging && docker-compose logs -f staging
 docker-local:
 	@docker-compose up -d local && docker-compose logs -f local
-docker-tests: docker-tests-unit docker-tests-integration
+docker-tests: docker-utests docker-itests
 docker-utests:
 	@docker-compose up -d utests && docker-compose logs -f utests
 docker-itests:
@@ -91,6 +91,7 @@ build-requirements:
 	@${PYTHON} -m pip install -r requirements.txt
 build-models: check-system-requirements build-models-nochecks
 build-models-nochecks:
+	@echo "Generate data models from schemata..."
 	@$(call create_folder_if_not_exists,models/generated)
 	@$(call generate_models,models,config)
 	@$(call generate_models,models,tests)
