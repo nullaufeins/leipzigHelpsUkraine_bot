@@ -6,19 +6,20 @@ services:
   #---------------------------------------------------------#
   # SERVICE: run (for production)
   # NOTE:
-  # - env variables (credentials) copied to image!
-  # - only mount persistent data!
+  # - env variables not in image (history or hardcoded).
+  # - env variables only loaded at runtime (container start).
+  # - only mount persistent data.
   #---------------------------------------------------------#
   prod:
     image: bot:prod
     container_name: bot_prod
     environment:
-      TOKEN: "${TOKEN_PROD}"
+      TOKEN: "${TOKEN}"
     build: &build_deploy
       context: .
       dockerfile: Dockerfile
       target: stage-build
-      args: &args_deploy
+      args:
         USER:    "${docker_user}"
         WORKDIR: "${docker_workdir}"
     volumes:
@@ -28,14 +29,13 @@ services:
   #---------------------------------------------------------#
   # SERVICE: run (for staging)
   # NOTE:
-  # - env variables (credentials) copied to image!
-  # - only mount persistent data!
+  # Although 'same' as prod, name separately for clarity.
   #---------------------------------------------------------#
   staging:
     image: bot:staging
     container_name: bot_staging
     environment:
-      TOKEN: "${TOKEN_TEST}"
+      TOKEN: "${TOKEN}"
     build: *build_deploy
     volumes:
       - ./data:${docker_workdir}/data:rw
@@ -63,7 +63,6 @@ services:
   utests:
     image: bot:utests
     container_name: bot_utests
-    env_file: .env
     build: *build_local
     volumes:
       - ./logs:${docker_workdir}/logs:rw

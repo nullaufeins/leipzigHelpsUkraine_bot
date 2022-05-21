@@ -64,6 +64,14 @@ define generate_models
 		--output $(1)/generated/$(2).py
 endef
 
+define docker_build_and_log
+	@docker compose up --build -d $(1) && docker compose logs -f $(1)
+endef
+
+define docker_build_and_interact
+	@docker compose up --build -d $(1) && docker attach $(2)
+endef
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # TARGETS
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -72,16 +80,16 @@ endef
 # TARGETS: docker
 ################################
 docker-prod:
-	@docker compose up -d prod && docker compose logs -f prod
+	@$(call docker_build_and_log,prod)
 docker-staging:
-	@docker compose --verbose up -d staging && docker compose logs -f staging
+	@$(call docker_build_and_log,staging)
 docker-local:
-	@docker compose up -d local && docker compose logs -f local
+	@$(call docker_build_and_log,local)
 docker-tests: docker-utests docker-itests
 docker-utests:
-	@docker compose up -d utests && docker compose logs -f utests
+	@$(call docker_build_and_log,utests)
 docker-itests:
-	@docker compose up -d itests && docker attach bot_itests
+	@$(call docker_build_and_interact,itests,bot_itests)
 ################################
 # TARGETS: build
 ################################
@@ -103,7 +111,7 @@ build-misc:
 # TARGETS: run
 ################################
 run:
-	@${PYTHON} main.py ${token}
+	@${PYTHON} main.py
 ################################
 # TARGETS: tests
 ################################
