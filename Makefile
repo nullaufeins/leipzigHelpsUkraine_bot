@@ -69,10 +69,19 @@ endef
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ################################
-# TARGETS: setup
+# TARGETS: docker
 ################################
-setup:
-	@echo "system-py not implemented"
+docker-prod:
+	@docker-compose up -d prod && docker-compose logs -f prod
+docker-staging:
+	@docker-compose up -d staging && docker-compose logs -f staging
+docker-local:
+	@docker-compose up -d local && docker-compose logs -f local
+docker-tests: docker-utests docker-itests
+docker-utests:
+	@docker-compose up -d utests && docker-compose logs -f utests
+docker-itests:
+	@docker-compose up -d itests && docker attach bot_itests
 ################################
 # TARGETS: build
 ################################
@@ -82,6 +91,7 @@ build-requirements:
 	@${PYTHON} -m pip install -r requirements.txt
 build-models: check-system-requirements build-models-nochecks
 build-models-nochecks:
+	@echo "Generate data models from schemata..."
 	@$(call create_folder_if_not_exists,models/generated)
 	@$(call generate_models,models,config)
 	@$(call generate_models,models,tests)
@@ -99,6 +109,8 @@ run:
 ################################
 tests: tests-unit tests-integration
 tests-logs: create-logs tests display-logs
+tests-unit-logs: create-logs tests-unit display-logs
+tests-integration-logs: create-logs tests-integration display-logs
 tests-unit:
 	@${PYTHON} -m pytest tests \
 		--cache-clear \
@@ -116,18 +128,19 @@ tests-integration-skip-session:
 ################################
 # TARGETS: clean
 ################################
-clean:
+clean: clean-basic clean-sessions
+clean-sessions:
+	@echo "All sessions will be force removed."
+	@$(call delete_if_folder_exists,secrets)
+clean-basic:
 	@echo "All system artefacts will be force removed."
 	@$(call clean_all_files,.DS_Store)
 	@echo "All test artefacts will be force removed."
-	@$(call clean_all_files,*.session)
-	@$(call clean_all_files,*.session-journal)
 	@$(call clean_all_folders,.pytest_cache)
 	@$(call delete_if_folder_exists,logs)
 	@echo "All build artefacts will be force removed."
 	@$(call clean_all_folders,__pycache__)
 	@$(call delete_if_folder_exists,models/generated)
-	@exit 0
 ################################
 # TARGETS: logging, session
 ################################
@@ -145,6 +158,7 @@ display-logs:
 	@echo ""
 	@echo "----------------"
 create-session:
+	@$(call create_folder_if_not_exists,secrets)
 	@${PYTHON} tests/intialise.py
 ################################
 # TARGETS: requirements
