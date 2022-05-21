@@ -69,10 +69,19 @@ endef
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ################################
-# TARGETS: setup
+# TARGETS: docker
 ################################
-setup:
-	@echo "system-py not implemented"
+docker-prod:
+	@docker-compose up -d prod && docker-compose logs -f prod
+docker-staging:
+	@docker-compose up -d staging && docker-compose logs -f staging
+docker-local:
+	@docker-compose up -d local && docker-compose logs -f local
+docker-tests: docker-tests-unit docker-tests-integration
+docker-tests-unit:
+	@docker-compose up -d utests && docker-compose logs -f utests
+docker-tests-integration:
+	@docker-compose up -d itests && docker attach bot_itests
 ################################
 # TARGETS: build
 ################################
@@ -99,6 +108,8 @@ run:
 ################################
 tests: tests-unit tests-integration
 tests-logs: create-logs tests display-logs
+tests-unit-logs: create-logs tests-unit display-logs
+tests-integration-logs: create-logs tests-integration display-logs
 tests-unit:
 	@${PYTHON} -m pytest tests \
 		--cache-clear \
