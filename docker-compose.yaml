@@ -72,9 +72,9 @@ services:
     env_file: .env
     build: *build_local
     volumes:
-      - ./logs:${docker_workdir}/logs:ro
+      - ./logs:${docker_workdir}/logs:rw
     command:
-      [ "make", "tests-unit" ]
+      [ "make", "tests-unit-logs" ]
   #---------------------------------------------------------#
   # SERVICE: integration tests
   # NOTE: use as follows:
@@ -92,8 +92,8 @@ services:
       - ./.env:${docker_workdir}/.env:ro
       - ./secrets:${docker_workdir}/secrets:rw
       - ./data:${docker_workdir}/data:rw
-      - ./logs:${docker_workdir}/logs:ro
+      - ./logs:${docker_workdir}/logs:rw
     stdin_open: true
     tty: true
     command:
-      [ "make", "tests-integration" ]
+      [ "make", "tests-integration-logs" ]
