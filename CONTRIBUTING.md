@@ -195,7 +195,7 @@ You need to similarly set up your own private bot for local testing.
 Do this once:
 
 - Search for and open a chat with the Telegram user named `@BotFather`.
-- In the chat, use the `/new-bot` command to create a new bot.
+- In the chat, use the `/newbot` command to create a new bot.
 - Ask the `@BotFather` for the bot's API token and keep a note of this.
 - Create a group just for you and `@<name-of-local-test-bot>`.
   </br>
