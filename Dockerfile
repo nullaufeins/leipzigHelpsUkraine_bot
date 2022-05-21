@@ -10,8 +10,12 @@ ARG PROJECT
 ARG USER
 ARG TOKEN
 ARG WORKDIR
+ARG MODE
+ARG SERVICE
 
-LABEL org.name.project=${PROJECT}
+LABEL org.project.bot=${PROJECT}
+LABEL org.mode.bot=${MODE}
+LABEL org.service.bot=${SERVICE}}
 
 ################################################
 # INSTALL BASICS FOR SYSTEM
@@ -59,12 +63,3 @@ ARG TOKEN
 ARG WORKDIR
 
 RUN make build
-
-# FIXME: interactive mode does not work
-# ################################################################
-# # BUILD STAGE 1b
-# ################################################################
-# FROM stage-build-no-env AS stage-build-and-session-no-env
-
-# ARG DEBIAN_FRONTEND=interactive
-# RUN make create-session

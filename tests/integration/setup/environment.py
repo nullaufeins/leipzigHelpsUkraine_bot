@@ -29,8 +29,8 @@ __all__ = [
 # CONSTANTS
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-PATH_SESSION = 'tests/.session';
-PATH_TESTS = 'tests';
+PATH_SECRETS = 'secrets';
+PATH_SESSION = f'{PATH_SECRETS}/.session';
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # CLASS Environment
@@ -60,7 +60,7 @@ class Environment(ModelCredentials, ModelChat, ModelClient, ModelController):
         if self.client is None:
             client = TelegramClient(
                 session_name = 'tests',
-                workdir = PATH_TESTS,
+                workdir = PATH_SECRETS,
                 api_id = self.api_id,
                 api_hash = self.api_hash,
                 # bot_token = self.token,
@@ -71,6 +71,7 @@ class Environment(ModelCredentials, ModelChat, ModelClient, ModelController):
             self.client = client;
             with open(PATH_SESSION, 'w') as fp:
                 fp.write(self.session);
+                fp.write('\n');
         return self.client;
 
     async def getController(self):

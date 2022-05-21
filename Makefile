@@ -145,6 +145,7 @@ display-logs:
 	@echo ""
 	@echo "----------------"
 create-session:
+	@$(call create_folder_if_not_exists,secrets)
 	@${PYTHON} tests/intialise.py
 ################################
 # TARGETS: requirements

@@ -6,18 +6,21 @@ services:
   #---------------------------------------------------------#
   # SERVICE: run (for production)
   # NOTE:
-  # - env varianbles (credentials) copied to image!
+  # - env variables (credentials) copied to image!
   # - no mounting, as needs to work in production!
   #---------------------------------------------------------#
   prod:
     image: bot:prod
+    container_name: bot_prod
     env_file: .env
-    build: &ref_aspects_build
+    build: &build_deploy
       context: .
       dockerfile: Dockerfile
       target: stage-build
-      args: &ref_aspects_args
+      args: &args_deploy
         PROJECT: "${docker_project}"
+        MODE:    "deploy"
+        SERVICE: "prod"
         USER:    "${docker_user}"
         WORKDIR: "${docker_workdir}"
         TOKEN:   "${token_prod}"
@@ -26,32 +29,37 @@ services:
   #---------------------------------------------------------#
   # SERVICE: run (for staging)
   # NOTE:
-  # - env varianbles (credentials) copied to image!
+  # - env variables (credentials) copied to image!
   # - no mounting, as needs to work in production!
   #---------------------------------------------------------#
   staging:
-    image: bot:prod
+    image: bot:staging
+    container_name: bot_staging
     env_file: .env
     build:
-      <<: *ref_aspects_build
+      <<: *build_deploy
       args:
-        <<: *ref_aspects_args
-        TOKEN: "${token_test}"
+        <<: *args_deploy
+        SERVICE: "staging"
+        TOKEN:   "${token_test}"
     command:
       [ "make", "run" ]
   #---------------------------------------------------------#
   # SERVICE: run (for production) with debug
-  # NOTE: env varianbles (credentials) NOT copied to image!
+  # NOTE: env variables (credentials) NOT copied to image!
   #---------------------------------------------------------#
   local:
     image: bot:local
+    container_name: bot_local
     env_file: .env
-    build: &ref_aspects_local
-      <<: *ref_aspects_build
+    build: &build_local
+      <<: *build_deploy
       target: stage-build-no-env
-      args:
-        <<: *ref_aspects_args
-        TOKEN: "${token}"
+      args: &args_local
+        <<:      *args_deploy
+        MODE:    "local"
+        SERVICE: "local"
+        TOKEN:   "${token}"
     volumes:
       - ./.env:${docker_workdir}/.env:ro
       - ./data:${docker_workdir}/data:rw
@@ -61,33 +69,42 @@ services:
   #---------------------------------------------------------#
   # SERVICE: unit tests
   #---------------------------------------------------------#
-  tests-unit:
-    image: bot:tests-unit
+  utests:
+    image: bot:utests
+    container_name: bot_utests
     env_file: .env
-    build: *ref_aspects_local
+    build:
+      <<: *build_local
+      args:
+        <<: *args_local
+        SERVICE: "utests"
     volumes:
       - ./logs:${docker_workdir}/logs:ro
     command:
       [ "make", "tests-unit" ]
-  # FIXME: interactive mode for creating session does not work
-  # #---------------------------------------------------------#
-  # # SERVICE: integration tests
-  # #---------------------------------------------------------#
-  # tests-integration:
-  #   image: bot:tests-integration
-  #   env_file: .env
-  #   depends_on:
-  #     local:
-  #       condition: service_started
-  #   build:
-  #     <<: *ref_aspects_local
-  #     target: stage-build-and-session-no-env
-  #   volumes:
-  #     - ./.env:${docker_workdir}/.env:ro
-  #     - ./tests/*.session:${docker_workdir}/tests/*.session:ro
-  #     - ./data:${docker_workdir}/data:rw
-  #     - ./logs:${docker_workdir}/logs:ro
-  #   stdin_open: true
-  #   tty: true
-  #   command:
-  #     [ "make", "tests-integration" ]
+  #---------------------------------------------------------#
+  # SERVICE: integration tests
+  # NOTE: use as follows:
+  #    docker-compose up -d itests && docker attach bot_itests
+  #---------------------------------------------------------#
+  itests:
+    image: bot:itests
+    container_name: bot_itests
+    env_file: .env
+    depends_on:
+      local:
+        condition: service_started
+    build:
+      <<: *build_local
+      args:
+        <<: *args_local
+        SERVICE: "utests"
+    volumes:
+      - ./.env:${docker_workdir}/.env:ro
+      - ./secrets:${docker_workdir}/secrets:rw
+      - ./data:${docker_workdir}/data:rw
+      - ./logs:${docker_workdir}/logs:ro
+    stdin_open: true
+    tty: true
+    command:
+      [ "make", "tests-integration" ]

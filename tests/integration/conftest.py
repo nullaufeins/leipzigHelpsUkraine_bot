@@ -21,7 +21,6 @@ from tests.integration.setup.environment import *;
 # CONSTANTS
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-PATH_SESSION = 'tests/.session';
 LOOP: Optional[AbstractEventLoop] = None;
 START_MESSAGE = 'start-of-test';
 
