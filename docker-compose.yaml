@@ -13,6 +13,12 @@ services:
   prod:
     image: bot:prod
     container_name: bot_prod
+    ################
+    # NOTE:
+    # - `env_file: ...`    loads variables for substitution here.
+    # - `enviornment: ...` loads directly from current bash session environment.
+    ################
+    env_file: .env
     environment:
       TOKEN: "${TOKEN}"
     build: &build_deploy
@@ -34,6 +40,7 @@ services:
   staging:
     image: bot:staging
     container_name: bot_staging
+    env_file: .env
     environment:
       TOKEN: "${TOKEN}"
     build: *build_deploy
@@ -63,6 +70,7 @@ services:
   utests:
     image: bot:utests
     container_name: bot_utests
+    env_file: .env
     build: *build_local
     volumes:
       - ./logs:${docker_workdir}/logs:rw
