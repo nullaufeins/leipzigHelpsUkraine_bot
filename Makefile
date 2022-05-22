@@ -30,7 +30,7 @@ define create_file_if_not_exists
 endef
 
 define create_folder_if_not_exists
-	if ! [ -d "$(1)" ]; then mkdir "$(1)"; fi
+	@if ! [ -d "$(1)" ]; then mkdir "$(1)"; fi
 endef
 
 define delete_if_file_exists
@@ -76,20 +76,6 @@ endef
 # TARGETS
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-################################
-# TARGETS: docker
-################################
-docker-prod:
-	@$(call docker_build_and_log,prod)
-docker-staging:
-	@$(call docker_build_and_log,staging)
-docker-local:
-	@$(call docker_build_and_log,local)
-docker-tests: docker-utests docker-itests
-docker-utests:
-	@$(call docker_build_and_log,utests)
-docker-itests:
-	@$(call docker_build_and_interact,itests,bot_itests)
 ################################
 # TARGETS: build
 ################################

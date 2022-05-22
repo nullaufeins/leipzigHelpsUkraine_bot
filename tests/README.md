@@ -16,29 +16,35 @@ These instructions are based on <https://core.telegram.org/api/obtaining_api_id>
 
 ## Execution of integration tests ##
 
-Ensure that all the requirements are met. If not, call `make build`.
+Ensure that all the requirements are met. If not, call `just build`.
 
 To run integration tests, open two bash terminals.
 
-- In one, call `make run`. This will start app and keep it alive.
-- In the other call `make tests-integration` (or `make tests` which runs the unit tests too).
+- In one, call `just run`. This will start app and keep it alive.
+- In the other call `just tests-integration` (or `just tests` which runs the unit tests too).
 
 Alternatively, one can call
 ```bash
-make run &
-make tests-integration
+just run &
+just tests-integration
 ```
 which keeps the app alive and runs the integration tests.
+
+A further alternative is to use the docker framework.
+Start docker and then call
+```bash
+just docker-itests
+```
 
 **Note:** By the first attempt, you will be asked to verify with a code sent to the telegram app.
 Provided the session files are not deleted, you will not have to repeat this.
 
 ## How it works ##
 
-We rely on the following packages:
+We rely heavily on the following packages:
 
-- telethon
 - pyrogram
 - tgintegration
 
-Telethon provides the basic tools to create a client.
+The `pyrogram` module provides the basic tools to create a client.
+The `tgintegration` module provides further advanced tools.

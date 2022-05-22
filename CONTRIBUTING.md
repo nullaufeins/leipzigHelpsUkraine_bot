@@ -34,7 +34,7 @@ ____. (root)
     |
     |
     |_ .env           # .gitignore'd environment file
-    |_ Makefile       # need GNU make to use
+    |_ justfile       # need the just tool to use
     |_ pyproject.toml # configuration for automatic testing
 ```
 
@@ -219,20 +219,28 @@ See [templates/.env](templates/.env) for full template containing all necessary 
 - We use `Python 3.10.*` (but theoretically `3.8.*` and `3.9.*` should work too).
 - Ensure that the [pip command is installed](https://pip.pypa.io/en/stable/installation/).
 - Ensure you have:
-  - bash
-  - the GNU-Make tool
-  - docker + docker cli (Windows users need to install WSDL2).
+  - **bash**
+  - the [**just**](https://github.com/casey/just#packages) tool (alternatively the GNU-Make tool)
+  - **docker** + docker cli (Windows users need to install WSDL2).
 
 ### Basic commands ###
 
 The following commands can be used to build, test, run, clean:
 ```bash
-make build
-make tests
-make tests-unit # just unit tests
-make tests-integration # just integration tests
-make run
-make clean # to remove all artefacts for a fresh start
+just build
+just tests
+just tests-unit # just unit tests
+just tests-integration # just integration tests
+just run
+just clean # to remove all artefacts for a fresh start
+```
+
+The docker variants for running and testing are:
+```
+just docker-local
+just docker-tests
+just docker-utests
+just docker-itests
 ```
 
 ----
@@ -319,12 +327,12 @@ Currently this is parcelled out into automatic tests, local testing, live testin
 
 Call any of the following:
 ```bash
-make tests-unit # just unit tests
-make run & make tests-integration # just integration tests
-make run & make tests # all tests
+just tests-unit # only unit tests
+just run & just tests-integration # only integration tests
+just run & just tests # all tests
 ```
-Alternatively, open two terminals, call `make run` in one
-and `make tests` or `make tests-integration` in the other.
+Alternatively, open two terminals, call `just run` in one
+and `just tests` or `just tests-integration` in the other.
 
 For information about integration tests, _cf._ [tests/README.md](tests/README.md).
 
@@ -338,9 +346,9 @@ To test:
 
 - Start the bot:
     ```bash
-    make clean # <- optional
-    make build # <- only needed if code or config or assets have changed
-    make run
+    just clean # <- optional
+    just build # <- only needed if code or config or assets have changed
+    just run
     ```
 - Enter the chat group and interact with the bot.
 

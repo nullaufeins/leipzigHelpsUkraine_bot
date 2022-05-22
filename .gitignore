@@ -13,6 +13,7 @@
 # MAIN FOLDER
 ################################################################
 
+!/justfile
 !/Makefile
 !/README.md
 !/TECHNICAL.md

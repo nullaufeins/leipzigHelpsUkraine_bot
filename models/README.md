@@ -45,8 +45,7 @@ datamodel-codegen
 ```
 (cf. https://pydantic-docs.helpmanual.io/datamodel_code_generator/).
 
-Alternatively, run any of the following commands:
+Alternatively, call:
 ```
-make build
-npm run build
+just build
 ```

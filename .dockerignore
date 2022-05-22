@@ -4,6 +4,7 @@
 # MAIN FOLDER
 ################################################################
 
+# !/justfile # NOTE: just not available for debian
 !/Makefile
 !/README.md
 !/TECHNICAL.md
