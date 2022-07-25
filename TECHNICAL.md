@@ -25,7 +25,7 @@ The bot listens to all messages, then does the following
 
 The bot currently supports 5 languages and decides which language to use based on the following priorities (highest to lowest):
 
-1. Language hard coded into the [setup/config.yaml](setup/config.yaml) file for the command under `lang:`, if set.
+1. Language hard coded into the [assets/config.yaml](assets/config.yaml) file for the command under `lang:`, if set.
 
 2. Language given as an argument by the admin when using `@<botname> cmd [args…]`, if provided.
 
@@ -33,7 +33,7 @@ The bot currently supports 5 languages and decides which language to use based o
 
 4. ~~Language of the admin who called the command.~~
 
-5. The default language set in [setup/config.yaml](setup/config.yaml) under `default-language:` (currently `uk` --- Ukrainian).
+5. The default language set in [assets/config.yaml](assets/config.yaml) under `default-language:` (currently `uk` --- Ukrainian).
 
 ## Deployment ##
 

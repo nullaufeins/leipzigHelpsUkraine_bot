@@ -1,6 +1,6 @@
 {
   "name": "LeipzigHelpsUkraineBot",
-  "version": "1.3.5",
+  "version": "1.3.6",
   "description": "Dieser Bot wurde mit viel Liebe von Freiwilligen aus der Stadt Leipzig für Ukrainer/innen 🇺🇦 erstellt. 🤗",
   "author": "irgendwelche random Programmierer/innen aus Leipzig 😉",
   "contributors": [ "github.com/Twissi", "github.com/RLogik" ],
@@ -11,9 +11,9 @@
   ],
   "main": "index.js",
   "scripts": {
-    "build": "npm install --package-lock",
+    "build": "npm install",
     "start": "node index.js",
-    "test": "mocha --require babel-core/register --watch-extensions js \"tests/**/*.test.js\""
+    "tests": "mocha --require babel-core/register --watch-extensions js \"tests/**/*.test.js\""
   },
   "engines": {
     "node": ">=16.12.0",

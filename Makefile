@@ -3,8 +3,6 @@
 # NOTE: Do not change the contents of this file!
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-include .env
-
 ################################
 # VARIABLES
 ################################
@@ -18,22 +16,30 @@ endif
 # Macros
 ################################
 
-define delete_if_file_exists
+define _create-file-if-not-exists
+	@touch "$(1)";
+endef
+
+define _create-folder-if-not-exists
+	@if ! [ -d "$(1)" ]; then mkdir "$(1)"; fi
+endef
+
+define _delete-if-file-exists
 	@if [ -f "$(1)" ]; then rm "$(1)"; fi
 endef
 
-define delete_if_folder_exists
+define _delete-if-folder-exists
 	@if [ -d "$(1)" ]; then rm -rf "$(1)"; fi
 endef
 
-define clean_all_files
-	@find . -type f -name "$(1)" -exec basename {} \;
-	@find . -type f -name "$(1)" -exec rm {} \; 2> /dev/null
+define _clean-all-files
+	@find . -type f -name "$(1)" -exec basename {} \; 2> /dev/null
+	@- find . -type f -name "$(1)" -exec rm {} \; 2> /dev/null
 endef
 
-define clean_all_folders
-	@find . -type d -name "$(1)" -exec basename {} \;
-	@find . -type d -name "$(1)" -exec rm -rf {} \; 2> /dev/null
+define _clean-all-folders
+	@find . -type d -name "$(1)" -exec basename {} \; 2> /dev/null
+	@- find . -type d -name "$(1)" -exec rm -rf {} \; 2> /dev/null
 endef
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -43,21 +49,43 @@ endef
 ################################
 # BASIC TARGETS: setup, build, run
 ################################
-setup:
-	@echo "Call \x1b[93;1mnpm init\x1b[0m in order to set up src/package.json, if it does not exist."
+
 build:
-	@npm upgrade
+	@npm run build
 run:
 	@npm run start
-all: setup build run
+tests:
+	@make _create-logs
+	@npm run tests
+	@make _display-logs
+
 ################################
 # TARGETS: clean
 ################################
+
 clean:
 	@echo "All system artefacts will be force removed."
-	@$(call clean_all_files,.DS_Store)
+	@$(call _clean-all-files,".DS_Store")
+	@echo "All test artefacts will be force removed."
+	@$(call _delete-if-folder-exists,"logs")
 	@echo "All build artefacts will be force removed."
-	@$(call clean_all_folders,__pycache__)
-	@$(call delete_if_file_exists,package-lock.json)
-	@$(call delete_if_folder_exists,node_modules)
-	@exit 0
+	@$(call _delete-if-file-exists,"package-lock.json")
+	@$(call _delete-if-folder-exists,"node_modules")
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# TARGETS: logging, session
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+_create-logs:
+	@# For logging purposes (since stdout is rechanneled):
+	@$(call _delete-if-file-exists,"logs/debug.log")
+	@$(call _create-folder-if-not-exists,"logs")
+	@$(call _create-file-if-not-exists,"logs/debug.log")
+_display-logs:
+	@echo ""
+	@echo "Content of logs/debug.log:"
+	@echo "----------------"
+	@echo ""
+	@- cat logs/debug.log
+	@echo ""
+	@echo "----------------"
