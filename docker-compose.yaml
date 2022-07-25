@@ -1,0 +1,80 @@
+version: "3"
+networks:
+  default:
+    driver: bridge
+services:
+  #---------------------------------------------------------#
+  # SERVICE: run (for production)
+  # NOTE:
+  # - env variables not in image (history or hardcoded).
+  # - env variables only loaded at runtime (container start).
+  # - only mount persistent data.
+  #---------------------------------------------------------#
+  prod:
+    image: bot:prod
+    container_name: bot_prod
+    ################
+    # NOTE:
+    # Loads environment variables that can be substituted here:
+    # - `--env-file` (docker cli param, default .env)
+    # Provides environment variables for and only available during run-time:
+    # - `env_file: ...`
+    # - `enviornment: ...`
+    ################
+    env_file: .env
+    environment:
+      TOKEN: "${TOKEN}"
+    build: &build_deploy
+      context: .
+      dockerfile: Dockerfile
+      target: stage-build
+      args:
+        USER:    "${docker_user}"
+        WORKDIR: "${docker_workdir}"
+    volumes: []
+    command:
+      [ "make", "run" ]
+    restart: unless-stopped
+  #---------------------------------------------------------#
+  # SERVICE: run (for staging)
+  # NOTE:
+  # Although 'same' as prod, name separately for clarity.
+  #---------------------------------------------------------#
+  staging:
+    image: bot:staging
+    container_name: bot_staging
+    env_file: .env
+    environment:
+      TOKEN: "${TOKEN}"
+    build: *build_deploy
+    volumes: []
+    command:
+      [ "make", "run" ]
+    restart: unless-stopped
+  #---------------------------------------------------------#
+  # SERVICE: run (for production) with debug
+  # NOTE: env variables (credentials) NOT copied to image!
+  #---------------------------------------------------------#
+  local:
+    image: bot:local
+    container_name: bot_local
+    env_file: .env
+    build: &build_local
+      <<: *build_deploy
+    volumes:
+      - ./.env:${docker_workdir}/.env:ro
+      - ./logs:${docker_workdir}/logs:rw
+    command:
+      [ "make", "run" ]
+  #---------------------------------------------------------#
+  # SERVICE: unit tests
+  #---------------------------------------------------------#
+  utests:
+    image: bot:utests
+    container_name: bot_utests
+    env_file: .env
+    build: *build_local
+    volumes:
+      - ./logs:${docker_workdir}/logs:rw
+    command:
+      [ "make", "tests-unit-logs" ]
