@@ -6,6 +6,7 @@ process.env.NTBA_FIX_319 = 1;
 const DOTENV = require('dotenv')
 DOTENV.config();
 const { OPTIONS } = require('./src/setup/config.js');
+const { Secrets } = require('./src/models/secrets');
 const { MyApp } = require('./src/app.js');
 
 /****************************************************************
@@ -14,7 +15,8 @@ const { MyApp } = require('./src/app.js');
 
 async function main () {
     console.log(`Setup app...`);
-    const app = new MyApp(OPTIONS);
+    let secret = new Secrets();
+    const app = new MyApp(OPTIONS, secret);
     app.setup();
     app.start();
     console.log(`Listening to user input...`);

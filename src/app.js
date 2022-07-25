@@ -23,10 +23,9 @@ class MyApp {
     options = {};
     bot = undefined;
 
-    constructor(options) {
+    constructor(options, secret) {
         this.options = options;
-        // this.bot = new TelegramBot(process.env.TOKEN, { polling: true });
-        this.bot = new Telegraf(process.env.TOKEN, { polling: true });
+        this.bot = new Telegraf(secret.token, { polling: true });
     }
 
     async setup() {
