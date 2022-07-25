@@ -203,7 +203,7 @@ We document here how to set up and provide hints regarding the development of si
 
 Create a `.env` file with (at least) the following contents:
 ```.env
-token={your API Token}
+TOKEN={your API Token}
 ```
 
 - You may need to update your version of _npm_/_node_.
@@ -216,7 +216,7 @@ token={your API Token}
 
 To add a new redirect button, the following parts have to be changed:
 
-- [setup/config.yaml](setup/config.yaml) -> add a command
+- [assets/config.yaml](assets/config.yaml) -> add a command
   (cf. commands like `/transport`, `/housing`, _etc._).
 - [assets/language.yaml](assets/language.yaml) -> if necessary add translations for new keyword.
 
@@ -227,7 +227,7 @@ And that's it! No need to add any code!
 To add a new special command (amongst `/start`, `/help`, `/pin`, _etc._),
 the following parts have to be changed:
 
-- [setup/config.yaml](setup/config.yaml) -> add a command.
+- [assets/config.yaml](assets/config.yaml) -> add a command.
 - [assets/language.yaml](assets/language.yaml) -> if necessary add translations for new keyword.
 - [src/parts/actions.js](src/parts/actions.js) -> „ergänze“ `universal_action` to cater for new case.
   </br>
@@ -264,7 +264,7 @@ Do this once:
 - Ask `@BotFather` for the bot's API token, and add it to your **.env** file as follows
     ```bash
     ## this is my local bot's api token. I should not share this with anybody!
-    token=01234567:ABCDefg_1289dU138 # <- this is just an example obvs!
+    TOKEN=01234567:ABCDefg_1289dU138 # <- this is just an example obvs!
     ```
 - Create a group just for you and `@<name-of-local-test-bot>`.
   </br>
@@ -288,7 +288,7 @@ options:
   debug: true
   full-censor-user: false # optional
 ```
-in the [config.yaml](setup/config.yaml) file and restart the bot.
+in the [config.yaml](assets/config.yaml) file and restart the bot.
 </br>
 With this option, logging takes place upon every message,
 instead of just relevant messages as per default.

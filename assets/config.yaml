@@ -24,7 +24,7 @@ options:
   ################
   # maximum age of messages in ms.
   # All messages that occur 'too long' ago, will be ignored.
-  message-expiry: 10000
+  message-expiry: 30000
   ################
   # NOTE: The following parameters are no longer in use.
   # Times in ms before bot response (inline resp. menu) are deleted.
@@ -96,11 +96,12 @@ commands:
   # START menu commands
   ## 1st row
   - aspects:
-      command:  '/accomodation'
+      command:  '/accommodation'
       rights:   [administrator, creator]
       strict:   true
       match:    '^(housing|a(c+)o(m+)odation|shelter|obdach)$'
       redirect:
+        # NOTE: Incorrect spelling intentional.
         group: '@accomodation_leipzig_ukraine'
     menu:
       new_row: true

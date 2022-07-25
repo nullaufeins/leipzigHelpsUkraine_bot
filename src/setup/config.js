@@ -12,7 +12,7 @@ const { TranslatedTexts } = require('./../classes/language.js');
  ****************************************************************/
 
 const LANGUAGE = yaml.load(fs.readFileSync('assets/language.yaml', 'utf8'));
-const CONFIG = yaml.load(fs.readFileSync('setup/config.yaml', 'utf8'));
+const CONFIG = yaml.load(fs.readFileSync('assets/config.yaml', 'utf8'));
 
 const OPTIONS = yaml_to_js_dictionary(
     CONFIG['options'] || {} || {
