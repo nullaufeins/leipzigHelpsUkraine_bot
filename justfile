@@ -58,7 +58,7 @@ docker-staging:
 docker-local:
     @just _docker-build-and-log "local"
 docker-tests:
-    @just _docker-build-and-log "utests"
+    @just _docker-build-and-log "tests"
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # TARGETS: build, run, tests

@@ -49,7 +49,7 @@ services:
     build: *build_deploy
     volumes: []
     command:
-      [ "make", "run" ]
+      [ "make", "--always-make", "run" ]
     restart: unless-stopped
   #---------------------------------------------------------#
   # SERVICE: run (for production) with debug
@@ -65,11 +65,11 @@ services:
       - ./.env:${docker_workdir}/.env:ro
       - ./logs:${docker_workdir}/logs:rw
     command:
-      [ "make", "run" ]
+      [ "make", "--always-make", "run" ]
   #---------------------------------------------------------#
   # SERVICE: unit tests
   #---------------------------------------------------------#
-  utests:
+  tests:
     image: bot:utests
     container_name: bot_utests
     env_file: .env
@@ -77,4 +77,4 @@ services:
     volumes:
       - ./logs:${docker_workdir}/logs:rw
     command:
-      [ "make", "tests-unit-logs" ]
+      [ "make", "--always-make", "tests" ]
