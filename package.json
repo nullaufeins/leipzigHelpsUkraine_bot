@@ -11,9 +11,9 @@
   ],
   "main": "index.js",
   "scripts": {
-    "build": "npm install --package-lock",
+    "build": "npm install",
     "start": "node index.js",
-    "test": "mocha --require babel-core/register --watch-extensions js \"tests/**/*.test.js\""
+    "tests": "mocha --require babel-core/register --watch-extensions js \"tests/**/*.test.js\""
   },
   "engines": {
     "node": ">=16.12.0",
