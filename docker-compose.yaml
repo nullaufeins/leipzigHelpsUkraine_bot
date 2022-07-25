@@ -11,8 +11,8 @@ services:
   # - only mount persistent data.
   #---------------------------------------------------------#
   prod:
-    image: bot:prod
-    container_name: bot_prod
+    image: bot:prod-legacy
+    container_name: bot_prod_legacy
     ################
     # NOTE:
     # Loads environment variables that can be substituted here:
@@ -41,8 +41,8 @@ services:
   # Although 'same' as prod, name separately for clarity.
   #---------------------------------------------------------#
   staging:
-    image: bot:staging
-    container_name: bot_staging
+    image: bot:staging-legacy
+    container_name: bot_staging_legacy
     env_file: .env
     environment:
       TOKEN: "${TOKEN}"
@@ -70,8 +70,8 @@ services:
   # SERVICE: unit tests
   #---------------------------------------------------------#
   tests:
-    image: bot:utests
-    container_name: bot_utests
+    image: bot:tests
+    container_name: bot_tests
     env_file: .env
     build: *build_local
     volumes:
