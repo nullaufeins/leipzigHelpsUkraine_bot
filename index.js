@@ -14,6 +14,9 @@ const { MyApp } = require('./src/app.js');
  ****************************************************************/
 
 async function main () {
+    // add in delay to prevent overload upon restart:
+    console.log(`Service started...`);
+    await (new Promise(_ => setTimeout(_, 1000)))
     console.log(`Setup app...`);
     let secret = new Secrets();
     const app = new MyApp(OPTIONS, secret);
